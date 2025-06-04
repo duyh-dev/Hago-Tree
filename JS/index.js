@@ -10,11 +10,7 @@ let index = 0;
 let interval;
 const speed = 3000; // canh thời gian chạy slide
 
-// Hiển thị slide theo chỉ số
-const show = (i) => {
-  slides.forEach((s) => s.classList.remove("active")); // Ẩn tất cả slide
-  slides[i].classList.add("active"); // Hiện slide được chọn
-};
+
 
 // Chuyển đến slide kế tiếp
 const nextSlide = () => {
