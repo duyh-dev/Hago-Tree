@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thanh Toán</title>
+    <link rel="stylesheet" href="../CSS/index.css" />
+    <link rel="stylesheet" href="../CSS/ThanhToan.css" />
+  </head>
+  <body>
+    <header>
+      <a href="../HTML/index.html"><img src="../IMG/logo.png" /></a>
+      <div class="search-container">
+        <span class="search-icon">🔍</span>
+        <input class="searchbox" type="search" placeholder="Tìm kiếm..." />
+      </div>
+      <a href="../HTML/GioHang.html" class="icon-link">
+        <img src="../IMG/HAGOGH.png" alt="Giỏ hàng" />
+        <span>Giỏ Hàng</span>
+      </a>
+    </header>
+
+    <section class="payment-container">
+      <div class="payment-details">
+        <!-- Left side: Payment Method and Order Info -->
+        <div class="payment-details-left">
+          <h3>Hình thức thanh toán</h3>
+          <p>Chuyển khoản qua QR code</p>
+
+          <!-- Order Summary with Product Images -->
+          <div class="order-summary">
+            <h3>Thông tin đơn hàng</h3>
+            <ul id="cart-items-summary">
+              <!-- Cart items with images will be displayed here -->
+            </ul>
+            <p>
+              <strong>Tổng cộng: </strong
+              ><span id="cart-total-summary">0₫</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Right side: QR Code -->
+        <div class="qr-code">
+          <img
+            id="qr-code-image"
+            src="https://via.placeholder.com/200.png?text=Scan+to+Pay"
+            alt="QR Code for Payment"
+          />
+          <p>Quét mã QR để thanh toán</p>
+        </div>
+      </div>
+
+      <!-- Confirm payment button -->
+      <button id="confirm-payment-btn" onclick="confirmPayment()">
+        Xác nhận đã thanh toán
+      </button>
+      <p id="payment-status"></p>
+    </section>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-section">
+          <h2>Hago Tree</h2>
+          <p>Chuyên cây cảnh nhân tạo thẩm mỹ – Đẹp bền vững theo thời gian.</p>
+        </div>
+        <div class="footer-section">
+          <h2>Liên hệ</h2>
+          <p>
+            <i class="fas fa-map-marker-alt"></i> Hẻm 1581, Đường Bùi Hữu Nghĩa
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../JS/ThanhToan.js"></script>
+  </body>
+</html>

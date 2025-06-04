@@ -4,60 +4,90 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hago Sản Phẩm</title>
-    <link rel="stylesheet" href="../CSS/index.css" />
     <link rel="stylesheet" href="../CSS/SanPham.css" />
-  </head>
-  <body>
-    <header>
-      <a href="../HTML/index.html"><img src="../IMG/logo.png" /></a>
-      <div class="search-container">
-        <span class="search-icon">🔍</span>
-        <input class="searchbox" type="search" placeholder="Tìm kiếm..." />
-      </div>
-      <a href="../HTML/LienHe.html" class="icon-link">
-        <img src="../IMG/HAGOLH.png" alt="Liên hệ" />
-        <span>Liên hệ</span>
-      </a>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-      <a href="../HTML/GioHang.html" class="icon-link">
-        <img src="../IMG/HAGOGH.png" alt="Giỏ hàng" />
-        <span>Giỏ hàng</span>
-      </a>
+<header class="main-header">
+  <div class="top-header">
+    <div class="header-left">
+      <a href="index.html"><img src="../IMG/logo.png" alt="logo" class="logo-hago"/></a>
+    </div>
 
-      <a href="#" class="icon-link">
-        <img src="../IMG/HAGOTB.png" alt="Thông Báo" />
-        <span>Thông báo</span>
-      </a>
-      <a href="../HTML/dangnhap.html" class="login-btn">Đăng ký / Đăng nhập</a>
-    </header>
+    <div class="search-container">
+      <span class="search-icon">🔍</span>
+      <input class="searchbox" type="search" placeholder="Tìm kiếm..." />
+    </div>
 
-    <button class="back-button" onclick="goBack()">← Quay lại</button>
+    <div class="right-icons">
+      <a href="#" class="icon-link"><img src="../IMG/HAGOLH.png" /><span>Liên hệ</span></a>
+      <a href="GioHang.html" class="icon-link"><img src="../IMG/HAGOGH.png" /><span>Giỏ hàng</span></a>
+    </div>
+  </div>
+
+  <!-- MENU CHUYỂN XUỐNG ĐÂY -->
+  <nav class="ThanhDM">
+    <div class="category-container">
+      <a href="#" class="pentagon-link"><div class="pentagon">Khuyến mãi</div></a>
+      <a href="#" class="pentagon-link"><div class="pentagon">Cây cảnh</div></a>
+      <a href="#" class="pentagon-link"><div class="pentagon">Phụ kiện</div></a>
+      <a href="#" class="pentagon-link"><div class="pentagon">Trang trí</div></a>
+      <a href="#" class="pentagon-link"><div class="pentagon">Đánh giá</div></a>
+      <a href="#" class="pentagon-link"><div class="pentagon">Gói quà</div></a>
+      <a href="#" class="pentagon-link"><div class="pentagon">Thiết kế riêng</div></a>
+      <a href="#" class="pentagon-link"><div class="pentagon">Hỗ trợ</div></a>
+    </div>
+  </nav>
+
+
+      <!-- <nav class="ThanhDM">
+        <div class="category-container">
+          <a href="#" class="pentagon-link"><div class="pentagon">Khuyến mãi</div></a>
+          <a href="#" class="pentagon-link"><div class="pentagon">Cây cảnh</div></a>
+          <a href="#" class="pentagon-link"><div class="pentagon">Phụ kiện</div></a>
+          <a href="#" class="pentagon-link"><div class="pentagon">Trang trí</div></a>
+          <a href="#" class="pentagon-link"><div class="pentagon">Đánh giá</div></a>
+          <a href="#" class="pentagon-link"><div class="pentagon">Gói quà</div></a>
+          <a href="#" class="pentagon-link"><div class="pentagon">Thiết kế riêng</div></a>
+          <a href="#" class="pentagon-link"><div class="pentagon">Hỗ trợ</div></a>
+        </div>
+      </nav>
+ -->
+    </header>    <button class="back-button" onclick="goBack()">← Quay lại</button>
     <div id="product-detail" aria-live="polite" aria-atomic="true"></div>
   </body>
 
-  <footer>
-    <div class="footer-container">
-      <div class="footer-section">
-        <h2>Hago Tree</h2>
-        <p>Chuyên cây cảnh nhân tạo thẩm mỹ - Đẹp bền vững theo thời gian.</p>
-      </div>
-      <div class="footer-section">
-        <h2>Liên hệ</h2>
-        <p>
-          Địa chỉ:Hẻm 1581, Đường Bùi Hữu Nghĩa, Phường Tân Hạnh, Thành phố Biên
-          Hòa, Tỉnh Đồng Nai
-        </p>
-        <p>Email: HagoTree@gmail.com</p>
-      </div>
-      <div class="footer-section">
-        <h2>Theo dõi</h2>
-        <div class="footer-social">
-          <a href="https://www.facebook.com/HagoTreee">Facebook</a>
-        </div>
-      </div>
+<footer>
+  <div class="footer-container">
+    <div class="footer-section">
+      <h2>Hago Tree</h2>
+      <p>Chuyên cây cảnh nhân tạo thẩm mỹ – Đẹp bền vững theo thời gian.</p>
     </div>
-    <div class="footer-bottom">&copy; 2025 Hago Tree. All rights reserved.</div>
-    <script src="../JS/IDSanPham.js"></script>
+    <div class="footer-section">
+      <h2>Liên hệ</h2>
+      <p><i class="fas fa-map-marker-alt"></i> Hẻm 1581, Đường Bùi Hữu Nghĩa, Phường Tân Hạnh, TP. Biên Hòa, Đồng Nai</p>
+      <p><i class="fas fa-envelope"></i> HagoTree@gmail.com</p>
+      <p><i class="fas fa-phone-alt"></i> 0968 123 456</p>
+    </div>
+    <div class="footer-section">
+      <h2>Theo dõi</h2>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/HagoTreee" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://zalo.me/yourZaloID" target="_blank" aria-label="Zalo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" class="zalo-icon">
+        </a>
+      </div>
+      <p style="margin-top:8px;font-size:13px;">Kết nối với chúng tôi để nhận ưu đãi & tin tức mới nhất!</p>
+    </div>
+  </div>
+  <div class="footer-quote">
+    <em>“Cây cảnh giả, cảm xúc thật.”</em>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 Hago Tree. All rights reserved.
+  </div>
+</footer>
+      <script src="../JS/IDSanPham.js"></script>
     <script src="../JS/SanPham.js"></script>
-  </footer>
 </html>
