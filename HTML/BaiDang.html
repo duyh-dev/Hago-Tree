@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi tiết bài đăng</title>
+    <link rel="stylesheet" href="../CSS/baidang.css" />
+    <link rel="stylesheet" href="../CSS/index.css" />
+  </head>
+   <header>
+      <a href="../HTML/index.html"><img src="../IMG/logo.png" /></a>
+      <div class="search-container">
+        <span class="search-icon">🔍</span>
+        <input class="searchbox" type="search" placeholder="Tìm kiếm..." />
+      </div>
+      <a href="../HTML/LienHe.html" class="icon-link">
+        <img src="../IMG/HAGOLH.png" alt="Liên hệ" />
+        <span>Liên hệ</span>
+      </a>
+      <a href="#" class="icon-link">
+        <img src="../IMG/HAGOGH.png" alt="Giỏ hàng" />
+        <span>Giỏ hàng</span>
+      </a>
+      
+      <a href="../HTML/dangnhap.html" class="login-btn">Đăng ký / Đăng nhập</a>
+    </header>
+
+    <main class="post-container">
+      <article class="post">
+        <h2>15 loại cây cảnh tốt trong phong thủy, lọc sạch không khí</h2>
+        <div class="post-meta">
+          <span>📝 Tác giả: <strong>Admin - Cửa hàng Hytechzone</strong></span>
+          <span>📅 Ngày đăng: 31/05/2025</span>
+        </div>
+        <img
+          src="../IMG/cayphongthuy.jpg"
+          alt="Cây cảnh phong thủy"
+          class="post-img"
+        />
+
+        <div class="post-content">
+          <p>
+            Cây cảnh không chỉ giúp làm đẹp không gian sống, mà còn mang đến
+            phong thủy tốt, tài lộc và may mắn. Sau đây là 15 loại cây phù hợp
+            trồng trong nhà:
+          </p>
+
+          <h3>1. Cây lưỡi hổ</h3>
+          <p>
+            Có khả năng lọc không khí, hút khí độc, mang lại tài lộc cho gia
+            chủ. Nên đặt ở phòng khách hoặc bàn làm việc.
+          </p>
+
+          <h3>2. Cây kim tiền</h3>
+          <p>Biểu tượng của sự giàu sang, phú quý, mang năng lượng tích cực.</p>
+
+          <h3>3. Cây phú quý</h3>
+          <p>
+            Cây mang màu sắc đỏ hồng hợp mệnh Hỏa và Thổ, giúp thu hút vận may.
+          </p>
+
+          <!-- Bạn có thể lặp tiếp đến cây thứ 15 -->
+
+          <p>
+            Ngoài ra còn có các loại cây như: cây thường xuân, cây trầu bà, cây
+            ngũ gia bì,... Mỗi loại cây đều có ý nghĩa riêng và giúp thanh lọc
+            không khí hiệu quả.
+          </p>
+        </div>
+      </article>
+
+      <div class="back-link">
+        <a href="../HTML/DanhGia.html">← Quay lại danh sách bài đăng</a>
+      </div>
+    </main>
+<main class="form-container">
+  <form id="postForm" enctype="multipart/form-data">
+    <label for="title">Tiêu đề bài viết:</label>
+    <input type="text" id="title" name="title" required />
+
+    <label for="author">Tên bạn (hoặc nickname):</label>
+    <input type="text" id="author" name="author" required />
+
+    <label for="image">Ảnh minh họa (chọn từ máy):</label>
+    <input type="file" id="image" name="image" accept="image/*" />
+
+    <label for="content">Nội dung bài viết:</label>
+    <textarea id="content" name="content" rows="10" required></textarea>
+
+    <button type="submit">Đăng bài</button>
+  </form>
+
+  <div id="successMessage" style="display: none;">
+    ✅ Bài viết đã được lưu! Bạn có thể xem lại trong danh sách bài đăng.
+  </div>
+</main>
+
+    <footer>
+      <p>&copy; 2025 Hytechzone. All rights reserved.</p>
+    </footer>
+     <script src="../JS/baidang.js"></script>
+  </body>
+</html>
