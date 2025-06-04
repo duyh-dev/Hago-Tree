@@ -1,0 +1,151 @@
+const productsArray = Object.entries(products).map(([id, product]) => ({
+  id,
+  ...product,
+}));
+
+// Hàm lấy tham số từ URL
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
+// Hiển thị chi tiết một sản phẩm theo id
+function displayProduct(id) {
+  const container = document.getElementById("product-detail");
+  const product = products[id];
+  if (product) {
+    container.innerHTML = `
+        <div class="single-product">
+          <img src="${product.img}" alt="${product.name}" />
+          <div class="product-info">
+            <h2>${product.name}</h2>
+            <div class="product-price">${product.price}</div>
+            <p class="product-description">${product.description}</p>
+            <button onclick="addToCart('${product.name}', '${product.price}', '${product.img}')">
+  Thêm vào giỏ hàng
+</button>
+          </div>
+        </div>
+      `;
+  } else {
+    container.innerHTML = '<p class="not-found">Không tìm thấy sản phẩm.</p>';
+  }
+}
+
+// Hiển thị danh sách tất cả sản phẩm
+function displayProducts(items) {
+  const container = document.getElementById("product-detail");
+
+  if (items.length === 0) {
+    container.innerHTML = "<p class='not-found'>Không có sản phẩm phù hợp.</p>";
+    return;
+  }
+
+  // Create a title for the products page
+  const title = document.createElement("h1");
+  title.textContent = "Sản phẩm của chúng tôi";
+  title.style.marginBottom = "20px";
+  title.style.color = "#333";
+
+  // Create grid container
+  const grid = document.createElement("div");
+  grid.className = "products-grid";
+
+  items.forEach((product) => {
+    const card = document.createElement("div");
+    card.className = "product-card";
+
+    const img = document.createElement("img");
+    img.className = "product-image";
+    img.src = product.img;
+    img.alt = product.name;
+
+    const info = document.createElement("div");
+    info.className = "product-info";
+
+    const name = document.createElement("h3");
+    name.className = "product-name";
+    name.textContent = product.name;
+
+    const desc = document.createElement("p");
+    desc.className = "product-description";
+    desc.textContent = product.description;
+
+    const price = document.createElement("div");
+    price.className = "product-price";
+    price.textContent = product.price;
+
+    info.appendChild(name);
+    info.appendChild(desc);
+    info.appendChild(price);
+
+    card.appendChild(img);
+    card.appendChild(info);
+
+    // Clicking product to go to detail page
+    card.style.cursor = "pointer";
+    card.addEventListener("click", () => {
+      window.location.href = window.location.pathname + "?id=" + product.id;
+    });
+
+    grid.appendChild(card);
+  });
+
+  // Clear container and add new elements
+  container.innerHTML = "";
+  container.appendChild(title);
+  container.appendChild(grid);
+}
+
+// Thêm sản phẩm vào giỏ hàng
+function addToCart(name, price, image) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // Ép kiểu price về dạng số an toàn
+  price = Number(String(price).replace(/[.,₫]/g, ""));
+
+  const existingItemIndex = cart.findIndex((item) => item.name === name);
+
+  if (existingItemIndex !== -1) {
+    cart[existingItemIndex].quantity += 1;
+  } else {
+    cart.push({ name, price, image, quantity: 1 });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Đã thêm vào giỏ hàng!");
+}
+
+// Hàm cho nút quay lại
+function goBack() {
+  const id = getQueryParam("id");
+  if (id) {
+    // If we're on a product detail page, go back to product listing
+    window.location.href = window.location.pathname;
+  } else {
+    // Otherwise use browser back
+    window.history.back();
+  }
+}
+
+// Khi trang tải xong
+window.onload = () => {
+  const id = getQueryParam("id");
+  if (id && products[id]) {
+    displayProduct(id);
+  } else {
+    displayProducts(productsArray);
+  }
+
+  // Thiết lập chức năng tìm kiếm
+  const searchInput = document.getElementById("searchInput");
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase();
+      const filtered = productsArray.filter((p) =>
+        p.name.toLowerCase().includes(query)
+      );
+      displayProducts(filtered);
+    });
+  }
+};
