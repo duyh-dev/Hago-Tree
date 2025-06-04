@@ -97,3 +97,304 @@ button:hover {
   border: none;
   cursor: pointer;
 }
+
+/* ===== RESET CƠ BẢN ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== HEADER CHÍNH ===== */
+.main-header {
+  width: 100%;
+  background-color: #579a62;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 5%;
+  gap: 20px;
+}
+
+.logo-hago {
+  height: 100px;
+  width: auto;
+}
+
+.search-container {
+  flex: 1;
+  max-width: 600px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 30px;
+}
+
+.searchbox {
+  width: 100%;
+  padding: 10px 15px 10px 35px;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  color: #888;
+}
+
+.right-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icon-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.icon-link img {
+  height: 29px;
+  width: auto;
+  margin-bottom: 5px;
+}
+
+.icon-link span {
+  font-size: 12px;
+}
+
+.icon-link:hover {
+  color: #ffd700;
+}
+
+.icon-wrapper {
+  position: relative;
+}
+
+.cart-count {
+  position: absolute;
+  top: -16px;
+  left: 25px;
+  background: red;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 50%;
+  border: 2.5px solid #579a62;
+  min-width: 22px;
+  text-align: center;
+  box-shadow: 0 1px 5px #0001;
+  z-index: 2;
+}
+
+/* ===== THANH DANH MỤC (MENU) ===== */
+.ThanhDM {
+  background-color: #579a62;
+  padding: 10px 0;
+}
+
+.category-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 0 5%;
+}
+
+.pentagon-link {
+  text-decoration: none;
+}
+
+.pentagon {
+  position: relative;
+  padding: 10px 20px;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.pentagon:hover {
+  background-color: #3e8e41;
+}
+
+.pentagon::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: inherit;
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  z-index: -1;
+}
+
+/* ===== PHẦN GIỎ HÀNG ===== */
+.cart-container {
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.cart-container h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+#cart-items {
+  margin-bottom: 30px;
+}
+
+.cart-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #444;
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
+}
+
+#checkout-btn {
+  padding: 10px 20px;
+  background-color: #579a62;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#checkout-btn:hover {
+  background-color: #417c4c;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: linear-gradient(135deg, #388e3c 60%, #4caf50 100%);
+  color: #fff;
+  letter-spacing: 0.01em;
+  margin-top: 2rem;
+}
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 1.5rem 1.25rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  border-bottom: 1.5px solid rgba(255,255,255,0.18);
+}
+
+@media (min-width: 768px) {
+  .footer-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.footer-section h2 {
+  font-size: 1.23rem;
+  margin-bottom: 0.85rem;
+}
+
+.footer-section p, .footer-section li {
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 0.45rem;
+}
+
+.footer-section i {
+  margin-right: 0.4em;
+  color: #ffd54f;
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 0.4em;
+}
+
+.footer-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2em;
+  height: 2.2em;
+  background: rgba(255,255,255,0.09);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.25em;
+  transition: background 0.22s, color 0.22s;
+}
+
+.footer-social a:hover {
+  background: #fff;
+  color: #388e3c;
+}
+
+.zalo-icon {
+  width: 1.35em;
+  height: 1.35em;
+  background: #fff;
+  border-radius: 50%;
+  padding: 0.2em;
+}
+
+.footer-quote {
+  text-align: center;
+  font-size: 1rem;
+  margin: 0.8em 0 0.5em 0;
+  opacity: 0.85;
+}
+
+.footer-bottom {
+  background-color: #2e7031;
+  text-align: center;
+  padding: 0.55rem 0;
+  font-size: 0.85rem;
+  color: #e0f2f1;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 992px) {
+  .top-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .search-container {
+    width: 90%;
+    margin: 10px 0;
+  }
+
+  .category-container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cart-summary {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+}

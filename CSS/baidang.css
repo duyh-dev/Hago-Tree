@@ -6,19 +6,153 @@ body {
   padding: 0;
 }
 
+/* === HEADER FIX GIỐNG ẢNH === */
 header {
-  background-color: #00cd82;
+  background-color: #579a62;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 5%;
+  position: relative;
+  z-index: 2;
+}
+
+.logo-hago {
+  height: 30px;
+  width: auto;
+}
+header a img {
+  height: 90px; /* nhỏ hơn chiều cao hiện tại (50px) */
+  width: auto; /* giữ tỉ lệ ảnh */
+}
+
+.search-container {
+  flex: 1;
+  max-width: 600px;
+  position: relative;
+  margin: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchbox {
+  width: 100%;
+  padding: 10px 15px 10px 35px;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 18px;
+}
+
+.right-icons {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+}
+
+.icon-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+}
+
+.icon-link img {
+  height: 28px;
+  margin-bottom: 5px;
+}
+
+.icon-link span {
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+.icon-link:hover {
+  color: #ffd700;
+}
+
+.cart-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: red;
   color: white;
-  padding: 20px;
-  text-align: center;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font: bold 12px sans-serif;
+  font-size: 12px;
 }
 
-header img {
-  height: 50px;
-  vertical-align: middle;
-  margin-right: 10px;
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding-top: 12px;
+  background: #579a62;
+  z-index: 1;
 }
 
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+  transition: color 0.2s;
+}
+
+nav a:hover {
+  color: #ffd700;
+}
+
+/* Responsive Header */
+@media (max-width: 992px) {
+  header {
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px 2%;
+  }
+  .search-container {
+    margin: 10px 0;
+    width: 98%;
+    max-width: 100%;
+  }
+  .right-icons {
+    gap: 18px;
+  }
+  nav {
+    gap: 18px;
+    font-size: 16px;
+  }
+}
+@media (max-width: 576px) {
+  header {
+    padding: 5px 1%;
+  }
+  .logo-hago {
+    height: 32px;
+  }
+  .searchbox {
+    font-size: 0.92rem;
+  }
+  nav a {
+    font-size: 13px;
+    padding: 3px 6px;
+  }
+}
+/* === END HEADER FIX === */
+
+/* Giữ lại các phần style còn lại như cũ */
 main.post-container {
   max-width: 800px;
   margin: 30px auto;
@@ -27,60 +161,26 @@ main.post-container {
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-
-.post h2 {
-  color: #333;
-}
-
+.post h2 { color: #333; }
 .post-meta {
   font-size: 0.9em;
   color: #666;
   margin-bottom: 15px;
 }
-
 .post-img {
   width: 100%;
   border-radius: 6px;
   margin-bottom: 20px;
 }
-
-.post-content h3 {
-  color: #007a5a;
-  margin-top: 20px;
-}
-
-.back-link {
-  margin-top: 20px;
-}
-
+.post-content h3 { color: #007a5a; margin-top: 20px; }
+.back-link { margin-top: 20px; }
 .back-link a {
   color: #00cd82;
   text-decoration: none;
   font-weight: bold;
 }
 
-footer {
-  text-align: center;
-  padding: 15px;
-  background-color: #ddd;
-  font-size: 0.9em;
-  margin-top: 50px;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background: #f2f2f2;
-  margin: 0;
-  padding: 0;
-}
-
-header {
-  background-color: #00b97b;
-  color: white;
-  padding: 20px;
-  text-align: center;
-}
-
+/* FORM, FOOTER, CÁC PHẦN KHÁC */
 .form-container {
   max-width: 700px;
   margin: 30px auto;
@@ -89,40 +189,73 @@ header {
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-
-label {
-  display: block;
-  margin-top: 15px;
-  font-weight: bold;
+label { display: block; margin-top: 15px; font-weight: bold; }
+input, textarea {
+  width: 100%; padding: 10px; margin-top: 5px;
+  border-radius: 4px; border: 1px solid #ccc;
 }
-
-input,
-textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-}
-
 button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #00cd82;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
+  margin-top: 20px; padding: 10px 20px; background-color: #00cd82; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;
 }
+button:hover { background-color: #009d66; }
+#successMessage { margin-top: 20px; color: green; font-weight: bold; text-align: center; }
 
-button:hover {
-  background-color: #009d66;
-}
-
-#successMessage {
-  margin-top: 20px;
-  color: green;
-  font-weight: bold;
+footer {
+  background: linear-gradient(135deg, #388e3c 60%, #4caf50 100%);
+  color: #fff;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin-top: 2rem;
+  letter-spacing: 0.01em;
   text-align: center;
+  padding: 15px;
+  font-size: 0.9em;
 }
+
+.footer-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 1.5rem 1.25rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  border-bottom: 1.5px solid rgba(255,255,255,0.18);
+}
+@media (min-width: 768px) {
+  .footer-container {
+    grid-template-columns: repeat(3, 1fr);
+    padding-top: 3.5rem;
+    padding-bottom: 2rem;
+  }
+}
+.footer-section h2 {
+  font-weight: 700; font-size: 1.23rem; margin-bottom: 0.85rem; letter-spacing: 0.05em;
+}
+.footer-section p, .footer-section li {
+  font-size: 1rem; line-height: 1.7; margin-bottom: 0.45rem;
+}
+.footer-section i { margin-right: 0.4em; color: #ffd54f; font-size: 1em; vertical-align: middle; }
+.footer-social {
+  display: flex; gap: 1rem; align-items: center; margin-top: 0.4em;
+}
+.footer-social a {
+  display: flex; align-items: center; justify-content: center;
+  width: 2.2em; height: 2.2em;
+  background: rgba(255,255,255,0.09);
+  border-radius: 50%; color: #fff; font-size: 1.25em;
+  transition: background 0.22s, color 0.22s;
+  box-shadow: 0 1.5px 7px rgba(34,139,34,0.09);
+}
+.footer-social a:hover {
+  background: #fff; color: #388e3c;
+  box-shadow: 0 3px 16px rgba(60,179,113,0.18);
+}
+.zalo-icon {
+  width: 1.35em; height: 1.35em; background: #fff; border-radius: 50%; padding: 0.2em;
+}
+.footer-quote {
+  text-align: center; color: #e0e0e0; font-size: 1rem; margin: 0.8em 0 0.5em 0; letter-spacing: 0.04em; opacity: 0.85;
+}
+.footer-bottom {
+  background-color: #2e7031; text-align: center; padding: 0.55rem 0; font-size: 0.85rem; letter-spacing: 0.05em; color: #e0f2f1;
+}
+
