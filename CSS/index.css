@@ -1,11 +1,19 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
 header {
   background-color: #579a62;
   height: 150px;
+  width: 100%;
   display: flex;
-  align-items: center; /* căn giữa theo chiều dọc */
-  justify-content: space-between; /* căn đều khoảng cách giữa các phần tử */
-  padding: 0 20px; /* lề trái/phải */
-  gap: 20px; /* khoảng cách giữa các phần tử */
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  gap: 10px;
 }
 .header-left,
 .header-middle,
@@ -97,12 +105,16 @@ header img {
   padding: 15px 30px;
   font-size: 20px;
   font-weight: bold;
-  text-align: center;
-  width: 150px;
+  width: 100%;
+  height: auto; /* cho tự điều chỉnh chiều cao theo nội dung */
+  border-radius: 15px; /* bo góc nhẹ */
+  display: flex; /* để các chữ nằm trên cùng 1 hàng */
+  justify-content: space-between; /* cách đều các chữ */
+  align-items: center; /* căn giữa chiều dọc */
   transition: background-color 0.3s;
-  border-radius: 15px; /* tùy chọn: bo góc nhẹ cho đẹp */
-  /* Đã bỏ clip-path để trở thành hình chữ nhật */
+  text-align: center;
 }
+
 
 .pentagon:hover {
   background-color: #388e3c;
@@ -202,7 +214,9 @@ header img {
 
 .ThanhDM {
   background-color: #4caf50;
+  justify-items: center;
 }
+
 .SanPhamTrungBay {
   display: flex;
   flex-wrap: wrap; /* Cho phép xuống hàng */
