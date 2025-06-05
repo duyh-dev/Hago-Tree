@@ -19,6 +19,7 @@ showLogin.addEventListener("click", (e) => {
 
 window.addEventListener("DOMContentLoaded", () => {
 
+
   const user = JSON.parse(localStorage.getItem("user")) || [];
 
   if ((user.length > 0) & (sessionStorage.getItem("userPassword").length >0 )) {

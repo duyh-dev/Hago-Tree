@@ -8,21 +8,36 @@ function removeVietnameseTones() {
 
 
   const user = JSON.parse(localStorage.getItem("user")) || [];
+  try{
+    if ((user.length > 0) & (sessionStorage.getItem("userPassword").length >0 )) {
+        const lastUser = user[user.length - 1];
+        console.log(lastUser.email);
+        document.getElementById("Accountchecker").innerHTML = lastUser.email;
 
-  if ((user.length > 0) & (sessionStorage.getItem("userPassword").length >0 )) {
-    const lastUser = user[user.length - 1];
-    console.log(lastUser.email);
-    document.getElementById("Accountchecker").innerHTML = lastUser.email;
+         var usernamerecheck = lastUser.email;
+        return usernamerecheck 
+          .normalize("NFD")                         
+          .replace(/[\u0300-\u036f]/g, "")        
+          .replace(/đ/g, "d")                    
+          .replace(/Đ/g, "D")                    
+          .replace(/[^a-zA-Z0-9\s]/g, "")         
+          .replace(/\s+/g, " ")                 
+          .trim();  
+        }
+         else{
+      alert('Vui lòng đăng nhập để tiếp tục thanh toán !!');
+        setTimeout(() => {
+    window.location.href = "../HTML/DangNhap.html";
+      }, 2000);
 
-     var usernamerecheck = lastUser.email;
-    return usernamerecheck 
-      .normalize("NFD")                         
-      .replace(/[\u0300-\u036f]/g, "")        
-      .replace(/đ/g, "d")                    
-      .replace(/Đ/g, "D")                    
-      .replace(/[^a-zA-Z0-9\s]/g, "")         
-      .replace(/\s+/g, " ")                 
-      .trim();  
+    }
+
+  }
+    catch{
+        alert('Vui lòng đăng nhập để tiếp tục thanh toán !!');
+        setTimeout(() => {
+    window.location.href = "../HTML/DangNhap.html";
+      }, 2000);
     }
                                   
 }
@@ -73,9 +88,9 @@ function confirmPayment() {
   localStorage.removeItem("cart");
 
   // Reset the QR code or move to a confirmation page
-  //setTimeout(() => {
-   // window.location.href = "../HTML/index.html"; // Redirect after confirmation
-  //}, 2000);
+  setTimeout(() => {
+    window.location.href = "../HTML/index.html"; // Redirect after confirmation
+  }, 2000);
 }
 
 // Display the order summary when the page loads
