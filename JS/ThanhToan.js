@@ -1,55 +1,84 @@
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let TotalPriceToSummary =0;
-var username = removeVietnameseTones()
-window.addEventListener("DOMContentLoaded", () => {
-  
-});
-function removeVietnameseTones() {
-
-
-  const user = JSON.parse(localStorage.getItem("user")) || [];
-  try{
-    if ((user.length > 0) & (sessionStorage.getItem("userPassword").length >0 )) {
-        const lastUser = user[user.length - 1];
-        console.log(lastUser.email);
-        document.getElementById("Accountchecker").innerHTML = lastUser.email;
-
-         var usernamerecheck = lastUser.email;
-        return usernamerecheck 
-          .normalize("NFD")                         
-          .replace(/[\u0300-\u036f]/g, "")        
-          .replace(/đ/g, "d")                    
-          .replace(/Đ/g, "D")                    
-          .replace(/[^a-zA-Z0-9\s]/g, "")         
-          .replace(/\s+/g, " ")                 
-          .trim();  
-        }
-         else{
-      alert('Vui lòng đăng nhập để tiếp tục thanh toán !!');
-        setTimeout(() => {
-    window.location.href = "../HTML/DangNhap.html";
-      }, 2000);
-
-    }
-
-  }
-    catch{
-        alert('Vui lòng đăng nhập để tiếp tục thanh toán !!');
-        setTimeout(() => {
-    window.location.href = "../HTML/DangNhap.html";
-      }, 2000);
-    }
-                                  
+let TotalPriceToSummary = 0;
+var ProductWillBuy = ""
+var username = removeVietnameseTones();
+window.addEventListener("DOMContentLoaded", () => {});
+var getidsummary = idsummaryCreator(username)
+const checkoutForm=document.getElementById("CheckoutForm")
+function idsummaryCreator(useridx) {
+  const d = new Date();
+  let time = d.getTime();
+  return time+useridx
 }
 
+function removeVietnameseTones() {
+  const user = JSON.parse(localStorage.getItem("user")) || [];
+  try {
+    if (
+      (user.length > 0) &
+      (sessionStorage.getItem("userPassword").length > 0)
+    ) {
+      const lastUser = user[user.length - 1];
+      console.log(lastUser.email);
+
+      document.getElementById("Accountchecker").innerHTML = lastUser.email;
+      loadDataofUser(lastUser.email);
+      var usernamerecheck = lastUser.email;
+      return usernamerecheck
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/đ/g, "d")
+        .replace(/Đ/g, "D")
+        .replace(/[^a-zA-Z0-9\s]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    } else {
+      alert("Vui lòng đăng nhập để tiếp tục thanh toán !!");
+      setTimeout(() => {
+        window.location.href = "../HTML/DangNhap.html";
+      }, 2000);
+    }
+  } catch {
+    alert("Vui lòng đăng nhập để tiếp tục thanh toán !! -ER1");
+    setTimeout(() => {
+      window.location.href = "../HTML/DangNhap.html";
+    }, 2000);
+  }
+}
+function loadDataofUser(userid) {
+  fetch('https://server-web-hagotree.glitch.me/get-user', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email: userid })
+  })
+    .then(res => res.json())
+    .then(user => {
+      if (!user || user.message) {
+        alert('Không tìm thấy người dùng');
+        return;
+      }
+
+      // Gán vào input
+      document.getElementById("Name").value = user.registerName || "";
+      document.getElementById("email").value = user.registerEmail || "";
+      document.getElementById("phone").value = user.sdt || "";
+      document.getElementById("address").value = user.address || "";
+    })
+    .catch(err => {
+      console.error("Lỗi khi tải dữ liệu:", err);
+    });
+}
 function displayOrderSummary() {
   const cartItemsContainer = document.getElementById("cart-items-summary");
   const cartTotal = document.getElementById("cart-total-summary");
   let productbuyed = JSON.parse(localStorage.getItem("Productbuyed")) || [];
-  let productnowbuying =[]
+  let productnowbuying = [];
+  ProductWillBuy = JSON.stringify(cart); 
   let total = 0;
   cartItemsContainer.innerHTML = ""; // Reset the container
-  
+
   // Cập nhật productbuyed vào localStorage
   cart.forEach((item) => {
     const itemPrice = item.price;
@@ -69,28 +98,65 @@ function displayOrderSummary() {
     `;
     cartItemsContainer.appendChild(itemDiv);
   });
- console.log(JSON.stringify(productnowbuying));
- localStorage.setItem("Productbuyed", JSON.stringify(productnowbuying));
+  console.log(JSON.stringify(productnowbuying));
+  localStorage.setItem("Productbuyed", JSON.stringify(productnowbuying));
   cartTotal.textContent = `${total.toLocaleString()}₫`;
-  TotalPriceToSummary=total;
+  TotalPriceToSummary = total;
 }
 
+// Kiểm tra thông tin trước khi summit thanh toán
+function validateCheckoutForm(event) {
+
+  const form =
+    event.target || document.querySelector(".checkout-container form");
+  let valid = true;
+
+  form
+    .querySelectorAll("input, select")
+    .forEach((el) => el.classList.remove("error"));
+
+  // Kiểm tra các trường required
+  ["firstName", "lastName", "address", "city", "phone", "email"].forEach(
+    (id) => {
+      const input = form.querySelector("#" + id);
+      if (input && input.hasAttribute("required") && !input.value.trim()) {
+        input.classList.add("error");
+        valid = false;
+      }
+    }
+  );
+
+  // Kiểm tra email hợp lệ
+  const email = form.querySelector("#email");
+  if (
+    email &&
+    email.value &&
+    !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email.value)
+  ) {
+    email.classList.add("error");
+    valid = false;
+  }
+
+  if (!valid) {
+    alert("Vui lòng nhập đầy đủ và đúng các trường bắt buộc!");
+    event.preventDefault();
+    return false;
+  }
+  return true;
+}
+
+// Gán sự kiện cho form
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector(".checkout-container form");
+  if (form) {
+    form.onsubmit = validateCheckoutForm;
+  }
+});
+
 function confirmPayment() {
-  const paymentStatus = document.getElementById("payment-status");
-  
-  // Here you would typically check with a payment gateway or API
-  // For now, let's simulate the confirmation process
-  paymentStatus.textContent = "Thanh toán đã được xác nhận!";
-  paymentStatus.style.color = "green";
 
-
-  // Optionally clear the cart after payment is confirmed
   localStorage.removeItem("cart");
 
-  // Reset the QR code or move to a confirmation page
-  setTimeout(() => {
-    window.location.href = "../HTML/index.html"; // Redirect after confirmation
-  }, 2000);
 }
 
 // Display the order summary when the page loads
@@ -103,9 +169,10 @@ function generateQRCode(paymentData) {
 
   // Set the QR code image
   const qrCodeImage = document.getElementById("qr-code-image");
-  qrCodeImage.src = `https://img.vietqr.io/image/MB-0336735887-qr_only.png?amount=${TotalPriceToSummary}&addInfo=Tt%20cay%20canh%20cho%20tk%20${username}&size=200x200`;
-   console.log(username)
-
+  qrCodeImage.src = `https://img.vietqr.io/image/MB-0336735887-qr_only.png?amount=${TotalPriceToSummary}&addInfo=${getidsummary}&size=200x200`;
+  console.log(username);
+  document.getElementById("id_summary").innerText = getidsummary;
+  console.log(ProductWillBuy);
 }
 
 // Example of payment data
@@ -117,3 +184,42 @@ const paymentData = {
 document.addEventListener("DOMContentLoaded", () => {
   generateQRCode(paymentData);
 });
+checkoutForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const checkoutFormdata = Object.fromEntries(new FormData(checkoutForm).entries()); 
+  checkoutFormdata.DonHang = ProductWillBuy;
+  const city = document.getElementById("city").value;
+  const district = document.getElementById("district").value;
+  const ward = document.getElementById("ward").value;
+  checkoutFormdata.MaGiaoDich = getidsummary;
+  checkoutFormdata.DiaChiTinhThanh= ward +","+district+","+city;  
+  fetch('https://server-web-hagotree.glitch.me/payment', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(checkoutFormdata)  // xử lý các phần riêng biệt thành những phần tử trong json
+  })
+
+  .then(response => {
+    if (response.status === 201) {
+      alert('Đã thanh toán, sẽ có email xác nhận đơn!');
+      showPaymentSuccessModal();
+      confirmPayment();
+    } else {
+      alert('Có lỗi xảy ra, vui lòng thử lại.');
+    }
+  })
+});
+
+
+// function cho modal (gọi function này sau khi xác nhận thanh toán từ ngân hàng)
+function showPaymentSuccessModal() {
+  var modal = document.getElementById("payment-success-modal");
+  var username = localStorage.getItem("username") || "Khách hàng";
+  document.getElementById("modal-username").textContent = username;
+  modal.style.display = "flex";
+}
+function closeSuccessModal() {
+  document.getElementById("payment-success-modal").style.display = "none";
+}

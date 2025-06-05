@@ -4,7 +4,20 @@ const slider = document.querySelector(".slider");
 const slides = document.querySelectorAll(".slide");
 const prev = document.querySelector(".prev-btn");
 const next = document.querySelector(".next-btn");
+document.querySelectorAll(".add-cart").forEach(button => {
+  button.addEventListener("click", function (event) {
+    event.preventDefault(); // Ngăn chuyển trang
 
+    const sanPhamDiv = this.closest(".SanPham");
+    const name = sanPhamDiv.querySelector("h3").innerText;
+    const priceText = sanPhamDiv.querySelector("p").innerText;
+    const image = sanPhamDiv.querySelector("img").getAttribute("src");
+
+    const price = Number(priceText.replace(/[^\d]/g, "")); // Lấy số từ 'Giá: 100.000₫'
+
+    addToCart(name, price, image);
+  });
+});
 // Khai báo biến chỉ số và tốc độ chuyển slide
 let index = 0;
 let interval;

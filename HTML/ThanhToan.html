@@ -3,42 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Thanh Toán</title><link rel="stylesheet" href="../CSS/ThanhToan.css" /><link rel="stylesheet" href="../CSS/SanPham.css" />
-    
+    <title>Thanh Toán</title>
+    <link rel="stylesheet" href="../CSS/ThanhToan.css" />
+    <link rel="stylesheet" href="../CSS/SanPham.css" />
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZj3z9tJ+4D5X7Z6E2eGqjYfKtYv5K4Tn5qjThKBYK9eDkzrG+ZkG8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   </head>
   <body>
     <header class="main-header">
-  <div class="top-header">
-    <div class="header-left">
-      <a href="index.html"><img src="../IMG/logo.png" alt="logo" class="logo-hago"/></a>
-    </div>
+      <div class="top-header">
+        <div class="header-left">
+          <a href="index.html"
+            ><img src="../IMG/logo.png" alt="logo" class="logo-hago"
+          /></a>
+        </div>
 
-    <div class="search-container">
-      <span class="search-icon">🔍</span>
-      <input class="searchbox" type="search" placeholder="Tìm kiếm..." />
-    </div>
+        <div class="search-container">
+          <span class="search-icon">🔍</span>
+          <input class="searchbox" type="search" placeholder="Tìm kiếm..." />
+        </div>
 
-    <div class="right-icons">
-      <a href="../HTML/LienHe.html" class="icon-link"><img src="../IMG/HAGOLH.png" /><span>Liên hệ</span></a>
-      <a href="GioHang.html" class="icon-link"><img src="../IMG/HAGOGH.png" /><span>Giỏ hàng</span></a>
-      <a href="../HTML/dangnhap.html" class="icon-link"><img src="../IMG/HAGOTK.png" /><span id="Accountchecker">Đăng nhập/đăng ký</span></a>
-    </div>
-  </div>
+        <div class="right-icons">
+          <a href="../HTML/LienHe.html" class="icon-link"
+            ><img src="../IMG/HAGOLH.png" /><span>Liên hệ</span></a
+          >
+          <a href="GioHang.html" class="icon-link"
+            ><img src="../IMG/HAGOGH.png" /><span>Giỏ hàng</span></a
+          >
+          <a href="../HTML/dangnhap.html" class="icon-link"
+            ><img src="../IMG/HAGOTK.png" /><span id="Accountchecker"
+              >Đăng nhập/đăng ký</span
+            ></a
+          >
+        </div>
+      </div>
 
-  <!-- MENU CHUYỂN XUỐNG ĐÂY -->
-  <nav class="ThanhDM">
-    <div class="category-container">
-      <a href="#" class="pentagon-link"><div class="pentagon">Khuyến mãi</div></a>
-      <a href="#" class="pentagon-link"><div class="pentagon">Cây cảnh</div></a>
-      <a href="#" class="pentagon-link"><div class="pentagon">Phụ kiện</div></a>
-      <a href="#" class="pentagon-link"><div class="pentagon">Trang trí</div></a>
-      <a href="#" class="pentagon-link"><div class="pentagon">Đánh giá</div></a>
-      <a href="#" class="pentagon-link"><div class="pentagon">Gói quà</div></a>
-      <a href="#" class="pentagon-link"><div class="pentagon">Thiết kế riêng</div></a>
-      <a href="#" class="pentagon-link"><div class="pentagon">Hỗ trợ</div></a>
-    </div>
-  </nav>
-
+      <!-- MENU CHUYỂN XUỐNG ĐÂY -->
+      <nav class="ThanhDM">
+        <div class="category-container">
+          <a href="#" class="pentagon-link"
+            ><div class="pentagon">Khuyến mãi</div></a
+          >
+          <a href="#" class="pentagon-link"
+            ><div class="pentagon">Cây cảnh</div></a
+          >
+          <a href="#" class="pentagon-link"
+            ><div class="pentagon">Phụ kiện</div></a
+          >
+          <a href="#" class="pentagon-link"
+            ><div class="pentagon">Trang trí</div></a
+          >
+          <a href="#" class="pentagon-link"
+            ><div class="pentagon">Đánh giá</div></a
+          >
+          <a href="#" class="pentagon-link"
+            ><div class="pentagon">Gói quà</div></a
+          >
+          <a href="#" class="pentagon-link"
+            ><div class="pentagon">Thiết kế riêng</div></a
+          >
+          <a href="#" class="pentagon-link"
+            ><div class="pentagon">Hỗ trợ</div></a
+          >
+        </div>
+      </nav>
 
       <!-- <nav class="ThanhDM">
         <div class="category-container">
@@ -83,31 +111,164 @@
             alt="QR Code for Payment"
           />
           <p>Quét mã QR để thanh toán</p>
+        
         </div>
       </div>
 
-      <!-- Confirm payment button -->
+      <!-- Địa chỉ thanh toán -->
+
+      <div class="checkout-container">
+        <div class="checkout-title">Thông tin thanh toán</div>
+        <form id="CheckoutForm">
+            <div class="form-group">
+              <label for="firstName">Tên nhận hàng (Thay đổi nếu có) <span class="required">*</span></label>
+              <input type="text" id="Name" name="Name" required />
+            </div>
+            <div class="form-group">
+              <label for="MaGiaoDich">Mã giao dịch<span class="required">*</span></label>
+              <code  id="id_summary"></code>
+            </div>
+          <div class="form-group">
+            <label for="address">Địa chỉ chính<span class="required">*</span></label>
+            <input type="text" id="address" name="address" required />
+           
+          <br>
+          <div  class="form-group">
+            <select required class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm">
+            <option  value="" selected>Chọn tỉnh thành</option>           
+            </select>
+<br>            <select required class="form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm">
+            <option value="" selected>Chọn quận huyện</option>
+            </select>
+<br>
+            <select required class="form-select form-select-sm" id="ward" aria-label=".form-select-sm">
+            <option value="" selected>Chọn phường xã</option>
+            </select>
+             </div>    
+              <label for="address">Địa chỉ phụ (nếu có)<span></span></label>
+            <input type="text" id="address2" name="address2" placeholder="" />
+</div>
+          <div class="form-group">
+            <label for="phone">Số điện thoại (Thay đổi nếu có)</label>
+            <input type="text" id="phone" name="phone" required />
+          </div>
+          <div class="form-group email-group">
+            <label for="email"
+              >Địa chỉ email <span class="required">*</span></label
+            >
+            <input type="email" id="email" name="email" required />
+            <div class="note">Mục Địa chỉ email là mục bắt buộc.</div>
+          </div>
+          <div class="form-group">
+            <label for="note">Ghi chú (nếu có)</label>
+            <input type="text" id="note" name="note"/>
+          </div>
+          <div class="form-group">
+            <label for="SureSummary"><input type="checkbox" required> Tôi đã thanh toán qua ngân hàng (Lưu ý nếu bạn không thanh toán qua ngân hàng thì xem như đơn hàng bạn đã hủy)</label>
+          </div>
+          
+          <button type="submit">Xác nhận thanh toán</button>
+        </form>
+        <!-- Ghi chú chú ý -->
+        <div style="color: #d35400; font-weight: 500; margin-bottom: 12px">
+          <span>Chú ý:</span> Vui lòng nhập thông tin đầy đủ và chuẩn xác trước
+          khi đặt hàng.
+        </div>
+      </div>
+      <!-- Confirm payment button
       <button id="confirm-payment-btn" onclick="confirmPayment()">
         Xác nhận đã thanh toán
       </button>
-      <p id="payment-status"></p>
+      <p id="payment-status"></p> -->
     </section>
 
-    <footer>
-      <div class="footer-container">
-        <div class="footer-section">
-          <h2>Hago Tree</h2>
-          <p>Chuyên cây cảnh nhân tạo thẩm mỹ – Đẹp bền vững theo thời gian.</p>
-        </div>
-        <div class="footer-section">
-          <h2>Liên hệ</h2>
-          <p>
-            <i class="fas fa-map-marker-alt"></i> Hẻm 1581, Đường Bùi Hữu Nghĩa
-          </p>
-        </div>
+    <div id="payment-success-modal" class="modal-success" style="display: none">
+      <div class="modal-content-success">
+        <span class="close-success" onclick="closeSuccessModal()">&times;</span>
+        <h2>Thanh toán đã được đặt chờ xác nhận!</h2>
+        <p>Cảm ơn <span id="modal-username"></span> đã mua hàng</p>
+        <p>
+          Vui lòng vào trang
+          <a href="TrangThaiDonHang.html">trạng thái đơn hàng</a> để xem chi
+          tiết
+        </p>
       </div>
-    </footer>
-
-    <script src="../JS/ThanhToan.js"></script>
+    </div>
   </body>
+  <footer>
+  <div class="footer-container">
+    <div class="footer-section">
+      <h2>Hago Tree</h2>
+      <p>Chuyên cây cảnh nhân tạo thẩm mỹ – Đẹp bền vững theo thời gian.</p>
+    </div>
+    <div class="footer-section">
+      <h2>Liên hệ</h2>
+      <p><i class="fas fa-map-marker-alt"></i> Hẻm 1581, Đường Bùi Hữu Nghĩa, Phường Tân Hạnh, TP. Biên Hòa, Đồng Nai</p>
+      <p><i class="fas fa-envelope"></i> HagoTree@gmail.com</p>
+      <p><i class="fas fa-phone-alt"></i> 0968 123 456</p>
+    </div>
+    <div class="footer-section">
+      <h2>Theo dõi</h2>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/HagoTreee" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://zalo.me/yourZaloID" target="_blank" aria-label="Zalo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" class="zalo-icon">
+        </a>
+      </div>
+      <p style="margin-top:8px;font-size:13px;">Kết nối với chúng tôi để nhận ưu đãi & tin tức mới nhất!</p>
+    </div>
+  </div>
+  <div class="footer-quote">
+    <em>“Cây cảnh giả, cảm xúc thật.”</em>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 Hago Tree. All rights reserved.
+  </div>
+</footer>
+  <script src="../JS/ThanhToan.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+  var citis = document.getElementById("city");
+var districts = document.getElementById("district");
+var wards = document.getElementById("ward");
+var Parameter = {
+  url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json", 
+  method: "GET", 
+  responseType: "application/json", 
+};
+var promise = axios(Parameter);
+promise.then(function (result) {
+  renderCity(result.data);
+});
+
+function renderCity(data) {
+  for (const x of data) {
+    citis.options[citis.options.length] = new Option(x.Name, x.Id);
+  }
+  citis.onchange = function () {
+    district.length = 1;
+    ward.length = 1;
+    if(this.value != ""){
+      const result = data.filter(n => n.Id === this.value);
+
+      for (const k of result[0].Districts) {
+        district.options[district.options.length] = new Option(k.Name, k.Id);
+      }
+    }
+  };
+  district.onchange = function () {
+    ward.length = 1;
+    const dataCity = data.filter((n) => n.Id === citis.value);
+    if (this.value != "") {
+      const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+
+      for (const w of dataWards) {
+        wards.options[wards.options.length] = new Option(w.Name, w.Id);
+      }
+    }
+  };
+}
+  </script>
 </html>

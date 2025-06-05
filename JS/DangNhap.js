@@ -52,7 +52,12 @@ window.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
   window.location.href = "../HTML/index.html"; // Redirect after confirmation
 }, 2000);
-    } else {
+    } else if (response.status === 401) {
+      alert('Sai email hoặc mật khẩu hoặc tài khoản không tồn tại!');
+    } 
+
+
+    else {
       alert('Có lỗi xảy ra, vui lòng thử lại.');
     }
   })
