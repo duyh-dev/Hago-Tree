@@ -9,8 +9,20 @@ const next = document.querySelector(".next-btn");
 let index = 0;
 let interval;
 const speed = 3000; // canh thời gian chạy slide
+window.addEventListener("DOMContentLoaded", () => {
+  const user = JSON.parse(localStorage.getItem("user")) || [];
 
-
+  if ((user.length > 0) & (sessionStorage.getItem("userPassword").length >0 )) {
+    const lastUser = user[user.length - 1];
+    console.log(lastUser.email);
+    document.getElementById("Accountchecker").innerHTML = lastUser.email;
+    }
+});
+// Hiển thị slide theo chỉ số
+const show = (i) => {
+  slides.forEach((s) => s.classList.remove("active")); // Ẩn tất cả slide
+  slides[i].classList.add("active"); // Hiện slide được chọn
+};
 
 // Chuyển đến slide kế tiếp
 const nextSlide = () => {
@@ -33,6 +45,7 @@ const stop = () => clearInterval(interval);
 // Khởi động ban đầu
 show(index);
 start();
+
 
 // Dừng khi rê chuột vào slider, chạy lại khi rời chuột
 container.addEventListener("mouseenter", stop);

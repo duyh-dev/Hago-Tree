@@ -1,4 +1,5 @@
 // Chuyển giữa form đăng nhập và đăng ký
+let user = JSON.parse(localStorage.getItem("user")) || [];
 const loginForm = document.getElementById("loginForm");
 const registerForm = document.getElementById("registerForm");
 const showRegister = document.getElementById("showRegister");
@@ -16,13 +17,81 @@ showLogin.addEventListener("click", (e) => {
   loginForm.classList.remove("hidden");
 });
 
+window.addEventListener("DOMContentLoaded", () => {
+
+  const user = JSON.parse(localStorage.getItem("user")) || [];
+
+  if ((user.length > 0) & (sessionStorage.getItem("userPassword").length >0 )) {
+    const lastUser = user[user.length - 1];
+    console.log(lastUser.email);
+    document.getElementById("Accountchecker").innerHTML = lastUser.email;
+    }
+  if (user.length > 0) {
+    const lastUser = user[user.length - 1];
+
+    loginForm.loginEmail.value = lastUser.email || '';
+    loginForm.loginPassword.value = sessionStorage.getItem("userPassword") || '';
+    const loginFormdata = Object.fromEntries(new FormData(loginForm).entries()); 
+    fetch('https://test12222.glitch.me/dang-nhap', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(loginFormdata)  // xử lý các phần riêng biệt thành những phần tử trong json
+  })
+
+  .then(response => {
+    if (response.status === 201) {
+      user.push({
+        email: loginFormdata.loginEmail,
+      });
+      localStorage.setItem("user", JSON.stringify(user));
+      sessionStorage.setItem("userPassword", loginFormdata.loginPassword);
+      alert('Đăng nhập thành công!');
+      setTimeout(() => {
+  window.location.href = "../HTML/index.html"; // Redirect after confirmation
+}, 2000);
+    } else {
+      alert('Có lỗi xảy ra, vui lòng thử lại.');
+    }
+  })
+  }
+});
+
+
 // Xử lý submit form (demo)
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
   alert(`Đăng nhập với email: ${loginForm.loginEmail.value}`);
-  // TODO: gửi dữ liệu đăng nhập lên server xử lý
+  const loginFormdata = Object.fromEntries(new FormData(loginForm).entries()); 
+
+  fetch('https://test12222.glitch.me/dang-nhap', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(loginFormdata)  // xử lý các phần riêng biệt thành những phần tử trong json
+  })
+
+  .then(response => {
+    if (response.status === 201) {
+      user.push({
+        email: loginFormdata.loginEmail,
+      });
+      localStorage.setItem("user", JSON.stringify(user));
+      sessionStorage.setItem("userPassword", loginFormdata.loginPassword);
+      alert('Đăng nhập thành công!');
+      setTimeout(() => {
+  window.location.href = "../HTML/index.html"; // Redirect after confirmation
+}, 2000);
+    } else {
+      alert('Có lỗi xảy ra, vui lòng thử lại.');
+    }
+  })
   loginForm.reset();
 });
+
+
 
 registerForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -33,8 +102,24 @@ registerForm.addEventListener("submit", (e) => {
     alert("Mật khẩu xác nhận không khớp!");
     return;
   }
+  localStorage.removeItem("user");
   alert(`Đăng ký tài khoản email: ${registerForm.registerEmail.value}`);
-  // TODO: gửi dữ liệu đăng ký lên server xử lý
+  const Registerformdata = Object.fromEntries(new FormData(registerForm).entries()); // xử lý các giá trị từ form thành các phần riêng biệt 
+  fetch('https://test12222.glitch.me/dang-ky', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(Registerformdata)  // xử lý các phần riêng biệt thành những phần tử trong json
+  })
+
+  .then(response => {
+    if (response.status === 201) {
+      alert('Đăng ký thành công!');
+    } else {
+      alert('Có lỗi xảy ra, vui lòng thử lại.');
+    }
+  })
   registerForm.reset();
   registerForm.classList.add("hidden");
   loginForm.classList.remove("hidden");

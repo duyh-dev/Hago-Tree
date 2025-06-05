@@ -1,3 +1,87 @@
+
+ * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    .main-header {
+      width: 100%;
+      background-color: #579a62;
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    }
+
+    .top-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 5%;
+      background-color: inherit;
+      gap: 20px;
+    }
+
+    .logo-hago {
+      height: 100px;
+      width: auto;
+      display: block;
+    }
+
+    .search-container {
+      flex: 1;
+      max-width: 600px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      margin: 0 30px;
+    }
+
+    .searchbox {
+      width: 100%;
+      padding: 10px 15px 10px 35px;
+      border-radius: 25px;
+      border: none;
+      outline: none;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      color: #888;
+    }
+
+    .right-icons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .icon-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #ffffff;
+      transition: all 0.3s;
+    }
+
+    .icon-link img {
+      height: 29px;
+      margin-bottom: 5px;
+    }
+
+    .icon-link span {
+      font-size: 12px;
+    }
+
+    .icon-link:hover {
+      color: #4CAF50;
+    }
+
+
+
 .back {
   display: inline-block;
   margin-top: 20px;
@@ -172,86 +256,7 @@
 }
 
 /* Reset and Base Styles */
- * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
 
-    .main-header {
-      width: 100%;
-      background-color: #579a62;
-      color: #fff;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
-    }
-
-    .top-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 5%;
-      background-color: inherit;
-      gap: 20px;
-    }
-
-    .logo-hago {
-      height: 100px;
-      width: auto;
-      display: block;
-    }
-
-    .search-container {
-      flex: 1;
-      max-width: 600px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      margin: 0 30px;
-    }
-
-    .searchbox {
-      width: 100%;
-      padding: 10px 15px 10px 35px;
-      border-radius: 25px;
-      border: none;
-      outline: none;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 10px;
-      color: #888;
-    }
-
-    .right-icons {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .icon-link {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: #ffffff;
-      transition: all 0.3s;
-    }
-
-    .icon-link img {
-      height: 29px;
-      margin-bottom: 5px;
-    }
-
-    .icon-link span {
-      font-size: 12px;
-    }
-
-    .icon-link:hover {
-      color: #4CAF50;
-    }
 
 .ThanhDM {
   background-color: #579a62;

@@ -2,6 +2,19 @@ const productsArray = Object.entries(products).map(([id, product]) => ({
   id,
   ...product,
 }));
+const feedbackData = document.getElementById("feedbackData");
+let productbuyed = JSON.parse(localStorage.getItem("Productbuyed")) || [];
+const FeedBackForm = `<form id="feedbackForm">
+        <h2>Đăng nhập</h2>
+        <label for="loginEmail">Email</label>
+        <input
+          type="text"
+          id=""
+          placeholder="Nhập nhận xét của bạn"
+        />
+        <button type="submit">Gửi</button>
+      </form>`
+
 
 // Hàm lấy tham số từ URL
 function getQueryParam(param) {
@@ -13,24 +26,74 @@ function getQueryParam(param) {
 function displayProduct(id) {
   const container = document.getElementById("product-detail");
   const product = products[id];
+  
+
   if (product) {
     container.innerHTML = `
-        <div class="single-product">
-          <img src="${product.img}" alt="${product.name}" />
-          <div class="product-info">
-            <h2>${product.name}</h2>
-            <div class="product-price">${product.price}</div>
-            <p class="product-description">${product.description}</p>
-            <button onclick="addToCart('${product.name}', '${product.price}', '${product.img}')">
-  Thêm vào giỏ hàng
-</button>
-          </div>
+      <div class="single-product">
+        <img src="${product.img}" alt="${product.name}" />
+        <div class="product-info">
+          <h2>${product.name}</h2>
+          <div class="product-price">${product.price}</div>
+          <p class="product-description">${product.description}</p>
+          <button onclick="addToCart('${product.name}', '${product.price}', '${product.img}')">
+            Thêm vào giỏ hàng
+          </button>
         </div>
+      </div>
+    `;
+
+    if (productbuyed.includes(product.name)) {
+      const feedbackForm = `
+        <form id="feedbackForm">
+          <h2>Gửi đánh giá</h2>
+          <label for="feedbackContent">Nhận xét của bạn</label>
+          <input
+            type="text"
+            id="feedbackContent"
+            required
+            placeholder="Nhập nhận xét của bạn"
+          />
+          <button type="submit">Gửi</button>
+        </form>
       `;
+      container.innerHTML += feedbackForm;
+
+      // Gắn sự kiện sau khi form đã được render
+      setTimeout(() => {
+        const form = document.getElementById("feedbackForm");
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const content = document.getElementById("feedbackContent").value;
+          const data = {
+            product: product.name,
+            feedback: content
+          };
+
+          fetch("https://test12222.glitch.me/feedback", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          })
+          .then(response => {
+            if (response.status === 201 || response.ok) {
+              alert("Gửi đánh giá thành công!");
+              form.reset();
+            } else {
+              alert("Có lỗi xảy ra khi gửi đánh giá.");
+            }
+          })
+          .catch(() => alert("Lỗi kết nối server."));
+        });
+      }, 0);
+    }
   } else {
     container.innerHTML = '<p class="not-found">Không tìm thấy sản phẩm.</p>';
   }
 }
+
+
+
 
 // Hiển thị danh sách tất cả sản phẩm
 function displayProducts(items) {
