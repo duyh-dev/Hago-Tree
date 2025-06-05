@@ -32,7 +32,7 @@ window.addEventListener("DOMContentLoaded", () => {
     loginForm.loginEmail.value = lastUser.email || '';
     loginForm.loginPassword.value = sessionStorage.getItem("userPassword") || '';
     const loginFormdata = Object.fromEntries(new FormData(loginForm).entries()); 
-    fetch('https://test12222.glitch.me/dang-nhap', {
+    fetch('https://server-web-hagotree.glitch.me/dang-nhap', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -65,7 +65,7 @@ loginForm.addEventListener("submit", (e) => {
   alert(`Đăng nhập với email: ${loginForm.loginEmail.value}`);
   const loginFormdata = Object.fromEntries(new FormData(loginForm).entries()); 
 
-  fetch('https://test12222.glitch.me/dang-nhap', {
+  fetch('https://server-web-hagotree.glitch.me/dang-nhap', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -105,7 +105,7 @@ registerForm.addEventListener("submit", (e) => {
   localStorage.removeItem("user");
   alert(`Đăng ký tài khoản email: ${registerForm.registerEmail.value}`);
   const Registerformdata = Object.fromEntries(new FormData(registerForm).entries()); // xử lý các giá trị từ form thành các phần riêng biệt 
-  fetch('https://test12222.glitch.me/dang-ky', {
+  fetch('https://server-web-hagotree.glitch.me/dang-ky', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

@@ -70,7 +70,7 @@ function displayProduct(id) {
             feedback: content
           };
 
-          fetch("https://test12222.glitch.me/feedback", {
+          fetch("https://server-web-hagotree.glitch.me/feedback", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
