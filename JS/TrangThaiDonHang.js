@@ -19,54 +19,52 @@ setTimeout(() => {
       })
         .then(res => res.json())
         .then(donhang => {
-                if (!donhang || typeof donhang !== 'object') {
-                  alert('Không tìm thấy đơn hàng');
-                  return;
-                }
+          if (!donhang || !Array.isArray(donhang)) {
+            alert('Không tìm thấy đơn hàng');
+            return;
+          }
 
-                const orders = [donhang]; // ép thành mảng để dùng forEach
+          const orders = donhang; // GIỮ NGUYÊN MẢNG TRẢ VỀ
 
-                let html = `
-                  <div style="overflow-x:auto;">
-                  <table style="width:100%;border-collapse:collapse;">
-                    <thead>
-                      <tr style="background:#e8f5e9;">
-                        <th style="padding:8px;border:1px solid #d0e6d0;">STT</th>
-                        <th style="padding:8px;border:1px solid #d0e6d0;">Sản phẩm đặt hàng</th>
-                        <th style="padding:8px;border:1px solid #d0e6d0;">Trạng thái đơn hàng</th>
-                        <th style="padding:8px;border:1px solid #d0e6d0;">Mã giao dịch</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                `;
+          let html = `
+            <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;">
+              <thead>
+                <tr style="background:#e8f5e9;">
+                  <th style="padding:8px;border:1px solid #d0e6d0;">STT</th>
+                  <th style="padding:8px;border:1px solid #d0e6d0;">Sản phẩm đặt hàng</th>
+                  <th style="padding:8px;border:1px solid #d0e6d0;">Trạng thái đơn hàng</th>
+                  <th style="padding:8px;border:1px solid #d0e6d0;">Mã giao dịch</th>
+                </tr>
+              </thead>
+              <tbody>
+          `;
 
-                orders.forEach((order, idx) => {
-                  let products = "";
-                  try {
-                    const productList = JSON.parse(order.DonHang || "[]");
-                    products = productList
-                      .map(p => `${p.name} (SL: ${p.quantity}, Giá: ${p.price.toLocaleString()}đ)`)
-                      .join("<br>");
-                  } catch {
-                    products = "---";
-                  }
+          orders.reverse().forEach((order, idx) => {
+            let products = "";
+            try {
+              const productList = JSON.parse(order.DonHang || "[]");
+              products = productList
+                .map(p => `${p.name} (SL: ${p.quantity}, Giá: ${p.price.toLocaleString()}đ)`)
+                .join("<br>");
+            } catch {
+              products = "---";
+            }
 
-                  html += `
-                    <tr>
-                      <td style="padding:8px;border:1px solid #d0e6d0;text-align:center;">${idx + 1}</td>
-                      <td style="padding:8px;border:1px solid #d0e6d0;">${products}</td>
-                      <td style="padding:8px;border:1px solid #d0e6d0;color:#27ae60;">${order.Ttdon || ""}</td>
-                      <td style="padding:8px;border:1px solid #d0e6d0;">${order.MaGiaoDich || ""}</td>
-                    </tr>
-                  `;
-                });
+            html += `
+              <tr>
+                <td style="padding:8px;border:1px solid #d0e6d0;text-align:center;">${idx + 1}</td>
+                <td style="padding:8px;border:1px solid #d0e6d0;">${products}</td>
+                <td style="padding:8px;border:1px solid #d0e6d0;color:#27ae60;">${order.Ttdon || ""}</td>
+                <td style="padding:8px;border:1px solid #d0e6d0;">${order.MaGiaoDich || ""}</td>
+              </tr>
+            `;
+          });
 
-                html += `</tbody></table></div>`;
-                ordersList.innerHTML = html;
-              })
-              .catch(err => {
-                console.error("Lỗi khi tải dữ liệu:", err);
-              });
+          html += `</tbody></table></div>`;
+          ordersList.innerHTML = html;
+        });
+
     } else {
       alert("Vui lòng đăng nhập để tiếp tục bình luận !!");
       setTimeout(() => {
