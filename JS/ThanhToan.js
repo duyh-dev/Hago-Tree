@@ -35,13 +35,13 @@ function removeVietnameseTones() {
     } else {
       alert("Vui lòng đăng nhập để tiếp tục thanh toán !!");
       setTimeout(() => {
-        window.location.href = "../HTML/DangNhap.html";
+        window.location.href = "../HTML/dangnhap.html";
       }, 2000);
     }
   } catch {
     alert("Vui lòng đăng nhập để tiếp tục thanh toán !! -ER1");
     setTimeout(() => {
-      window.location.href = "../HTML/DangNhap.html";
+      window.location.href = "../HTML/dangnhap.html";
     }, 2000);
   }
 }
