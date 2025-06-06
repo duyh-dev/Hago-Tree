@@ -1,82 +1,87 @@
-// Lấy tên tài khoản từ localStorage (nếu có)
-document.getElementById("username").textContent =
-  localStorage.getItem("username") || "bạn";
+setTimeout(() => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user") || "[]");
 
-// Generate mã đơn hàng nếu chưa có
-let orderId = localStorage.getItem("orderId");
-if (!orderId) {
-  const now = new Date();
-  const pad = (n) => n.toString().padStart(2, "0");
-  const timeStr = `${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(
-    now.getDate()
-  )}${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
-  const randomStr = Math.floor(1000 + Math.random() * 9000);
-  orderId = `ORD${timeStr}${randomStr}`;
-  localStorage.setItem("orderId", orderId);
-}
-document.getElementById("order-id").textContent = orderId;
+    if (
+      user.length > 0 &&
+      sessionStorage.getItem("userPassword") &&
+      sessionStorage.getItem("userPassword").length > 0
+    ) {
+      const lastUser = user[user.length - 1];
+      const ordersList = document.getElementById("orders-list");
 
-// Hiển thị thời gian đặt hàng
-let orderTime = localStorage.getItem("orderTime");
-if (!orderTime) {
-  orderTime = new Date().toLocaleString();
-  localStorage.setItem("orderTime", orderTime);
-}
-document.getElementById("order-time").textContent = orderTime;
+      fetch("https://server-web-hagotree.glitch.me/get-don-hang", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email: lastUser.email })
+      })
+        .then(res => res.json())
+        .then(donhang => {
+                if (!donhang || typeof donhang !== 'object') {
+                  alert('Không tìm thấy đơn hàng');
+                  return;
+                }
 
-//Hiển thị đơn hàng
-function renderOrdersTable() {
-  let orders = JSON.parse(localStorage.getItem("orders") || "[]");
-  const ordersList = document.getElementById("orders-list");
-  if (orders.length === 0) {
-    ordersList.innerHTML =
-      '<div style="margin:20px 0;">Bạn chưa có đơn hàng nào.</div>';
-    return;
+                const orders = [donhang]; // ép thành mảng để dùng forEach
+
+                let html = `
+                  <div style="overflow-x:auto;">
+                  <table style="width:100%;border-collapse:collapse;">
+                    <thead>
+                      <tr style="background:#e8f5e9;">
+                        <th style="padding:8px;border:1px solid #d0e6d0;">STT</th>
+                        <th style="padding:8px;border:1px solid #d0e6d0;">Sản phẩm đặt hàng</th>
+                        <th style="padding:8px;border:1px solid #d0e6d0;">Trạng thái đơn hàng</th>
+                        <th style="padding:8px;border:1px solid #d0e6d0;">Mã giao dịch</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                `;
+
+                orders.forEach((order, idx) => {
+                  let products = "";
+                  try {
+                    const productList = JSON.parse(order.DonHang || "[]");
+                    products = productList
+                      .map(p => `${p.name} (SL: ${p.quantity}, Giá: ${p.price.toLocaleString()}đ)`)
+                      .join("<br>");
+                  } catch {
+                    products = "---";
+                  }
+
+                  html += `
+                    <tr>
+                      <td style="padding:8px;border:1px solid #d0e6d0;text-align:center;">${idx + 1}</td>
+                      <td style="padding:8px;border:1px solid #d0e6d0;">${products}</td>
+                      <td style="padding:8px;border:1px solid #d0e6d0;color:#27ae60;">${order.Ttdon || ""}</td>
+                      <td style="padding:8px;border:1px solid #d0e6d0;">${order.MaGiaoDich || ""}</td>
+                    </tr>
+                  `;
+                });
+
+                html += `</tbody></table></div>`;
+                ordersList.innerHTML = html;
+              })
+              .catch(err => {
+                console.error("Lỗi khi tải dữ liệu:", err);
+              });
+    } else {
+      alert("Vui lòng đăng nhập để tiếp tục bình luận !!");
+      setTimeout(() => {
+        window.location.href = "../HTML/DangNhap.html";
+      }, 2000);
+    }
+  } catch (e) {
+    alert("Vui lòng đăng nhập để tiếp tục bình luận !! -ER1");
+    setTimeout(() => {
+      window.location.href = "../HTML/DangNhap.html";
+    }, 2000);
   }
-  let html = `
-    <div style="overflow-x:auto;">
-    <table style="width:100%;border-collapse:collapse;">
-      <thead>
-        <tr style="background:#e8f5e9;">
-          <th style="padding:8px;border:1px solid #d0e6d0;">STT</th>
-          <th style="padding:8px;border:1px solid #d0e6d0;">Sản phẩm đặt hàng</th>
-          <th style="padding:8px;border:1px solid #d0e6d0;">Thời gian đặt hàng</th>
-          <th style="padding:8px;border:1px solid #d0e6d0;">Thời gian thanh toán</th>
-          <th style="padding:8px;border:1px solid #d0e6d0;">Trạng thái đơn hàng</th>
-          <th style="padding:8px;border:1px solid #d0e6d0;">Ngày dự kiến nhận</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
-  orders.reverse().forEach((order, idx) => {
-    html += `
-      <tr>
-        <td style="padding:8px;border:1px solid #d0e6d0;text-align:center;">${
-          idx + 1
-        }</td>
-        <td style="padding:8px;border:1px solid #d0e6d0;">${
-          order.products || "---"
-        }</td>
-        <td style="padding:8px;border:1px solid #d0e6d0;">${
-          order.orderTime || ""
-        }</td>
-        <td style="padding:8px;border:1px solid #d0e6d0;">${
-          order.paymentTime || ""
-        }</td>
-        <td style="padding:8px;border:1px solid #d0e6d0;color:#27ae60;">${
-          order.status || "Đã thanh toán"
-        }</td>
-        <td style="padding:8px;border:1px solid #d0e6d0;">${
-          order.estimatedDelivery || ""
-        }</td>
-      </tr>
-    `;
-  });
-  html += `
-      </tbody>
-    </table>
-    </div>
-  `;
-  ordersList.innerHTML = html;
-}
-renderOrdersTable();
+}, 100);   
+
+
+
+
+

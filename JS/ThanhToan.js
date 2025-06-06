@@ -192,6 +192,7 @@ checkoutForm.addEventListener("submit", function (e) {
   const district = document.getElementById("district").value;
   const ward = document.getElementById("ward").value;
   checkoutFormdata.MaGiaoDich = getidsummary;
+  checkoutFormdata.Ttdon = "Chờ xác nhận";
   checkoutFormdata.DiaChiTinhThanh= ward +","+district+","+city;  
   fetch('https://server-web-hagotree.glitch.me/payment', {
     method: 'POST',

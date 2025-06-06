@@ -7,6 +7,19 @@
     <link rel="stylesheet" href="CSS/baidang.css" /><link rel="stylesheet" href="CSS/SanPham.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <link rel="stylesheet" href="CSS/index.css" />
+<style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      padding: 8px;
+      border: 1px solid #ccc;
+    }
+    th {
+      background: #f2f2f2;
+    }
+  </style>
   </head>
   <header class="main-header">
   <div class="top-header">
@@ -27,10 +40,65 @@
   </div>
 
     </header>
+    <br><hr>  
+<h3>GIAO DỊCH</h3>
+<div style="max-height: 300px;max-width: 70%; overflow-y: auto; " class="container">
+ <table id="DonHangTable">
 
+      <tr>
+        <th>Họ tên</th>
+        <th>Email</th>
+        <th>Điện thoại</th>
+        <th>Địa chỉ</th>
+        <th>Ghi chú</th>
+        <th>Mã giao dịch</th>
+        <th>Trạng thái đơn</th>
+        <th>Tỉnh/TP</th>
+        <th>Sản phẩm</th>
+      </tr>
+    </table>
+ </div>   
+ <form id="xndform">
+    <label for="title">MÃ GIAO DỊCH CẦN XÁC NHẬN</label>
+    <input type="text" id="MaGiaoDich" name="MaGiaoDich" required />
+    <button type="submit">XÁC NHẬN ĐƠN</button>
+  </form>
+
+   <form id="dntcform">
+    <label for="title">MÃ GIAO DỊCH THÀNH CÔNG</label>
+    <input type="text" id="MaGiaoDich" name="MaGiaoDich" required />
+    <button type="submit">XÁC NHẬN ĐƠN</button>
+  </form>
+ <br><hr>
+<h3>LIÊN HỆ</h3>
+<div style="max-height: 300px;max-width: 60%; overflow-y: auto; "><table id="LienHeTable">
+
+      <tr>
+        <th>Họ tên</th>
+        <th>Email</th>
+        <th>Điện thoại</th>
+        <th>Lời nhắn</th>
+      </tr>
+    </table></div>
+    <br><hr>
+<h3>FeedBack Sản Phẩm</h3>
+<div> <br><hr>
+  <div style="max-height: 300px;max-width: 60%; overflow-y: auto; "><table id="FeedBackTable">
+
+      <tr>
+        <th>Sản phẩm</th>
+        <th>Lời nhắn</th>
+        <th>Email người gửi</th>
+      </tr>
+    </table></div>
+
+
+</div>
+<div style="max-height: 500px;max-width: 50%;  overflow-y: auto; ">
   <main id = "ContentPost">
     
   </main>
+</div>  <br><hr>
 <main class="form-container">
   <form id="postForm">
     <label for="title">Tiêu đề bài viết:</label>
@@ -46,9 +114,11 @@
   </form>
 
   <div id="successMessage" style="display: none;">
-    ✅ Bài viết đã được lưu! Bạn có thể xem lại trong danh sách bài đăng.
+    Bài viết đã được lưu! Bạn có thể xem lại trong danh sách bài đăng.
   </div>
 </main>
+
+
 
 
   </body>
@@ -87,6 +157,55 @@
      <script>
        
 const contentform = document.getElementById("postForm");
+const xacnhanform = document.getElementById("xndform");
+const thanhcongform = document.getElementById("dntcform");
+
+
+xacnhanform.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const xacnhanformdata = Object.fromEntries(new FormData(xacnhanform).entries()); 
+
+  fetch('https://server-web-hagotree.glitch.me/xac-nhan-don', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(xacnhanformdata)  // xử lý các phần riêng biệt thành những phần tử trong json
+  })
+
+  .then(response => {
+    if (response.status === 201) {
+      alert('Xác nhận đơn '+xacnhanformdata);
+    } else {
+      alert('Có lỗi xảy ra, vui lòng thử lại.');
+    }
+  })
+});
+
+thanhcongform.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const thanhcongformdata = Object.fromEntries(new FormData(thanhcongform).entries()); 
+
+  fetch('https://server-web-hagotree.glitch.me/xac-nhan-don-xong', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(thanhcongformdata)  // xử lý các phần riêng biệt thành những phần tử trong json
+  })
+
+  .then(response => {
+    if (response.status === 201) {
+      alert('Xong');
+    } else {
+      alert('Có lỗi xảy ra, vui lòng thử lại.');
+    }
+  })
+});
+
+
+
+
 
 contentform.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -137,8 +256,114 @@ function convertToBase64(file) {  //chuyển ảnh sang dạng byte64
   });
 }
 
-
      </script>
+
+     <script>
+let cityData = [];
+
+
+fetch("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json")
+  .then(response => response.json()) 
+  .then(data => {
+    cityData = data;
+    loadOrders(); 
+  })
+  .catch(error => {
+    console.error("Lỗi khi tải dữ liệu tỉnh thành:", error);
+  });
+
+function getDiaChi(dayString) {
+  if (!dayString || !dayString.includes(",")) return "Không rõ";
+
+  const [wardId, districtId, cityId] = dayString.split(",");
+
+  const city = cityData.find(c => c.Id === cityId);
+  if (!city) return "Không rõ thành phố";
+
+  const district = city.Districts.find(d => d.Id === districtId);
+  if (!district) return `${city.Name}`;
+
+  const ward = district.Wards.find(w => w.Id === wardId);
+  if (!ward) return `${district.Name}, ${city.Name}`;
+
+  return `${ward.Name}, ${district.Name}, ${city.Name}`;
+}
+
+fetch("https://server-web-hagotree.glitch.me/lh")
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.querySelector("#LienHeTable tbody");
+      data.forEach(lienhe => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${lienhe.name}</td>
+          <td>${lienhe.email}</td>
+          <td>${lienhe.phone}</td>
+          <td>${lienhe.message}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(err => {
+      console.error("Lỗi khi lấy đơn hàng:", err);
+      document.body.innerHTML += "<p style='color:red;'>Không thể tải liên hệ!</p>";
+    });
+fetch("https://server-web-hagotree.glitch.me/fb")
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.querySelector("#FeedBackTable tbody");
+      data.forEach(feedbackx => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${feedbackx.product}</td>
+          <td>${feedbackx.feedback}</td>
+          <td>${feedbackx.email}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(err => {
+      console.error("Lỗi khi lấy đơn hàng:", err);
+      document.body.innerHTML += "<p style='color:red;'>Không thể tải liên hệ!</p>";
+    });
+function loadOrders() {
+  fetch("https://server-web-hagotree.glitch.me/dh")
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.querySelector("#DonHangTable tbody");
+      data.forEach(order => {
+        const donHangParsed = JSON.parse(order.DonHang || "[]");
+        const productList = donHangParsed.map(p => `
+          <div>
+            <strong>${p.name}</strong> - ${p.price.toLocaleString()}₫ × ${p.quantity}
+            <br><img src=".${p.image}" width="50">
+          </div>
+        `).join("");
+
+        const diaChiGoc = getDiaChi(order.DiaChiTinhThanh);
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${order.Name}</td>
+          <td>${order.email}</td>
+          <td>${order.phone}</td>
+          <td>${order.address}</td>
+          <td>${order.note}</td>
+          <td>${order.MaGiaoDich}</td>
+          <td>${order.Ttdon}</td>
+          <td>${diaChiGoc}</td>
+          <td>${productList}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(err => {
+      console.error("Lỗi khi lấy đơn hàng:", err);
+      document.body.innerHTML += "<p style='color:red;'>Không thể tải đơn hàng!</p>";
+    });
+}
+</script>
+
      <script src="JS/baidang.js"></script>
          <script src="JS/index.js"></script>
    <script src="/JS/Giohang.js"></script>

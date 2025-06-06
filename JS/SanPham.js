@@ -2,6 +2,7 @@ const productsArray = Object.entries(products).map(([id, product]) => ({
   id,
   ...product,
 }));
+const user = JSON.parse(localStorage.getItem("user")) || [];
 const feedbackData = document.getElementById("feedbackData");
 let productbuyed = JSON.parse(localStorage.getItem("Productbuyed")) || [];
 const FeedBackForm = `<form id="feedbackForm">
@@ -39,13 +40,7 @@ function displayProduct(id) {
           <button onclick="addToCart('${product.name}', '${product.price}', '${product.img}')">
             Thêm vào giỏ hàng
           </button>
-        </div>
-      </div>
-    `;
-
-    if (productbuyed.includes(product.name)) {
-      const feedbackForm = `
-        <form id="feedbackForm">
+      <form id="feedbackForm">
           <h2>Gửi đánh giá</h2>
           <label for="feedbackContent">Nhận xét của bạn</label>
           <input
@@ -56,8 +51,13 @@ function displayProduct(id) {
           />
           <button type="submit">Gửi</button>
         </form>
-      `;
-      container.innerHTML += feedbackForm;
+        </div>
+      </div>
+    `;
+
+    
+       
+
 
       // Gắn sự kiện sau khi form đã được render
       setTimeout(() => {
@@ -65,32 +65,52 @@ function displayProduct(id) {
         form.addEventListener("submit", (e) => {
           e.preventDefault();
           const content = document.getElementById("feedbackContent").value;
-          const data = {
-            product: product.name,
-            feedback: content
-          };
-
-          fetch("https://server-web-hagotree.glitch.me/feedback", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
-          })
-          .then(response => {
-            if (response.status === 201 || response.ok) {
-              alert("Gửi đánh giá thành công!");
-              form.reset();
-            } else {
-              alert("Có lỗi xảy ra khi gửi đánh giá.");
+          
+          try {
+              if (
+                (user.length > 0) &
+                (sessionStorage.getItem("userPassword").length > 0)
+              ) {
+                const lastUser = user[user.length - 1];
+                console.log(lastUser.email);
+                  const data = {
+                    product: product.name,
+                    feedback: content,
+                    email : lastUser.email
+                  };
+                fetch("https://server-web-hagotree.glitch.me/feedback", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(data),
+                })
+                .then(response => {
+                  if (response.status === 201 || response.ok) {
+                    alert("Gửi đánh giá thành công!");
+                    form.reset();
+                  } else {
+                    alert("Có lỗi xảy ra khi gửi đánh giá.");
+                  }
+                })
+                .catch(() => alert("Lỗi kết nối server."));
+              } else {
+                alert("Vui lòng đăng nhập để tiếp tục bình luận !!");
+                setTimeout(() => {
+                  window.location.href = "../HTML/DangNhap.html";
+                }, 2000);
+              }
+            } catch {
+              alert("Vui lòng đăng nhập để tiếp tục bình luận !! -ER1");
+              setTimeout(() => {
+                window.location.href = "../HTML/DangNhap.html";
+              }, 2000);
             }
-          })
-          .catch(() => alert("Lỗi kết nối server."));
+          
+          
         });
       }, 0);
     }
-  } else {
-    container.innerHTML = '<p class="not-found">Không tìm thấy sản phẩm.</p>';
-  }
-}
+  } 
+
 
 
 
