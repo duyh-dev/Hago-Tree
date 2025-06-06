@@ -88,7 +88,7 @@ loginForm.addEventListener("submit", (e) => {
       sessionStorage.setItem("userPassword", loginFormdata.loginPassword);
       alert('Đăng nhập thành công!');
       setTimeout(() => {
-  window.location.href = "../HTML/index.html"; // Redirect after confirmation
+  window.location.href = "../HTML/index.html"; 
 }, 2000);
     } else {
       alert('Có lỗi xảy ra, vui lòng thử lại.');

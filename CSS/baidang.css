@@ -1,14 +1,5 @@
 
 
-.logo-hago {
-  height: 30px;
-  width: auto;
-}
-header a img {
-  height: 90px; /* nhỏ hơn chiều cao hiện tại (50px) */
-  width: auto; /* giữ tỉ lệ ảnh */
-}
-
 .search-container {
   flex: 1;
   max-width: 600px;

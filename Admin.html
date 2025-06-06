@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi tiết bài đăng</title>
+    <link rel="stylesheet" href="CSS/baidang.css" /><link rel="stylesheet" href="CSS/SanPham.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="CSS/index.css" />
+  </head>
+  <header class="main-header">
+  <div class="top-header">
+    <div class="header-left">
+      <a href="index.html"><img src="IMG/logo.png" alt="logo" class="logo-hago"/></a>
+    </div>
+
+    <div class="search-container">
+      <span class="search-icon">🔍</span>
+      <input class="searchbox" type="search" placeholder="Tìm kiếm..." />
+    </div>
+
+    <div class="right-icons">
+      <a href="HTML/LienHe.html" class="icon-link"><img src="IMG/HAGOLH.png" /><span>Liên hệ</span></a>
+      <a href="GioHang.html" class="icon-link"><img src="IMG/HAGOGH.png" /><span>Giỏ hàng</span><span class="cart-count"></span></a>
+      <a href="HTML/dangnhap.html" class="icon-link"><img src="IMG/HAGOTK.png" /><span id="Accountchecker">Đăng nhập/đăng ký</span></a>
+    </div>
+  </div>
+
+    </header>
+
+  <main id = "ContentPost">
+    
+  </main>
+<main class="form-container">
+  <form id="postForm">
+    <label for="title">Tiêu đề bài viết:</label>
+    <input type="text" id="title" name="title" required />
+
+    <label for="image">Ảnh minh họa (chọn từ máy):</label>
+    <input type="file" id="image" name="image" accept="image/*" />
+
+    <label for="content">Nội dung bài viết:</label>
+    <textarea id="content" name="content" rows="10" required></textarea>
+
+    <button type="submit">Đăng bài</button>
+  </form>
+
+  <div id="successMessage" style="display: none;">
+    ✅ Bài viết đã được lưu! Bạn có thể xem lại trong danh sách bài đăng.
+  </div>
+</main>
+
+
+  </body>
+   <footer>
+  <div class="footer-container">
+    <div class="footer-section">
+      <h2>Hago Tree</h2>
+      <p>Chuyên cây cảnh nhân tạo thẩm mỹ – Đẹp bền vững theo thời gian.</p>
+    </div>
+    <div class="footer-section">
+      <h2>Liên hệ</h2>
+      <p><i class="fas fa-map-marker-alt"></i> Hẻm 1581, Đường Bùi Hữu Nghĩa, Phường Tân Hạnh, TP. Biên Hòa, Đồng Nai</p>
+      <p><i class="fas fa-envelope"></i> HagoTree@gmail.com</p>
+      <p><i class="fas fa-phone-alt"></i> 0968 123 456</p>
+    </div>
+    <div class="footer-section">
+      <h2>Theo dõi</h2>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/HagoTreee" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://zalo.me/yourZaloID" target="_blank" aria-label="Zalo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" class="zalo-icon">
+        </a>
+      </div>
+      <p style="margin-top:8px;font-size:13px;">Kết nối với chúng tôi để nhận ưu đãi & tin tức mới nhất!</p>
+    </div>
+  </div>
+  <div class="footer-quote">
+    <em>“Cây cảnh giả, cảm xúc thật.”</em>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 Hago Tree. All rights reserved.
+  </div>
+</footer>
+     <script>
+       
+const contentform = document.getElementById("postForm");
+
+contentform.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const contentformdata = Object.fromEntries(new FormData(contentform).entries());
+
+  const imageFile = contentform.image.files[0];
+
+  if (imageFile) {
+    try {
+      contentformdata.image = await convertToBase64(imageFile); 
+    } catch (err) {
+      console.error("Lỗi chuyển ảnh:", err);
+      alert("Không thể xử lý ảnh!");
+      return;
+    }
+  } else {
+    contentformdata.image = "";
+  }
+
+  fetch("https://server-web-hagotree.glitch.me/upload-post", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(contentformdata),
+  })
+    .then((res) => {
+      if (res.ok) {
+        document.getElementById("successMessage").style.display = "block";
+        contentform.reset();
+      } else {
+        alert("Lỗi khi đăng bài viết!");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Lỗi kết nối đến server.");
+    });
+});
+
+function convertToBase64(file) {  //chuyển ảnh sang dạng byte64
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result); 
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+
+     </script>
+     <script src="JS/baidang.js"></script>
+         <script src="JS/index.js"></script>
+   <script src="/JS/Giohang.js"></script>
+</html>

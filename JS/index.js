@@ -18,6 +18,8 @@ document.querySelectorAll(".add-cart").forEach(button => {
     addToCart(name, price, image);
   });
 });
+
+
 // Khai báo biến chỉ số và tốc độ chuyển slide
 let index = 0;
 let interval;
