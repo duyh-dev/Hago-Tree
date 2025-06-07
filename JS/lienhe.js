@@ -14,6 +14,9 @@ contactForm.addEventListener("submit", function (e) {
   .then(response => {
     if (response.status === 201) {
       alert('Cảm ơn bạn đã gửi yêu cầu, chúng tôi sẽ sớm liên hệ lại với bạn!');
+      setTimeout(() => {
+      window.location.href = "../HTML/dangnhap.html";
+    }, 2000);
     } else {
       alert('Có lỗi xảy ra, vui lòng thử lại.');
     }
