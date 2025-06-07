@@ -95,13 +95,13 @@ function displayProduct(id) {
               } else {
                 alert("Vui lòng đăng nhập để tiếp tục bình luận !!");
                 setTimeout(() => {
-                  window.location.href = "../HTML/DangNhap.html";
+                  window.location.href = "../HTML/dangnhap.html";
                 }, 2000);
               }
             } catch {
               alert("Vui lòng đăng nhập để tiếp tục bình luận !! -ER1");
               setTimeout(() => {
-                window.location.href = "../HTML/DangNhap.html";
+                window.location.href = "../HTML/dangnhap.html";
               }, 2000);
             }
           
