@@ -16,7 +16,7 @@ function removeVietnameseTones() {
   try {
     if (
       (user.length > 0) &
-      (sessionStorage.getItem("userPassword").length > 0)
+      (localStorage.getItem("userPassword").length > 0)
     ) {
       const lastUser = user[user.length - 1];
       console.log(lastUser.email);
@@ -186,6 +186,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 checkoutForm.addEventListener("submit", function (e) {
   e.preventDefault();
+
+  const d = new Date();
+  const daynow =d.getHours()+":"+d.getMinutes()+" "+d.getDate()+"/"+(d.getMonth() + 1)+"/"+d.getFullYear();
+  console.log(daynow);
   const checkoutFormdata = Object.fromEntries(new FormData(checkoutForm).entries()); 
   checkoutFormdata.DonHang = ProductWillBuy;
   const city = document.getElementById("city").value;
@@ -193,6 +197,7 @@ checkoutForm.addEventListener("submit", function (e) {
   const ward = document.getElementById("ward").value;
   checkoutFormdata.MaGiaoDich = getidsummary;
   checkoutFormdata.Ttdon = "Chờ xác nhận";
+  checkoutFormdata.TimeDatHang = daynow;
   checkoutFormdata.DiaChiTinhThanh= ward +","+district+","+city;  
   fetch('https://server-web-hagotree.glitch.me/payment', {
     method: 'POST',
@@ -206,6 +211,7 @@ checkoutForm.addEventListener("submit", function (e) {
     if (response.status === 201) {
       alert('Đã thanh toán, sẽ có email xác nhận đơn!');
       showPaymentSuccessModal();
+      checkoutForm.reset();
       confirmPayment();
     } else {
       alert('Có lỗi xảy ra, vui lòng thử lại.');
@@ -220,6 +226,7 @@ function showPaymentSuccessModal() {
   var username = localStorage.getItem("username") || "Khách hàng";
   document.getElementById("modal-username").textContent = username;
   modal.style.display = "flex";
+
 }
 function closeSuccessModal() {
   document.getElementById("payment-success-modal").style.display = "none";

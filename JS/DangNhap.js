@@ -22,7 +22,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const user = JSON.parse(localStorage.getItem("user")) || [];
 
-  if ((user.length > 0) & (sessionStorage.getItem("userPassword").length >0 )) {
+  if ((user.length > 0) & (localStorage.getItem("userPassword").length >0 )) {
     const lastUser = user[user.length - 1];
     console.log(lastUser.email);
     document.getElementById("Accountchecker").innerHTML = lastUser.email;
@@ -31,7 +31,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const lastUser = user[user.length - 1];
 
     loginForm.loginEmail.value = lastUser.email || '';
-    loginForm.loginPassword.value = sessionStorage.getItem("userPassword") || '';
+    loginForm.loginPassword.value = localStorage.getItem("userPassword") || '';
     const loginFormdata = Object.fromEntries(new FormData(loginForm).entries()); 
     fetch('https://server-web-hagotree.glitch.me/dang-nhap', {
     method: 'POST',
@@ -47,11 +47,35 @@ window.addEventListener("DOMContentLoaded", () => {
         email: loginFormdata.loginEmail,
       });
       localStorage.setItem("user", JSON.stringify(user));
-      sessionStorage.setItem("userPassword", loginFormdata.loginPassword);
+      localStorage.setItem("userPassword", loginFormdata.loginPassword);
       alert('Đăng nhập thành công!');
-      setTimeout(() => {
-  window.location.href = "../HTML/index.html"; // Redirect after confirmation
-}, 2000);
+
+      fetch('https://server-web-hagotree.glitch.me/get-user', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(user[user.length - 1])
+        })
+          .then(res => res.json())
+          .then(userxa => {
+            if (!userxa || userxa.message) {
+              alert('Không tìm thấy người dùng');
+              return;
+            }
+
+                 document.getElementById("name").innerText = userxa.registerName;
+                  document.getElementById("email").innerText = userxa.registerEmail;
+                  document.getElementById("sdt").innerText = userxa.sdt;
+                  document.getElementById("diachi").innerText = userxa.address;
+          })
+          .catch(err => {
+            console.error("Lỗi khi tải dữ liệu:", err);
+          });
+
+      document.getElementById("logincontainer").style.display = "none";
+      document.getElementById("accontid").style.display = "block";
+
     } else if (response.status === 401) {
       alert('Sai email hoặc mật khẩu hoặc tài khoản không tồn tại!');
     } 
@@ -85,7 +109,7 @@ loginForm.addEventListener("submit", (e) => {
         email: loginFormdata.loginEmail,
       });
       localStorage.setItem("user", JSON.stringify(user));
-      sessionStorage.setItem("userPassword", loginFormdata.loginPassword);
+      localStorage.setItem("userPassword", loginFormdata.loginPassword);
       alert('Đăng nhập thành công!');
       setTimeout(() => {
   window.location.href = "../HTML/index.html"; 

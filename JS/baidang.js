@@ -5,7 +5,7 @@ fetch("https://server-web-hagotree.glitch.me/get-posts")
   .then((res) => res.json())
   .then((posts) => {
     const container = document.getElementById("ContentPost");
-    container.innerHTML = posts
+    container.innerHTML = posts.reverse()
       .map((post) => {
         return `
           <main class="post-container">

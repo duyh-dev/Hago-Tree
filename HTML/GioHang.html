@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="../CSS/GioHang.css" /><link rel="stylesheet" href="../CSS/SanPham.css" />
     <link rel="stylesheet" href="../CSS/index.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     </head>
   <body>
-    <header class="main-header">
+  <header class="main-header">
   <div class="top-header">
     <div class="header-left">
       <a href="index.html"><img src="../IMG/logo.png" alt="logo" class="logo-hago"/></a>
@@ -22,38 +24,39 @@
 
     <div class="right-icons">
       <a href="../HTML/LienHe.html" class="icon-link"><img src="../IMG/HAGOLH.png" /><span>Liên hệ</span></a>
-      <a href="GioHang.html" class="icon-link"><img src="../IMG/HAGOGH.png" /><span>Giỏ hàng</span><span class="cart-count"></span></a>
+      <a href="../HTML/GioHang.html" class="icon-link"><img src="../IMG/HAGOGH.png" /><span>Giỏ hàng</span><span class="cart-count"></span></a>
       <a href="../HTML/dangnhap.html" class="icon-link"><img src="../IMG/HAGOTK.png" /><span id="Accountchecker">Đăng nhập/đăng ký</span></a>
     </div>
   </div>
+<!-- NÚT HIỆN CHỈ TRÊN MOBILE -->
+<!-- MENU CHO MOBILE -->
+<div class="dropdown d-block d-sm-none ">
+  <button style ="background-color: #78ea07"class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Menu
+  </button>
+  <ul class="dropdown-menu ThanhDM" style="background-color:#579a62">
+    <li><a class="pentagon-link" href="#" onclick="alert('Tính năng sớm cập nhật')"><div class="pentagon">Cây cảnh</div></a></li>
+    <li><a class="pentagon-link" href="../HTML/BaiDang.html"><div class="pentagon">Bài Đăng</div></a></li>
+    <li><a class="pentagon-link" href="../HTML/TrangThaiDonHang.html"><div class="pentagon">Trạng thái đơn hàng</div></a></li>
+    <li><a class="pentagon-link" href="#" onclick="alert('Tính năng sớm cập nhật')"><div class="pentagon">Gói quà</div></a></li>
+    <li><a class="pentagon-link" href="#" onclick="alert('Tính năng sớm cập nhật')"><div class="pentagon">Thiết kế riêng</div></a></li>
+    <li><a class="pentagon-link" href="../HTML/LienHe.html"><div class="pentagon">Hỗ trợ</div></a></li>
+  </ul>
+</div>
 
-  <!-- MENU CHUYỂN XUỐNG ĐÂY -->
-  <nav class="ThanhDM">
-    <div class="category-container">
-      <a href="#" class="pentagon-link"><div class="pentagon">Cây cảnh</div></a>
-      <a href="../HTML/BaiDang.html" class="pentagon-link"><div class="pentagon">Bài Đăng</div></a>
-      <a href="#" class="pentagon-link"><div class="pentagon">Trang trí</div></a>
-      <a href="#" class="pentagon-link"><div class="pentagon">Gói quà</div></a>
-      <a href="#" class="pentagon-link"><div class="pentagon">Thiết kế riêng</div></a>
-      <a href="../HTML/LienHe.html" class="pentagon-link"><div class="pentagon">Hỗ trợ</div></a>
-    </div>
-  </nav>
+<!-- MENU CHO DESKTOP -->
+<nav class="d-none d-sm-block ThanhDM">
+  <div class=" flex-wrap gap-2 category-container">
+    <a class="pentagon-link" href="#" onclick="alert('Tính năng sớm cập nhật')"><div class="pentagon">Cây cảnh</div></a>
+    <a class="pentagon-link" href="../HTML/BaiDang.html"><div class="pentagon">Bài Đăng</div></a>
+    <a class="pentagon-link" href="../HTML/TrangThaiDonHang.html"><div class="pentagon">Trạng thái đơn hàng</div></a>
+    <a class="pentagon-link" href="#" onclick="alert('Tính năng sớm cập nhật')"><div class="pentagon">Gói quà</div></a>
+    <a class="pentagon-link" href="#" onclick="alert('Tính năng sớm cập nhật')"><div class="pentagon">Thiết kế riêng</div></a>
+    <a class="pentagon-link" href="../HTML/LienHe.html"><div class="pentagon">Hỗ trợ</div></a>
+  </div>
+</nav>
 
-
-      <!-- <nav class="ThanhDM">
-        <div class="category-container">
-          <a href="#" class="pentagon-link"><div class="pentagon">Khuyến mãi</div></a>
-          <a href="#" class="pentagon-link"><div class="pentagon">Cây cảnh</div></a>
-          <a href="#" class="pentagon-link"><div class="pentagon">Phụ kiện</div></a>
-          <a href="#" class="pentagon-link"><div class="pentagon">Trang trí</div></a>
-          <a href="#" class="pentagon-link"><div class="pentagon">Đánh giá</div></a>
-          <a href="#" class="pentagon-link"><div class="pentagon">Gói quà</div></a>
-          <a href="#" class="pentagon-link"><div class="pentagon">Thiết kế riêng</div></a>
-          <a href="#" class="pentagon-link"><div class="pentagon">Hỗ trợ</div></a>
-        </div>
-      </nav>
- -->
-    </header>
+</header>
   
     
 

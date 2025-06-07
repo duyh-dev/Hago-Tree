@@ -59,16 +59,14 @@
     </table>
  </div>   
  <form id="xndform">
-    <label for="title">ĐIỀN MÃ GIAO DỊCH XÁC NHẬN ĐƠN HÀNG ĐÃ THANH TOÁN</label>
+    <label for="title">MÃ GIAO DỊCH CẦN XÁC NHẬN</label>
     <input type="text" id="MaGiaoDich" name="MaGiaoDich" required />
+    <select id="chonxacnhan" required>
+    <option selected value="xn" selected>Xác nhận đơn</option>
+     <option value="ht" >Đã hoàn thành</option>
+  </select>
     <button type="submit">XÁC NHẬN ĐƠN</button>
-  </form>
-
-   <form id="dntcform">
-    <label for="title">MÃ GIAO DỊCH ĐÃ GIAO HÀNG THÀNH CÔNG</label>
-    <input type="text" id="MaGiaoDich" name="MaGiaoDich" required />
-    <button type="submit">XÁC NHẬN ĐƠN</button>
-  </form>
+</form>
  <br><hr>
 <h3>LIÊN HỆ</h3>
 <div style="max-height: 300px;max-width: 60%; overflow-y: auto; "><table id="LienHeTable">
@@ -164,44 +162,42 @@ const thanhcongform = document.getElementById("dntcform");
 xacnhanform.addEventListener("submit", function (e) {
   e.preventDefault();
   const xacnhanformdata = Object.fromEntries(new FormData(xacnhanform).entries()); 
-
-  fetch('https://server-web-hagotree.glitch.me/xac-nhan-don', {
+  if(chonxacnhan.value=="xn"){
+    fetch('https://server-web-hagotree.glitch.me/xac-nhan-don', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(xacnhanformdata)  // xử lý các phần riêng biệt thành những phần tử trong json
+    body: JSON.stringify(xacnhanformdata) 
   })
 
   .then(response => {
-    if (response.status === 201) {
+    if (response.status == 201) {
       alert('Xác nhận đơn '+xacnhanformdata);
     } else {
       alert('Có lỗi xảy ra, vui lòng thử lại.');
     }
   })
-});
 
-thanhcongform.addEventListener("submit", function (e) {
-  e.preventDefault();
-  const thanhcongformdata = Object.fromEntries(new FormData(thanhcongform).entries()); 
 
-  fetch('https://server-web-hagotree.glitch.me/xac-nhan-don-xong', {
+  }else if(chonxacnhan.value=="ht"){
+      fetch('https://server-web-hagotree.glitch.me/xac-nhan-don-xong', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(thanhcongformdata)  // xử lý các phần riêng biệt thành những phần tử trong json
+    body: JSON.stringify(xacnhanformdata)  
   })
 
   .then(response => {
-    if (response.status === 201) {
+    if (response.status == 201) {
       alert('Xong');
     } else {
       alert('Có lỗi xảy ra, vui lòng thử lại.');
     }
   })
-});
+  }
+ }); 
 
 
 

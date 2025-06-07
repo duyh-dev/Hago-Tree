@@ -69,7 +69,7 @@ function displayProduct(id) {
           try {
               if (
                 (user.length > 0) &
-                (sessionStorage.getItem("userPassword").length > 0)
+                (localStorage.getItem("userPassword").length > 0)
               ) {
                 const lastUser = user[user.length - 1];
                 console.log(lastUser.email);
