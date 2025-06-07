@@ -68,13 +68,13 @@ setTimeout(() => {
         });
 
     } else {
-      alert("Vui lòng đăng nhập để tiếp tục bình luận !!");
+      alert("Vui lòng đăng nhập để tiếp tục xem !!");
       setTimeout(() => {
         window.location.href = "../HTML/dangnhap.html";
       }, 2000);
     }
   } catch (e) {
-    alert("Vui lòng đăng nhập để tiếp tục bình luận !! -ER1");
+    alert("Vui lòng đăng nhập để tiếp tục xem !! -ER1");
     setTimeout(() => {
       window.location.href = "../HTML/dangnhap.html";
     }, 2000);
