@@ -7,7 +7,7 @@ const next = document.querySelector(".next-btn");
 document.querySelectorAll(".add-cart").forEach(button => {
   button.addEventListener("click", function (event) {
     event.preventDefault(); // Ngăn chuyển trang
-
+    
     const sanPhamDiv = this.closest(".SanPham");
     const name = sanPhamDiv.querySelector("h3").innerText;
     const priceText = sanPhamDiv.querySelector("p").innerText;

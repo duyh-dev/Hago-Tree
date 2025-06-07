@@ -196,7 +196,9 @@ function addToCart(name, price, image) {
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
+
   alert("Đã thêm vào giỏ hàng!");
+  location.reload();
 }
 
 // Hàm cho nút quay lại

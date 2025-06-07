@@ -3,13 +3,20 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 // Update cart count
 function updateCartCount() {
   const cartCountEl = document.querySelector(".cart-count");
+
+  if (!Array.isArray(cart)) {
+    console.warn("Giỏ hàng (cart) chưa tồn tại hoặc không phải mảng");
+    return;
+  }
+
   const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   if (cartCountEl) {
     cartCountEl.textContent = totalCount;
-    cartCountEl.style.display = totalCount > 0 ? "inline-block" : "none"; // Hide when count is 0
+    cartCountEl.style.display = totalCount > 0 ? "inline-block" : "none";
   }
 }
+
 
 // Hiển thị sản phẩm trong giỏ hàng
 function displayCart() {
