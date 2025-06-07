@@ -65,6 +65,7 @@
     <select id="chonxacnhan" required>
     <option selected value="xn" selected>Xác nhận đơn</option>
      <option value="ht" >Đã hoàn thành</option>
+    <option value="hd" >Đã hoàn thành</option>
   </select>
     <button type="submit">XÁC NHẬN ĐƠN</button>
 </form>
@@ -184,6 +185,23 @@ xacnhanform.addEventListener("submit", function (e) {
 
   }else if(chonxacnhan.value=="ht"){
       fetch('https://server-web-hagotree.glitch.me/xac-nhan-don-xong', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(xacnhanformdata)  
+  })
+
+  .then(response => {
+    if (response.status == 201) {
+      alert('Xong');
+    } else {
+      alert('Có lỗi xảy ra, vui lòng thử lại.');
+    }
+  })
+  }
+  else if(chonxacnhan.value=="hd"){
+      fetch('https://server-web-hagotree.glitch.me/huy-don', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
