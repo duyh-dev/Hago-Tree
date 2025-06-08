@@ -1,15 +1,5 @@
 
 
-.search-container {
-  flex: 1;
-  max-width: 600px;
-  position: relative;
-  margin: 0 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 
 .right-icons {
   display: flex;

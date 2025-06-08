@@ -284,26 +284,3 @@ button:hover {
 
 
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 992px) {
-  .top-header {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .search-container {
-    width: 90%;
-    margin: 10px 0;
-  }
-
-  .category-container {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .cart-summary {
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-  }
-}

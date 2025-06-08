@@ -6,6 +6,46 @@
     <title>Chi tiết bài đăng</title>
     <link rel="stylesheet" href="CSS/baidang.css" /><link rel="stylesheet" href="CSS/SanPham.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      if (sessionStorage.getItem("adminLoggedIn") !== "true") {
+  alert("Bạn chưa đăng nhập hoặc phiên đã hết.");
+  const email = prompt("Username");
+  const password = prompt("Key");
+  fetch("https://server-web-hagotree.glitch.me/admin", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      loginEmail: email,
+      loginPassword: password
+    })
+  })
+    .then((res) =>
+      res.json().then((data) => ({
+        status: res.status,
+        body: data
+      }))
+    )
+    .then(({ status, body }) => {
+      if (status === 202) {
+        sessionStorage.setItem("adminLoggedIn", "true");
+        alert("Đăng nhập thành công!");
+      } else {
+        alert("Sai email hoặc mật khẩu");
+         window.location.href = "/Admin.html";
+      }
+    })
+    .catch((err) => {
+      console.error("Lỗi:", err);
+      alert("Lỗi kết nối tới server");
+    });
+
+}
+
+    </script>
 <link rel="stylesheet" href="CSS/index.css" />
 <style>
     table {
@@ -42,9 +82,10 @@
     </header>
     <br><hr>  
 <h3>GIAO DỊCH</h3>
-<div style="max-height: 300px;max-width: 70%; overflow-y: auto; " class="container">
- <table id="DonHangTable">
-
+<button id="toggleDonHang" class="btn btn-primary">Xem đơn hàng</button>
+<div id="donHangContainer" style="display: none;">
+  <div style="max-height: 300px; max-width: 70%; overflow-y: auto;" class="container">
+    <table id="DonHangTable">
       <tr>
         <th>Họ tên</th>
         <th>Email</th>
@@ -57,8 +98,15 @@
         <th>Sản phẩm</th>
       </tr>
     </table>
- </div>   
- <main class="form-container">
+  </div>
+</div>
+
+
+<h3>XÁC NHẬN ĐƠN</h3>
+ 
+<button id="toggleGiaoDich" class="btn btn-primary">Xem đơn hàng</button>
+<div id="GiaoDichContainer" style="display: none;">
+  <main class="form-container">
  <form id="xndform">
     <label for="title">MÃ GIAO DỊCH CẦN XÁC NHẬN</label>
     <input type="text" id="MaGiaoDich" name="MaGiaoDich" required />
@@ -70,8 +118,11 @@
     <button type="submit">XÁC NHẬN ĐƠN</button>
 </form>
 </main>
+</div>
  <br><hr>
 <h3>LIÊN HỆ</h3>
+<button id="toggleLienHe" class="btn btn-primary">Xem Liên Hệ</button>
+<div id="LienHeContainer" style="display: none;">
 <div style="max-height: 300px;max-width: 60%; overflow-y: auto; "><table id="LienHeTable">
 
       <tr>
@@ -81,8 +132,12 @@
         <th>Lời nhắn</th>
       </tr>
     </table></div>
+
+</div>
     <br><hr>
 <h3>FeedBack Sản Phẩm</h3>
+<button id="toggleFeedBack" class="btn btn-primary">Xem FeedBack</button>
+<div id="FeedBackContainer" style="display: none;">
 <div> <br><hr>
   <div style="max-height: 300px;max-width: 60%; overflow-y: auto; "><table id="FeedBackTable">
 
@@ -92,9 +147,12 @@
         <th>Email người gửi</th>
       </tr>
     </table></div>
-
+</div>
 
 </div>
+ <br><hr>
+<button id="toggleBaiViet" class="btn btn-primary">Xem Bài Viết</button>
+<div id="BaiVietContainer" style="display: none;">
 <div style="max-height: 500px;max-width: 50%;  overflow-y: auto; ">
   <main id = "ContentPost">
     
@@ -118,7 +176,7 @@
     Bài viết đã được lưu! Bạn có thể xem lại trong danh sách bài đăng.
   </div>
 </main>
-
+</div>
 
 
 
@@ -174,32 +232,47 @@ xacnhanform.addEventListener("submit", function (e) {
     body: JSON.stringify(xacnhanformdata) 
   })
 
-  .then(response => {
-    if (response.status == 201) {
-      alert('Xác nhận đơn '+xacnhanformdata);
-    } else {
-      alert('Có lỗi xảy ra, vui lòng thử lại.');
-    }
-  })
+  .then(async (response) => {
+      console.log("Status:", response.status);
+      const data = await response.json().catch(() => ({}));
+      console.log("Response body:", data);
 
-
-  }else if(chonxacnhan.value=="ht"){
-      fetch('https://server-web-hagotree.glitch.me/xac-nhan-don-xong', {
-    method: 'POST',
+      if (response.status === 201) {
+        alert("Xong");
+      } else {
+        alert("Có lỗi xảy ra, vui lòng thử lại.\n" + (data.message || ""));
+      }
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+      alert("Lỗi kết nối tới server!");
+    });
+}
+else if (chonxacnhan.value == "ht") {
+  fetch("https://server-web-hagotree.glitch.me/xac-nhan-don-xong", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(xacnhanformdata)  
+    body: JSON.stringify(xacnhanformdata),
   })
+    .then(async (response) => {
+      console.log("Status:", response.status);
+      const data = await response.json().catch(() => ({}));
+      console.log("Response body:", data);
 
-  .then(response => {
-    if (response.status == 201) {
-      alert('Xong');
-    } else {
-      alert('Có lỗi xảy ra, vui lòng thử lại.');
-    }
-  })
-  }
+      if (response.status === 201) {
+        alert("Xong");
+      } else {
+        alert("Có lỗi xảy ra, vui lòng thử lại.\n" + (data.message || ""));
+      }
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+      alert("Lỗi kết nối tới server!");
+    });
+}
+
   else if(chonxacnhan.value=="hd"){
       fetch('https://server-web-hagotree.glitch.me/huy-don', {
     method: 'POST',
@@ -209,14 +282,22 @@ xacnhanform.addEventListener("submit", function (e) {
     body: JSON.stringify(xacnhanformdata)  
   })
 
-  .then(response => {
-    if (response.status == 201) {
-      alert('Xong');
-    } else {
-      alert('Có lỗi xảy ra, vui lòng thử lại.');
-    }
-  })
-  }
+  .then(async (response) => {
+      console.log("Status:", response.status);
+      const data = await response.json().catch(() => ({}));
+      console.log("Response body:", data);
+
+      if (response.status === 201) {
+        alert("Xong");
+      } else {
+        alert("Có lỗi xảy ra, vui lòng thử lại.\n" + (data.message || ""));
+      }
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+      alert("Lỗi kết nối tới server!");
+    });
+}
  }); 
 
 
@@ -378,6 +459,50 @@ function loadOrders() {
       document.body.innerHTML += "<p style='color:red;'>Không thể tải đơn hàng!</p>";
     });
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("toggleDonHang");
+  const btn1 = document.getElementById("toggleGiaoDich");
+  const btn2 = document.getElementById("toggleLienHe");
+  const btn3 = document.getElementById("toggleFeedBack");
+  const btn4 = document.getElementById("toggleBaiViet");
+
+  const donHangDiv = document.getElementById("donHangContainer");
+  const giaoDichDiv = document.getElementById("GiaoDichContainer");
+  const lienHeDiv = document.getElementById("LienHeContainer");
+  const feedBackDiv = document.getElementById("FeedBackContainer");
+  const baiVietDiv = document.getElementById("BaiVietContainer");
+
+  btn.addEventListener("click", () => {
+    toggleDiv(donHangDiv, btn, "Xem đơn hàng", "Ẩn đơn hàng");
+  });
+
+  btn1.addEventListener("click", () => {
+    toggleDiv(giaoDichDiv, btn1, "Xem giao dịch", "Ẩn giao dịch");
+  });
+
+  btn2.addEventListener("click", () => {
+    toggleDiv(lienHeDiv, btn2, "Xem liên hệ", "Ẩn liên hệ");
+  });
+
+  btn3.addEventListener("click", () => {
+    toggleDiv(feedBackDiv, btn3, "Xem phản hồi", "Ẩn phản hồi");
+  });
+
+  btn4.addEventListener("click", () => {
+    toggleDiv(baiVietDiv, btn4, "Xem bài viết", "Ẩn bài viết");
+  });
+
+  function toggleDiv(div, button, textShow, textHide) {
+    if (div.style.display === "none" || div.style.display === "") {
+      div.style.display = "block";
+      button.textContent = textHide;
+    } else {
+      div.style.display = "none";
+      button.textContent = textShow;
+    }
+  }
+});
+
 </script>
 
      <script src="JS/baidang.js"></script>
