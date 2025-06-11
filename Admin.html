@@ -108,15 +108,17 @@
 <div id="GiaoDichContainer" style="display: none;">
   <main class="form-container">
  <form id="xndform">
-    <label for="title">MÃ GIAO DỊCH CẦN XÁC NHẬN</label>
+    <label for="title">MÃ GIAO DỊCH CẦN THỰC HIỆN</label>
     <input type="text" id="MaGiaoDich" name="MaGiaoDich" required />
     <select id="chonxacnhan" required>
     <option selected value="xn" selected>Xác nhận đơn</option>
      <option value="ht" >Đã hoàn thành</option>
     <option value="hd" >Hủy đơn</option>
+    <option value="xd" >Xóa đơn</option>
   </select>
     <button type="submit">XÁC NHẬN ĐƠN</button>
 </form>
+
 </main>
 </div>
  <br><hr>
@@ -246,6 +248,7 @@ xacnhanform.addEventListener("submit", function (e) {
       alert("Lỗi kết nối tới server!");
     });
 }
+
 else if (chonxacnhan.value == "ht") {
   fetch("https://server-web-hagotree.glitch.me/xac-nhan-don-xong", {
     method: "POST",
@@ -273,74 +276,59 @@ else if (chonxacnhan.value == "ht") {
 
   else if(chonxacnhan.value=="hd"){
       fetch('https://server-web-hagotree.glitch.me/huy-don', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(xacnhanformdata)  
-  })
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(xacnhanformdata)  
+      })
 
-  .then(async (response) => {
-      console.log("Status:", response.status);
-      const data = await response.json().catch(() => ({}));
-      console.log("Response body:", data);
+      .then(async (response) => {
+          console.log("Status:", response.status);
+          const data = await response.json().catch(() => ({}));
+          console.log("Response body:", data);
 
-      if (response.status === 201) {
-        alert("Xong");
-      } else {
-        alert("Có lỗi xảy ra, vui lòng thử lại.\n" + (data.message || ""));
-      }
-    })
-    .catch((error) => {
-      console.error("Fetch error:", error);
-      alert("Lỗi kết nối tới server!");
-    });
-}
- }); 
-
-
-
-
-
-contentform.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const contentformdata = Object.fromEntries(new FormData(contentform).entries());
-
-  const imageFile = contentform.image.files[0];
-
-  if (imageFile) {
-    try {
-      contentformdata.image = await convertToBase64(imageFile); 
-    } catch (err) {
-      console.error("Lỗi chuyển ảnh:", err);
-      alert("Không thể xử lý ảnh!");
-      return;
-    }
-  } else {
-    contentformdata.image = "";
+          if (response.status === 201) {
+            alert("Xong");
+          } else {
+            alert("Có lỗi xảy ra, vui lòng thử lại.\n" + (data.message || ""));
+          }
+        })
+        .catch((error) => {
+          console.error("Fetch error:", error);
+        });
   }
+   else if(chonxacnhan.value=="xd"){
+      fetch('https://server-web-hagotree.glitch.me/xoa-don', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(xacnhanformdata)  
+        })
+            .then(async (response) => {
+            console.log("Status:", response.status);
+            const data = await response.json().catch(() => ({}));
+            console.log("Response body:", data);
 
-  fetch("https://server-web-hagotree.glitch.me/upload-post", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(contentformdata),
-  })
-    .then((res) => {
-      if (res.ok) {
-        document.getElementById("successMessage").style.display = "block";
-        contentform.reset();
-      } else {
-        alert("Lỗi khi đăng bài viết!");
+            if (response.status === 201) {
+              alert("Xong");
+            } else {
+              alert("Có lỗi xảy ra, vui lòng thử lại.\n" + (data.message || ""));
+            }
+          })
+          .catch((error) => {
+            console.error("Fetch error:", error);
+            alert("Lỗi kết nối tới server!");
+          });
       }
-    })
-    .catch((err) => {
-      console.error(err);
-      alert("Lỗi kết nối đến server.");
-    });
-});
+
+})
+
+
+
+
+
 
 function convertToBase64(file) {  //chuyển ảnh sang dạng byte64
   return new Promise((resolve, reject) => {
@@ -504,7 +492,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </script>
 
-     <script src="JS/baidang.js"></script>
          <script src="JS/index.js"></script>
-   <script src="/JS/Giohang.js"></script>
 </html>
