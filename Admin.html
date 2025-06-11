@@ -154,9 +154,7 @@
 <button id="toggleBaiViet" class="btn btn-primary">Xem Bài Viết</button>
 <div id="BaiVietContainer" style="display: none;">
 <div style="max-height: 500px;max-width: 50%;  overflow-y: auto; ">
-  <main id = "ContentPost">
-    
-  </main>
+  <iframe style="border:none;" src="https://mmqstore.io.vn/wp/posthaogtree" height ="500px"width="90%"></iframe>
 </div>  <br><hr>
 <main class="form-container">
   <form id="postForm">
@@ -415,6 +413,7 @@ fetch("https://server-web-hagotree.glitch.me/fb")
           <td>${feedbackx.product}</td>
           <td>${feedbackx.feedback}</td>
           <td>${feedbackx.email}</td>
+          <td><img src="https://server-web-hagotree.glitch.me/${feedbackx.image}" alt="Ảnh Feedback" style="max-width:300px;"></td>
         `;
         tbody.appendChild(row);
       });

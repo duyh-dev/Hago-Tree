@@ -27,7 +27,6 @@ function getQueryParam(param) {
 function displayProduct(id) {
   const container = document.getElementById("product-detail");
   const product = products[id];
-  
 
   if (product) {
     container.innerHTML = `
@@ -40,79 +39,99 @@ function displayProduct(id) {
           <button onclick="addToCart('${product.name}', '${product.price}', '${product.img}')">
             Thêm vào giỏ hàng
           </button>
-      <form id="feedbackForm">
-          <h2>Gửi đánh giá</h2>
-          <label for="feedbackContent">Nhận xét của bạn</label>
-          <input
-            type="text"
-            id="feedbackContent"
-            required
-            placeholder="Nhập nhận xét của bạn"
-          />
-          <button type="submit">Gửi</button>
-        </form>
+          <form id="feedbackForm">
+            <h2>Gửi đánh giá</h2>
+            <label for="feedbackContent">Nhận xét của bạn</label>
+            <input
+              type="text"
+              id="feedbackContent"
+              required
+              placeholder="Nhập nhận xét của bạn"
+            /><br>
+            <label for="image">Ảnh minh họa (chọn từ máy):</label>
+            <input type="file" id="image" name="image" accept="image/*" />
+            <button type="submit">Gửi</button>
+          </form>
         </div>
       </div>
     `;
 
-    
-       
+    // Gắn sự kiện sau khi form render
+    setTimeout(() => {
+      const form = document.getElementById("feedbackForm");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
+        const content = document.getElementById("feedbackContent").value;
+        const imageInput = document.getElementById("image");
+        const imageFile = imageInput.files[0];
 
-      // Gắn sự kiện sau khi form đã được render
-      setTimeout(() => {
-        const form = document.getElementById("feedbackForm");
-        form.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const content = document.getElementById("feedbackContent").value;
-          
-          try {
-              if (
-                (user.length > 0) &
-                (localStorage.getItem("userPassword").length > 0)
-              ) {
-                const lastUser = user[user.length - 1];
-                console.log(lastUser.email);
-                  const data = {
-                    product: product.name,
-                    feedback: content,
-                    email : lastUser.email
-                  };
-                fetch("https://server-web-hagotree.glitch.me/feedback", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(data),
-                })
-                .then(response => {
-                  if (response.status === 201 || response.ok) {
-                    alert("Gửi đánh giá thành công!");
-                    form.reset();
-                  } else {
-                    alert("Có lỗi xảy ra khi gửi đánh giá.");
-                  }
-                })
-                .catch(() => alert("Lỗi kết nối server."));
-              } else {
-                alert("Vui lòng đăng nhập để tiếp tục bình luận !!");
-                setTimeout(() => {
-                  window.location.href = "../HTML/dangnhap.html";
-                }, 2000);
+        try {
+          const userData = JSON.parse(localStorage.getItem("user")) || [];
+          const userPassword = localStorage.getItem("userPassword") || "";
+
+          if (userData.length > 0 && userPassword.length > 0) {
+            const lastUser = userData[userData.length - 1];
+            const email = lastUser.email;
+
+            let base64Image = "";
+            if (imageFile) {
+              try {
+                base64Image = await convertToBase64(imageFile);
+              } catch (err) {
+                console.error("Lỗi chuyển ảnh:", err);
+                alert("Không thể xử lý ảnh!");
+                return;
               }
-            } catch {
-              alert("Vui lòng đăng nhập để tiếp tục bình luận !! -ER1");
-              setTimeout(() => {
-                window.location.href = "../HTML/dangnhap.html";
-              }, 2000);
             }
-          
-          
-        });
-      }, 0);
-    }
-  } 
 
+            const data = {
+              product: product.name,
+              feedback: content,
+              email: email,
+              image: base64Image
+            };
 
+            fetch("https://server-web-hagotree.glitch.me/feedback", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            })
+              .then((response) => {
+                if (response.ok || response.status === 201) {
+                  alert("Gửi đánh giá thành công!");
+                  form.reset();
+                } else {
+                  alert("Có lỗi xảy ra khi gửi đánh giá.");
+                }
+              })
+              .catch(() => alert("Lỗi kết nối server."));
+          } else {
+            alert("Vui lòng đăng nhập để tiếp tục bình luận !!");
+            setTimeout(() => {
+              window.location.href = "../HTML/dangnhap.html";
+            }, 2000);
+          }
+        } catch (error) {
+          console.error("Lỗi xử lý đánh giá:", error);
+          alert("Vui lòng đăng nhập để tiếp tục bình luận !! -ER1");
+          setTimeout(() => {
+            window.location.href = "../HTML/dangnhap.html";
+          }, 2000);
+        }
+      });
+    }, 0);
+  }
+}
 
+function convertToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 
 
 // Hiển thị danh sách tất cả sản phẩm
