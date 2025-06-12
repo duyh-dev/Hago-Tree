@@ -104,6 +104,27 @@
       display: block !important;
     }
   }
+.starsx1 span {
+  font-size: 24px;
+  cursor: pointer;
+  color: gray;
+}
+
+.starsx1 span.selected {
+  color: gold;
+}
+
+.feedback-itemx1 {
+  border: 1px solid #ccc;
+  
+}
+
+.feedback-itemx1 img,
+.feedback-item video {
+  max-width: 200px;
+  margin-top: 5px;
+}
+
 .back {
   display: inline-block;
   margin-top: 20px;
