@@ -35,7 +35,8 @@ setTimeout(() => {
                   <th style="padding:8px;border:1px solid #d0e6d0;">Sản phẩm đặt hàng</th>
                   <th style="padding:8px;border:1px solid #d0e6d0;">Trạng thái đơn hàng</th>
                   <th style="padding:8px;border:1px solid #d0e6d0;">Mã giao dịch</th>
-                  <th style="padding:8px;border:1px solid #d0e6d0;"Thời gian mua hàng</th>
+                  <th style="padding:8px;border:1px solid #d0e6d0;">Thời gian mua hàng</th>
+                  <th style="padding:8px;border:1px solid #d0e6d0;">Thời gian nhận hàng dự kiến</th>
                 </tr>
               </thead>
               <tbody>
@@ -59,6 +60,7 @@ setTimeout(() => {
                 <td style="padding:8px;border:1px solid #d0e6d0;color:#27ae60;">${order.Ttdon || ""}</td>
                 <td style="padding:8px;border:1px solid #d0e6d0;">${order.MaGiaoDich || ""}</td>
                 <td style="padding:8px;border:1px solid #d0e6d0;">${order.TimeDatHang || ""}</td>
+                <td style="padding:8px;border:1px solid #d0e6d0;">${order.TimeNhanHang || ""}</td>
               </tr>
             `;
           });

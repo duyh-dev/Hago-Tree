@@ -198,6 +198,7 @@ checkoutForm.addEventListener("submit", function (e) {
   checkoutFormdata.MaGiaoDich = getidsummary;
   checkoutFormdata.Ttdon = "Chờ xác nhận";
   checkoutFormdata.TimeDatHang = daynow;
+  checkoutFormdata.TimeNhanHang ="Sẽ có sau khi xác nhận"
   checkoutFormdata.DiaChiTinhThanh= ward +","+district+","+city;  
   fetch('https://server-web-hagotree.glitch.me/payment', {
     method: 'POST',

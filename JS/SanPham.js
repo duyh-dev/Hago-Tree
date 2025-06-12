@@ -2,6 +2,7 @@ const productsArray = Object.entries(products).map(([id, product]) => ({
   id,
   ...product,
 }));
+let stars;
 const user = JSON.parse(localStorage.getItem("user")) || [];
 const feedbackData = document.getElementById("feedbackData");
 let productbuyed = JSON.parse(localStorage.getItem("Productbuyed")) || [];
@@ -27,7 +28,8 @@ function getQueryParam(param) {
 function displayProduct(id) {
   const container = document.getElementById("product-detail");
   const product = products[id];
-
+  
+  loadFeedbackAndAvg(id)
   if (product) {
     container.innerHTML = `
       <div class="single-product">
@@ -36,28 +38,50 @@ function displayProduct(id) {
           <h2>${product.name}</h2>
           <div class="product-price">${product.price}</div>
           <p class="product-description">${product.description}</p>
+          <div class="feedback-stars"><strong>Đánh giá trung bình:</strong> ${stars}</div>
           <button onclick="addToCart('${product.name}', '${product.price}', '${product.img}')">
             Thêm vào giỏ hàng
           </button>
-          <form id="feedbackForm">
+          <form id="feedbackForm"  class="form-container">
             <h2>Gửi đánh giá</h2>
+
+            <label for="starRating">Đánh giá sao:</label>
+            <div id="starRating" class="starsx1">
+              <span data-star="1">★</span>
+              <span data-star="2">★</span>
+              <span data-star="3">★</span>
+              <span data-star="4">★</span>
+              <span data-star="5">★</span>
+            </div>
+
             <label for="feedbackContent">Nhận xét của bạn</label>
-            <input
-              type="text"
-              id="feedbackContent"
-              required
-              placeholder="Nhập nhận xét của bạn"
-            /><br>
-            <label for="image">Ảnh minh họa (chọn từ máy):</label>
-            <input type="file" id="image" name="image" accept="image/*" />
+            <input type="text" id="feedbackContent" required placeholder="Nhập nhận xét của bạn" /><br>
+
+            <label for="image">Ảnh minh họa:</label>
+            <input type="file" id="image" name="image" accept="image/*" /><br>
+
+
+
             <button type="submit">Gửi</button>
           </form>
+
+          <div id="feedbackList"></div>
         </div>
       </div>
     `;
 
     // Gắn sự kiện sau khi form render
     setTimeout(() => {
+       let selectedRating = 0;
+        document.querySelectorAll("#starRating span").forEach(star => {
+          star.addEventListener("click", function () {
+            selectedRating = parseInt(this.dataset.star);
+            document.querySelectorAll("#starRating span").forEach(s => {
+              s.classList.toggle("selected", parseInt(s.dataset.star) <= selectedRating);
+            });
+          });
+        });
+
       const form = document.getElementById("feedbackForm");
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -84,8 +108,9 @@ function displayProduct(id) {
                 return;
               }
             }
-
             const data = {
+              star:selectedRating,
+              idsp: id,
               product: product.name,
               feedback: content,
               email: email,
@@ -133,6 +158,44 @@ function convertToBase64(file) {
   });
 }
 
+async function loadFeedbackAndAvg(productName) {
+  try {
+    const res = await fetch("https://server-web-hagotree.glitch.me/fb");
+    if (!res.ok) throw new Error("Không tải được feedback");
+
+    const allFb = await res.json();
+    const fbs = allFb.filter(fb => fb.idsp === productName);
+    const sum = fbs.reduce((a, b) => a + (b.star || 0), 0);
+    const avg = fbs.length ? (sum / fbs.length) : 0;
+    const starCount = Math.round(avg);
+    document.querySelector(".feedback-stars").innerHTML = `
+      <strong>Đánh giá trung bình:</strong> ${avg.toFixed(1)} / 5 
+      <span style="color:orange">${"★".repeat(starCount)}${"☆".repeat(5 - starCount)}</span>
+    `;
+    const list = document.getElementById("feedbackList");
+    list.innerHTML = ""; 
+
+    fbs.forEach(data => {
+      const item = document.createElement("div");
+      item.className = "feedback-itemx1";
+      let imagefiledata="";
+      const starStr = "★".repeat(data.star || 0) + "☆".repeat(5 - (data.star || 0));
+      if(data.image){imagefiledata=` src="https://server-web-hagotree.glitch.me${data.image}"`}
+      item.innerHTML = `
+        <div class="feedback-stars-small"><strong>Đánh giá:</strong> ${starStr}</div>
+        <div class="feedback-content"><strong>${data.email}:</strong> ${data.feedback} <div style"border: 2px solid red ;border-style: solid;"><img ${imagefiledata} style="width:25%;height:25%"></div></div>
+      `;
+      list.appendChild(item);
+      
+    });
+
+  } catch (err) {
+    console.error("Lỗi load feedback:", err);
+    document.querySelector(".feedback-stars").innerHTML = `
+      <strong>Đánh giá trung bình:</strong> chưa có
+    `;
+  }
+}
 
 // Hiển thị danh sách tất cả sản phẩm
 function displayProducts(items) {
