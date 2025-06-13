@@ -20,6 +20,56 @@ document.querySelectorAll(".add-cart").forEach(button => {
 });
 
 
+async function loadTatCaSanPhamTheoTag() {
+  try {
+    const res = await fetch("https://server-web-hagotree.glitch.me/sp/12");
+    const data = await res.json();
+
+    const template = document.getElementById("sanpham-template");
+    if (!template) {
+      console.error("Không tìm thấy template sản phẩm!"); 
+      return;
+    }
+
+    const reversed = [...data].reverse(); // Sản phẩm mới nhất lên trước
+
+    reversed.forEach((sp, index) => {
+      const container = document.getElementById(sp.tag_product);
+      if (!container) return;
+
+      const clone = template.cloneNode(true);
+      clone.style.display = "block";
+
+      // Gán dữ liệu
+      clone.querySelector("#image").src = "https://server-web-hagotree.glitch.me" + sp.image;
+      clone.querySelector("#title").textContent = sp.title;
+      clone.querySelector("#cost").textContent = `Giá: ${parseInt(sp.cost).toLocaleString("vi-VN")}₫`;
+
+      // Gán link chi tiết
+      const n = index + 1; 
+      clone.querySelector(".detail-link").href = `../HTML/SanPham.html?id=${sp.id}`;
+
+      // Tìm hoặc tạo container con để gắn sản phẩm
+      let innerContainer = container.querySelector("#sanpham-container");
+      if (!innerContainer) {
+        innerContainer = document.createElement("div");
+        innerContainer.id = "sanpham-container";
+        container.appendChild(innerContainer);
+      }
+
+      innerContainer.appendChild(clone);
+    });
+
+  } catch (error) {
+    console.error("Lỗi tải sản phẩm:", error);
+  }
+}
+
+// Gọi khi load file JS
+window.addEventListener("DOMContentLoaded", loadTatCaSanPhamTheoTag);
+
+
+
 // Khai báo biến chỉ số và tốc độ chuyển slide
 let index = 0;
 let interval;

@@ -24,28 +24,26 @@ function getQueryParam(param) {
   return urlParams.get(param);
 }
 
-// Hiển thị chi tiết một sản phẩm theo id
-function displayProduct(id) {
+function displayProduct(product) {
   const container = document.getElementById("product-detail");
-  const product = products[id];
   
-  loadFeedbackAndAvg(id)
+  loadFeedbackAndAvg(product.id)
   if (product) {
     container.innerHTML = `
       <div class="single-product">
-        <img src="${product.img}" alt="${product.name}" />
+        <img src="https://server-web-hagotree.glitch.me/${product.image}" alt="${product.title}" />
         <div class="product-info">
-          <h2>${product.name}</h2>
-          <div class="product-price">${product.price}</div>
-          <p class="product-description">${product.description}</p>
+          <h2>${product.title}</h2>
+          <div class="product-price">${Number(product.cost).toLocaleString()}₫</div>
+          <p class="product-description">${product.content}</p>
           <div class="feedback-stars"><strong>Đánh giá trung bình:</strong> ${stars}</div>
           <button onclick="addToCart('${product.name}', '${product.price}', '${product.img}')">
             Thêm vào giỏ hàng
           </button>
-          <form id="feedbackForm"  class="form-container">
+          <form id="feedbackForm"  style=" border: 1px solid #ddd;border-radius: 10px;" class="form-container">
             <h2>Gửi đánh giá</h2>
 
-            <label for="starRating">Đánh giá sao:</label>
+            <label for="starRating" style="footer-container">Đánh giá sao:</label>
             <div id="starRating" class="starsx1">
               <span data-star="1">★</span>
               <span data-star="2">★</span>
@@ -62,7 +60,7 @@ function displayProduct(id) {
 
 
 
-            <button type="submit">Gửi</button>
+            <button type="submit" class="btn SanPham">Gửi</button>
           </form>
 
           <div id="feedbackList"></div>
@@ -110,8 +108,8 @@ function displayProduct(id) {
             }
             const data = {
               star:selectedRating,
-              idsp: id,
-              product: product.name,
+              idsp: product.id,
+              product: product.title,
               feedback: content,
               email: email,
               image: base64Image
@@ -175,9 +173,9 @@ async function loadFeedbackAndAvg(productName) {
     const list = document.getElementById("feedbackList");
     list.innerHTML = ""; 
 
-    fbs.forEach(data => {
+    fbs.reverse().forEach(data => {
       const item = document.createElement("div");
-      item.className = "feedback-itemx1";
+      item.className = "feedback-itemx1 product-card product-info ";
       let imagefiledata="";
       const starStr = "★".repeat(data.star || 0) + "☆".repeat(5 - (data.star || 0));
       if(data.image){imagefiledata=` src="https://server-web-hagotree.glitch.me${data.image}"`}
@@ -197,70 +195,73 @@ async function loadFeedbackAndAvg(productName) {
   }
 }
 
-// Hiển thị danh sách tất cả sản phẩm
-function displayProducts(items) {
+
+async function displayProducts() {
   const container = document.getElementById("product-detail");
 
-  if (items.length === 0) {
-    container.innerHTML = "<p class='not-found'>Không có sản phẩm phù hợp.</p>";
-    return;
-  }
+  try {
+    const res = await fetch("https://server-web-hagotree.glitch.me/sp/12");
+    const items = await res.json();
 
-  // Create a title for the products page
-  const title = document.createElement("h1");
-  title.textContent = "Sản phẩm của chúng tôi";
-  title.style.marginBottom = "20px";
-  title.style.color = "#333";
+    if (items.length === 0) {
+      container.innerHTML = "<p class='not-found'>Không có sản phẩm phù hợp.</p>";
+      return;
+    }
 
-  // Create grid container
-  const grid = document.createElement("div");
-  grid.className = "products-grid";
+    const reversedItems = [...items].reverse();
 
-  items.forEach((product) => {
-    const card = document.createElement("div");
-    card.className = "product-card";
+    const grid = document.createElement("div");
+    grid.className = "products-grid"; 
 
-    const img = document.createElement("img");
-    img.className = "product-image";
-    img.src = product.img;
-    img.alt = product.name;
+    reversedItems.forEach((product, index) => {
+      const stt = items.length - index; 
 
-    const info = document.createElement("div");
-    info.className = "product-info";
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.style.cursor = "pointer";
+      card.addEventListener("click", () => {
+        window.location.href = `../HTML/SanPham.html?id=sp${stt}`;
+      });
 
-    const name = document.createElement("h3");
-    name.className = "product-name";
-    name.textContent = product.name;
+      const img = document.createElement("img");
+      img.className = "product-image";
+      img.src = "https://server-web-hagotree.glitch.me" + product.image;
+      img.alt = product.title;
 
-    const desc = document.createElement("p");
-    desc.className = "product-description";
-    desc.textContent = product.description;
+      const info = document.createElement("div");
+      info.className = "product-info";
 
-    const price = document.createElement("div");
-    price.className = "product-price";
-    price.textContent = product.price;
+      const name = document.createElement("h3");
+      name.className = "product-name";
+      name.textContent = product.title;
 
-    info.appendChild(name);
-    info.appendChild(desc);
-    info.appendChild(price);
+      const desc = document.createElement("p");
+      desc.className = "product-description";
+      desc.textContent = product.content;
 
-    card.appendChild(img);
-    card.appendChild(info);
+      const price = document.createElement("div");
+      price.className = "product-price";
+      price.textContent = `${parseInt(product.cost).toLocaleString("vi-VN")}₫`;
 
-    // Clicking product to go to detail page
-    card.style.cursor = "pointer";
-    card.addEventListener("click", () => {
-      window.location.href = window.location.pathname + "?id=" + product.id;
+      info.appendChild(name);
+      info.appendChild(desc);
+      info.appendChild(price);
+
+      card.appendChild(img);
+      card.appendChild(info);
+
+      grid.appendChild(card);
     });
 
-    grid.appendChild(card);
-  });
-
-  // Clear container and add new elements
-  container.innerHTML = "";
-  container.appendChild(title);
-  container.appendChild(grid);
+    container.innerHTML = "";
+    container.appendChild(grid);
+  } catch (err) {
+    console.error("Lỗi khi tải sản phẩm:", err);
+    container.innerHTML = "<p class='error'>Không thể tải sản phẩm. Vui lòng thử lại sau.</p>";
+  }
 }
+
+
 
 // Thêm sản phẩm vào giỏ hàng
 function addToCart(name, price, image) {
@@ -295,24 +296,31 @@ function goBack() {
   }
 }
 
-// Khi trang tải xong
-window.onload = () => {
-  const id = getQueryParam("id");
-  if (id && products[id]) {
-    displayProduct(id);
-  } else {
-    displayProducts(productsArray);
-  }
 
-  // Thiết lập chức năng tìm kiếm
-  const searchInput = document.getElementById("searchInput");
-  if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      const query = e.target.value.toLowerCase();
-      const filtered = productsArray.filter((p) =>
-        p.name.toLowerCase().includes(query)
-      );
-      displayProducts(filtered);
-    });
+window.onload = async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const id = urlParams.get("id"); 
+
+  try {
+    const res = await fetch("https://server-web-hagotree.glitch.me/sp/12");
+    const allProducts = await res.json();
+    
+    if (id) {
+      const matched = allProducts.find(p => p.id === id);
+      console.log(matched)
+      if (matched) {
+        displayProduct(matched);
+        return;
+      } else {
+        console.warn("Không tìm thấy sản phẩm:", id);
+      }
+    }
+
+    displayProducts(allProducts);
+
+  } catch (err) {
+    console.error("Lỗi khi tải sản phẩm:", err);
+    const container = document.getElementById("product-detail");
+    container.innerHTML = "<p>Lỗi khi tải sản phẩm.</p>";
   }
 };

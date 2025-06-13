@@ -163,18 +163,26 @@
   <iframe style="border:none;" src="https://mmqstore.io.vn/wp/posthaogtree" height ="500px"width="90%"></iframe>
 </div>  <br><hr>
 <main class="form-container">
-  <form id="postForm">
-    <label for="title">Tiêu đề bài viết:</label>
-    <input type="text" id="title" name="title" required />
+    <form id="postForm">
+      <label for="title">Tên sản phẩm:</label>
+      <input type="text" id="title" name="title" required />
 
-    <label for="image">Ảnh minh họa (chọn từ máy):</label>
-    <input type="file" id="image" name="image" accept="image/*" />
+      <label for="image">Ảnh minh họa:</label>
+      <input type="file" id="image" name="image" accept="image/*" />
+      <label for="title">Gía sản phẩm:</label>
+      <input type="number" id="cost" name="cost" required />
 
-    <label for="content">Nội dung bài viết:</label>
-    <textarea id="content" name="content" rows="10" required></textarea>
-
-    <button type="submit">Đăng bài</button>
-  </form>
+      <label for="content">Miêu tả sản phẩm:</label>
+      <textarea id="content" name="content" rows="10" required></textarea>
+      <label for="content">Chọn tag cho sản phẩm:</label>
+       <select id="tag_product" name="tag" required>
+      <option selected value="caycanhnhantao" selected>Cây cảnh nhân tạo</option>
+       <option value="chaucay" >Chậu cây</option>
+      <option value="combochaucay" >Combo cây chậu</option>
+      <option value="caycanh" >Cây cảnh</option>
+    </select>
+      <button type="submit">Đăng bài</button>
+    </form>
 
   <div id="successMessage" style="display: none;">
     Bài viết đã được lưu! Bạn có thể xem lại trong danh sách bài đăng.
@@ -223,7 +231,46 @@ const contentform = document.getElementById("postForm");
 const xacnhanform = document.getElementById("xndform");
 const thanhcongform = document.getElementById("dntcform");
 
+contentform.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
+  const formData = new FormData(contentform);
+  const contentformdata = Object.fromEntries(formData.entries());
+
+  const imageFile = contentform.image.files[0];
+
+  if (imageFile) {
+    try {
+      contentformdata.image = await convertToBase64(imageFile); 
+    } catch (err) {
+      console.error("Lỗi chuyển ảnh:", err);
+      alert("Không thể xử lý ảnh!");
+      return;
+    }
+  } else {
+    contentformdata.image = "";
+  }
+
+  fetch("https://server-web-hagotree.glitch.me/upload-post", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(contentformdata),
+  })
+    .then((res) => {
+      if (res.ok) {
+        document.getElementById("successMessage").style.display = "block";
+        contentform.reset();
+      } else {
+        alert("Lỗi khi đăng bài viết!");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Lỗi kết nối đến server.");
+    });
+});
 xacnhanform.addEventListener("submit", function (e) {
   e.preventDefault();
   const xacnhanformdata = Object.fromEntries(new FormData(xacnhanform).entries()); 
