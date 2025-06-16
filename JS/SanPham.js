@@ -31,7 +31,7 @@ function displayProduct(product) {
   if (product) {
     container.innerHTML = `
       <div class="single-product">
-        <img src="https://dssc.hagotree.site/${product.image}" alt="${product.title}" />
+        <img src="https://dssc.hagotree.site${product.image}" alt="${product.title}" />
         <div class="product-info">
           <h2>${product.title}</h2>
           <div class="product-price">${Number(product.cost).toLocaleString()}₫</div>
