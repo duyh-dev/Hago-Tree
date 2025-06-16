@@ -13,7 +13,7 @@
   alert("Bạn chưa đăng nhập hoặc phiên đã hết.");
   const email = prompt("Username");
   const password = prompt("Key");
-  fetch("https://server-web-hagotree.glitch.me/admin", {
+  fetch("https://dssc.hagotree.site/admin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -251,7 +251,7 @@ contentform.addEventListener("submit", async (e) => {
     contentformdata.image = "";
   }
 
-  fetch("https://server-web-hagotree.glitch.me/upload-post", {
+  fetch("https://dssc.hagotree.site/upload-post", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -275,7 +275,7 @@ xacnhanform.addEventListener("submit", function (e) {
   e.preventDefault();
   const xacnhanformdata = Object.fromEntries(new FormData(xacnhanform).entries()); 
   if(chonxacnhan.value=="xn"){
-    fetch('https://server-web-hagotree.glitch.me/xac-nhan-don', {
+    fetch('https://dssc.hagotree.site/xac-nhan-don', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -301,7 +301,7 @@ xacnhanform.addEventListener("submit", function (e) {
 }
 
 else if (chonxacnhan.value == "ht") {
-  fetch("https://server-web-hagotree.glitch.me/xac-nhan-don-xong", {
+  fetch("https://dssc.hagotree.site/xac-nhan-don-xong", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -334,7 +334,7 @@ else if (chonxacnhan.value == "tg") {
     maGiaoDich: maGiaoDichx
   };
 
-  fetch("https://server-web-hagotree.glitch.me/thoi-gian-giao", {
+  fetch("https://dssc.hagotree.site/thoi-gian-giao", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -359,7 +359,7 @@ else if (chonxacnhan.value == "tg") {
 }
 
   else if(chonxacnhan.value=="hd"){
-      fetch('https://server-web-hagotree.glitch.me/huy-don', {
+      fetch('https://dssc.hagotree.site/huy-don', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -383,7 +383,7 @@ else if (chonxacnhan.value == "tg") {
         });
   }
    else if(chonxacnhan.value=="xd"){
-      fetch('https://server-web-hagotree.glitch.me/xoa-don', {
+      fetch('https://dssc.hagotree.site/xoa-don', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -456,7 +456,7 @@ function getDiaChi(dayString) {
   return `${ward.Name}, ${district.Name}, ${city.Name}`;
 }
 
-fetch("https://server-web-hagotree.glitch.me/lh")
+fetch("https://dssc.hagotree.site/lh")
     .then(res => res.json())
     .then(data => {
       const tbody = document.querySelector("#LienHeTable tbody");
@@ -475,7 +475,7 @@ fetch("https://server-web-hagotree.glitch.me/lh")
       console.error("Lỗi khi lấy đơn hàng:", err);
       document.body.innerHTML += "<p style='color:red;'>Không thể tải liên hệ!</p>";
     });
-fetch("https://server-web-hagotree.glitch.me/fb")
+fetch("https://dssc.hagotree.site/fb")
     .then(res => res.json())
     .then(data => {
       const tbody = document.querySelector("#FeedBackTable tbody");
@@ -485,7 +485,7 @@ fetch("https://server-web-hagotree.glitch.me/fb")
           <td>${feedbackx.product}</td>
           <td>${feedbackx.feedback}</td>
           <td>${feedbackx.email}</td>
-          <td><img src="https://server-web-hagotree.glitch.me/${feedbackx.image}" alt="Ảnh Feedback" style="max-width:200px;"></td>
+          <td><img src="https://dssc.hagotree.site/${feedbackx.image}" alt="Ảnh Feedback" style="max-width:200px;"></td>
           <td>${feedbackx.star}</td>
         `;
         tbody.appendChild(row);
@@ -496,7 +496,7 @@ fetch("https://server-web-hagotree.glitch.me/fb")
       document.body.innerHTML += "<p style='color:red;'>Không thể tải liên hệ!</p>";
     });
 function loadOrders() {
-  fetch("https://server-web-hagotree.glitch.me/dh")
+  fetch("https://dssc.hagotree.site/dh")
     .then(res => res.json())
     .then(data => {
       const tbody = document.querySelector("#DonHangTable tbody");
