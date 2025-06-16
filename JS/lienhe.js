@@ -3,7 +3,7 @@ contactForm.addEventListener("submit", function (e) {
   e.preventDefault();
   const contactFormdata = Object.fromEntries(new FormData(contactForm).entries()); 
 
-  fetch('https://server-web-hagotree.glitch.me/lien-he', {
+  fetch('https://dssc.hagotree.site/lien-he', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

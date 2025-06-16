@@ -31,7 +31,7 @@ function displayProduct(product) {
   if (product) {
     container.innerHTML = `
       <div class="single-product">
-        <img src="https://server-web-hagotree.glitch.me/${product.image}" alt="${product.title}" />
+        <img src="https://dssc.hagotree.site/${product.image}" alt="${product.title}" />
         <div class="product-info">
           <h2>${product.title}</h2>
           <div class="product-price">${Number(product.cost).toLocaleString()}₫</div>
@@ -115,7 +115,7 @@ function displayProduct(product) {
               image: base64Image
             };
 
-            fetch("https://server-web-hagotree.glitch.me/feedback", {
+            fetch("https://dssc.hagotree.site/feedback", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(data),
@@ -158,7 +158,7 @@ function convertToBase64(file) {
 
 async function loadFeedbackAndAvg(productName) {
   try {
-    const res = await fetch("https://server-web-hagotree.glitch.me/fb");
+    const res = await fetch("https://dssc.hagotree.site/fb");
     if (!res.ok) throw new Error("Không tải được feedback");
 
     const allFb = await res.json();
@@ -178,7 +178,7 @@ async function loadFeedbackAndAvg(productName) {
       item.className = "feedback-itemx1 product-card product-info ";
       let imagefiledata="";
       const starStr = "★".repeat(data.star || 0) + "☆".repeat(5 - (data.star || 0));
-      if(data.image){imagefiledata=` src="https://server-web-hagotree.glitch.me${data.image}"`}
+      if(data.image){imagefiledata=` src="https://dssc.hagotree.site${data.image}"`}
       item.innerHTML = `
         <div class="feedback-stars-small"><strong>Đánh giá:</strong> ${starStr}</div>
         <div class="feedback-content"><strong>${data.email}:</strong> ${data.feedback} <div style"border: 2px solid red ;border-style: solid;"><img ${imagefiledata} style="width:25%;height:25%"></div></div>
@@ -200,7 +200,7 @@ async function displayProducts() {
   const container = document.getElementById("product-detail");
 
   try {
-    const res = await fetch("https://server-web-hagotree.glitch.me/sp/12");
+    const res = await fetch("https://dssc.hagotree.site/sp/12");
     const items = await res.json();
 
     if (items.length === 0) {
@@ -225,7 +225,7 @@ async function displayProducts() {
 
       const img = document.createElement("img");
       img.className = "product-image";
-      img.src = "https://server-web-hagotree.glitch.me" + product.image;
+      img.src = "https://dssc.hagotree.site" + product.image;
       img.alt = product.title;
 
       const info = document.createElement("div");
@@ -302,7 +302,7 @@ window.onload = async () => {
   const id = urlParams.get("id"); 
 
   try {
-    const res = await fetch("https://server-web-hagotree.glitch.me/sp/12");
+    const res = await fetch("https://dssc.hagotree.site/sp/12");
     const allProducts = await res.json();
     
     if (id) {

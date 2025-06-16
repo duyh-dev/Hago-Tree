@@ -22,7 +22,7 @@ document.querySelectorAll(".add-cart").forEach(button => {
 
 async function loadTatCaSanPhamTheoTag() {
   try {
-    const res = await fetch("https://server-web-hagotree.glitch.me/sp/12");
+    const res = await fetch("https://dssc.hagotree.site/sp/12");
     const data = await res.json();
 
     const template = document.getElementById("sanpham-template");
@@ -41,7 +41,7 @@ async function loadTatCaSanPhamTheoTag() {
       clone.style.display = "block";
 
       // Gán dữ liệu
-      clone.querySelector("#image").src = "https://server-web-hagotree.glitch.me" + sp.image;
+      clone.querySelector("#image").src = "https://dssc.hagotree.site" + sp.image;
       clone.querySelector("#title").textContent = sp.title;
       clone.querySelector("#cost").textContent = `Giá: ${parseInt(sp.cost).toLocaleString("vi-VN")}₫`;
 
