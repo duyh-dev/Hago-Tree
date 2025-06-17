@@ -22,7 +22,9 @@ function removeVietnameseTones() {
       console.log(lastUser.email);
 
       document.getElementById("Accountchecker").innerHTML = lastUser.email;
-      loadDataofUser(lastUser.email);
+      const encoder = new TextEncoder();
+      const byteArray = encoder.encode(lastUser.email);
+      loadDataofUser(byteArray);
       var usernamerecheck = lastUser.email;
       return usernamerecheck
         .normalize("NFD")
@@ -46,7 +48,7 @@ function removeVietnameseTones() {
   }
 }
 function loadDataofUser(userid) {
-  fetch('https://server-web-hagotree.glitch.me/get-user', {
+  fetch('https://dssc.hagotree.site/get-user', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -200,7 +202,7 @@ checkoutForm.addEventListener("submit", function (e) {
   checkoutFormdata.TimeDatHang = daynow;
   checkoutFormdata.TimeNhanHang ="Sẽ có sau khi xác nhận"
   checkoutFormdata.DiaChiTinhThanh= ward +","+district+","+city;  
-  fetch('https://server-web-hagotree.glitch.me/payment', {
+  fetch('https://dssc.hagotree.site/payment', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
