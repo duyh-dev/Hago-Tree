@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chi tiết bài đăng</title>
     <link rel="stylesheet" href="CSS/baidang.css" /><link rel="stylesheet" href="CSS/SanPham.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -44,9 +44,49 @@
     });
 
 }
+// Hiệu ứng ripple cho nút
+document.querySelectorAll('.section-toggle-btn, .form-container button[type="submit"]').forEach(btn => {
+  btn.addEventListener('click', function (e) {
+    const circle = document.createElement('span');
+    circle.classList.add('ripple');
+    const rect = btn.getBoundingClientRect();
+    circle.style.left = `${e.clientX - rect.left}px`;
+    circle.style.top = `${e.clientY - rect.top}px`;
+    btn.appendChild(circle);
+    setTimeout(() => circle.remove(), 500);
+  });
+});
+
+// Hiện/ẩn nội dung và đổi tên nút
+[
+  {btn: 'toggleDonHang', container: 'donHangContainer', label: ['Hiện đơn hàng', 'Ẩn đơn hàng']},
+  {btn: 'toggleGiaoDich', container: 'GiaoDichContainer', label: ['Hiện giao dịch', 'Ẩn giao dịch']},
+  {btn: 'toggleLienHe', container: 'LienHeContainer', label: ['Hiện liên hệ', 'Ẩn liên hệ']},
+  {btn: 'toggleFeedBack', container: 'FeedBackContainer', label: ['Hiện phản hồi', 'Ẩn phản hồi']},
+  {btn: 'toggleBaiViet', container: 'BaiVietContainer', label: ['Hiện bài viết', 'Ẩn bài viết']},
+].forEach(({btn, container, label}) => {
+  const btnEl = document.getElementById(btn);
+  const contEl = document.getElementById(container);
+  if (btnEl && contEl) {
+    btnEl.textContent = label[0];
+    contEl.style.display = 'none';
+    btnEl.addEventListener('click', () => {
+      if (contEl.style.display === 'none' || contEl.style.display === '') {
+        contEl.style.display = 'block';
+        btnEl.textContent = label[1];
+        contEl.animate([{opacity:0},{opacity:1}],{duration:300,fill:'forwards'});
+      } else {
+        contEl.animate([{opacity:1},{opacity:0}],{duration:200,fill:'forwards'}).onfinish = () => {
+          contEl.style.display = 'none';
+          btnEl.textContent = label[0];
+        };
+      }
+    });
+  }
+});
 
     </script>
-<link rel="stylesheet" href="CSS/index.css" />
+<link rel="stylesheet" href="CSS/admin.css" />
 <style>
     table {
       border-collapse: collapse;
@@ -61,170 +101,167 @@
     }
   </style>
   </head>
-  <header class="main-header">
-  <div class="top-header">
-    <div class="header-left">
-      <a href="index.html"><img src="IMG/logo.png" alt="logo" class="logo-hago"/></a>
-    </div>
+  <body>
 
-    <div class="search-container">
-      <span class="search-icon">🔍</span>
-      <input class="searchbox" type="search" placeholder="Tìm kiếm..." />
-    </div>
-
-    <div class="right-icons">
-      <a href="HTML/LienHe.html" class="icon-link"><img src="IMG/HAGOLH.png" /><span>Liên hệ</span></a>
-      <a href="GioHang.html" class="icon-link"><img src="IMG/HAGOGH.png" /><span>Giỏ hàng</span><span class="cart-count"></span></a>
-      <a href="HTML/dangnhap.html" class="icon-link"><img src="IMG/HAGOTK.png" /><span id="Accountchecker">Đăng nhập/đăng ký</span></a>
-    </div>
+    <div class="admin-layout">
+  <nav class="admin-sidebar" id="adminSidebar">
+  <div class="sidebar-header">
+    <button class="sidebar-toggle" id="sidebarToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    <span class="sidebar-title">Menu</span>
   </div>
-
-    </header>
-    <br><hr>  
-<h3>GIAO DỊCH</h3>
-<button id="toggleDonHang" class="btn btn-primary">Xem đơn hàng</button>
-<div id="donHangContainer" style="display: none;">
-  <div style="max-height: 300px; max-width: 70%; overflow-y: auto;" class="container">
-    <table id="DonHangTable">
-      <tr>
-        <th>Họ tên</th>
-        <th>Email</th>
-        <th>Điện thoại</th>
-        <th>Địa chỉ</th>
-        <th>Ghi chú</th>
-        <th>Mã giao dịch</th>
-        <th>Trạng thái đơn</th>
-        <th>Tỉnh/TP</th>
-        <th>Sản phẩm</th>
-        <th>Thời gian đặt</th>
-         <th>Thời gian giao</th>
-      </tr>
-    </table>
-  </div>
-</div>
-
-
-<h3>XÁC NHẬN ĐƠN</h3>
- 
-<button id="toggleGiaoDich" class="btn btn-primary">Xem đơn hàng</button>
-<div id="GiaoDichContainer" style="display: none;">
-  <main class="form-container">
- <form id="xndform">
-    <label for="title">MÃ GIAO DỊCH CẦN THỰC HIỆN</label>
-    <input type="text" id="MaGiaoDich" name="MaGiaoDich" required />
-    <select id="chonxacnhan" required>
-    <option selected value="xn" selected>Xác nhận đơn</option>
-     <option value="ht" >Đã hoàn thành</option>
-    <option value="hd" >Hủy đơn</option>
-    <option value="xd" >Xóa đơn</option>
-     <option value="tg" >Thời gian giao đơn</option>
-  </select>
-    <button type="submit">XÁC NHẬN ĐƠN</button>
-</form>
-
-</main>
-</div>
- <br><hr>
-<h3>LIÊN HỆ</h3>
-<button id="toggleLienHe" class="btn btn-primary">Xem Liên Hệ</button>
-<div id="LienHeContainer" style="display: none;">
-<div style="max-height: 300px;max-width: 60%; overflow-y: auto; "><table id="LienHeTable">
-
-      <tr>
-        <th>Họ tên</th>
-        <th>Email</th>
-        <th>Điện thoại</th>
-        <th>Lời nhắn</th>
-      </tr>
-    </table></div>
-
-</div>
-    <br><hr>
-<h3>FeedBack Sản Phẩm</h3>
-<button id="toggleFeedBack" class="btn btn-primary">Xem FeedBack</button>
-<div id="FeedBackContainer" style="display: none;">
-<div> <br><hr>
-  <div style="max-height: 300px;max-width: 60%; overflow-y: auto; "><table id="FeedBackTable">
-      <tr>
-        <th>Sản phẩm</th>
-        <th>Lời nhắn</th>
-        <th>Email người gửi</th>
-        <th>Ảnh</th>
-        <th>Sao</th>
-      </tr>
-    </table></div>
-</div>
-
-</div>
- <br><hr>
-<button id="toggleBaiViet" class="btn btn-primary">Xem Bài Viết</button>
-<div id="BaiVietContainer" style="display: none;">
-<div style="max-height: 500px;max-width: 50%;  overflow-y: auto; ">
-  <iframe style="border:none;" src="https://mmqstore.io.vn/wp/posthaogtree" height ="500px"width="90%"></iframe>
-</div>  <br><hr>
-
-</div>
-<main class="form-container">
-    <form id="postForm" enctype="multipart/form-data">
+  <ul>
+    <li data-section="donHangSection" class="active">
+      <i class="fas fa-receipt"></i> <span>Đơn hàng</span>
+    </li>
+    <li data-section="giaoDichSection">
+      <i class="fas fa-check-circle"></i> <span>Xác nhận đơn</span>
+    </li>
+    <li data-section="lienHeSection">
+      <i class="fas fa-envelope"></i> <span>Liên hệ</span>
+    </li>
+    <li data-section="feedbackSection">
+      <i class="fas fa-comment-dots"></i> <span>Feedback</span>
+    </li>
+    <li data-section="baiVietSection">
+      <i class="fas fa-newspaper"></i> <span>Bài viết</span>
+    </li>
+    <li data-section="dangSanPhamSection">
+      <i class="fas fa-plus-square"></i> <span>Đăng sản phẩm mới</span>
+    </li>
+  </ul>
+</nav>
+  <div class="admin-main-content">
+  <section class="section-card admin-section-content" id="donHangSection">
+    <div class="section-header">
+      <h3 class="section-title">ĐƠN HÀNG</h3>
+    </div>
+    <div id="donHangContainer" class="section-table-wrap">
+      <div style="max-height: 300px; overflow-y: auto;">
+        <table id="DonHangTable">
+          <thead>
+            <tr>
+              <th>Họ tên</th>
+              <th>Email</th>
+              <th>Điện thoại</th>
+              <th>Địa chỉ</th>
+              <th>Ghi chú</th>
+              <th>Mã giao dịch</th>
+              <th>Trạng thái đơn</th>
+              <th>Tỉnh/TP</th>
+              <th>Sản phẩm</th>
+              <th>Thời gian đặt</th>
+              <th>Thời gian giao</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <section class="section-card admin-section-content" id="giaoDichSection">
+    <div class="section-header">
+      <h3 class="section-title">XÁC NHẬN ĐƠN</h3>
+    </div>
+    <div id="GiaoDichContainer">
+      <form id="xndform" class="form-container">
+        <label for="MaGiaoDich">MÃ GIAO DỊCH CẦN THỰC HIỆN</label>
+        <input type="text" id="MaGiaoDich" name="MaGiaoDich" required />
+        <select id="chonxacnhan" required>
+          <option selected value="xn">Xác nhận đơn</option>
+          <option value="ht">Đã hoàn thành</option>
+          <option value="hd">Hủy đơn</option>
+          <option value="xd">Xóa đơn</option>
+          <option value="tg">Thời gian giao đơn</option>
+        </select>
+        <button type="submit">XÁC NHẬN ĐƠN</button>
+      </form>
+    </div>
+  </section>
+  <section class="section-card admin-section-content" id="lienHeSection">
+    <div class="section-header">
+      <h3 class="section-title">LIÊN HỆ</h3>
+    </div>
+    <div id="LienHeContainer" class="section-table-wrap">
+      <div style="max-height: 300px; overflow-y: auto;">
+        <table id="LienHeTable">
+          <thead>
+            <tr>
+              <th>Họ tên</th>
+              <th>Email</th>
+              <th>Điện thoại</th>
+              <th>Lời nhắn</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <section class="section-card admin-section-content" id="feedbackSection">
+    <div class="section-header">
+      <h3 class="section-title">FeedBack Sản Phẩm</h3>
+    </div>
+    <div id="FeedBackContainer" class="section-table-wrap">
+      <div style="max-height: 300px; overflow-y: auto;">
+        <table id="FeedBackTable">
+          <thead>
+            <tr>
+              <th>Sản phẩm</th>
+              <th>Lời nhắn</th>
+              <th>Email người gửi</th>
+              <th>Ảnh</th>
+              <th>Sao</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <section class="section-card admin-section-content" id="baiVietSection">
+    <div class="section-header">
+      <h3 class="section-title">Bài viết</h3>
+    </div>
+    <div id="BaiVietContainer">
+      <div style="max-height: 500px; overflow-y: auto;">
+        <iframe style="border:none;" src="https://mmqstore.io.vn/wp/posthaogtree" height="500px" width="100%"></iframe>
+      </div>
+    </div>
+  </section>
+  <section class="section-card admin-section-content" id="dangSanPhamSection">
+    <h3 class="section-title">Đăng sản phẩm mới</h3>
+    <form id="postForm" enctype="multipart/form-data" class="form-container">
       <label for="title">Tên sản phẩm:</label>
       <input type="text" id="title" name="title" required />
-
       <label for="image">Ảnh minh họa:</label>
-      <input type="file" id="image" name="image" accept="image/*" />
-      <label for="title">Gía sản phẩm:</label>
+      <div class="custom-file-input">
+  <label for="image" class="file-label">
+    <span id="fileLabelText">Chọn tệp</span>
+    <input type="file" id="image" name="image" accept="image/*" />
+  </label>
+</div>
+      <label for="cost">Gía sản phẩm:</label>
       <input type="number" id="cost" name="cost" required />
-
       <label for="content">Miêu tả sản phẩm:</label>
       <textarea id="content" name="content" rows="10" required></textarea>
-      <label for="content">Chọn tag cho sản phẩm:</label>
-       <select id="tag_product" name="tag" required>
-      <option selected value="caycanhnhantao" selected>Cây cảnh nhân tạo</option>
-       <option value="chaucay" >Chậu cây</option>
-      <option value="combochaucay" >Combo cây chậu</option>
-      <option value="caycanh" >Cây cảnh</option>
-    </select>
+      <label for="tag_product">Chọn tag cho sản phẩm:</label>
+      <select id="tag_product" name="tag" required>
+        <option selected value="caycanhnhantao">Cây cảnh nhân tạo</option>
+        <option value="chaucay">Chậu cây</option>
+        <option value="combochaucay">Combo cây chậu</option>
+        <option value="caycanh">Cây cảnh</option>
+      </select>
       <button type="submit">Đăng bài</button>
     </form>
-
-  <div id="successMessage" style="display: none;">
-    Bài viết đã được lưu! Bạn có thể xem lại trong danh sách bài đăng.
-  </div>
-</main>
-
-
-  </body>
-   <footer>
-  <div class="footer-container">
-    <div class="footer-section">
-      <h2>Hago Tree</h2>
-      <p>Chuyên cây cảnh nhân tạo thẩm mỹ – Đẹp bền vững theo thời gian.</p>
+    <div id="successMessage" style="display: none;">
+      Bài viết đã được lưu! Bạn có thể xem lại trong danh sách bài đăng.
     </div>
-    <div class="footer-section">
-      <h2>Liên hệ</h2>
-      <p><i class="fas fa-map-marker-alt"></i> Hẻm 1581, Đường Bùi Hữu Nghĩa, Phường Tân Hạnh, TP. Biên Hòa, Đồng Nai</p>
-      <p><i class="fas fa-envelope"></i> HagoTree@gmail.com</p>
-      <p><i class="fas fa-phone-alt"></i> 0968 123 456</p>
-    </div>
-    <div class="footer-section">
-      <h2>Theo dõi</h2>
-      <div class="footer-social">
-        <a href="https://www.facebook.com/HagoTreee" target="_blank" aria-label="Facebook">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-        <a href="https://zalo.me/yourZaloID" target="_blank" aria-label="Zalo">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" class="zalo-icon">
-        </a>
-      </div>
-      <p style="margin-top:8px;font-size:13px;">Kết nối với chúng tôi để nhận ưu đãi & tin tức mới nhất!</p>
-    </div>
+  </section>
+</div>
+ 
   </div>
-  <div class="footer-quote">
-    <em>“Cây cảnh giả, cảm xúc thật.”</em>
-  </div>
-  <div class="footer-bottom">
-    &copy; 2025 Hago Tree. All rights reserved.
-  </div>
-</footer>
      <script>
        
 const contentform = document.getElementById("postForm");
@@ -438,7 +475,7 @@ function getDiaChi(dayString) {
   return `${ward.Name}, ${district.Name}, ${city.Name}`;
 }
 
-fetch("https://server-web-hagotree.glitch.me/lh")
+fetch("https://dssc.hagotree.site/lh")
     .then(res => res.json())
     .then(data => {
       const tbody = document.querySelector("#LienHeTable tbody");
@@ -457,7 +494,7 @@ fetch("https://server-web-hagotree.glitch.me/lh")
       console.error("Lỗi khi lấy đơn hàng:", err);
       document.body.innerHTML += "<p style='color:red;'>Không thể tải liên hệ!</p>";
     });
-fetch("https://server-web-hagotree.glitch.me/fb")
+fetch("https://dssc.hagotree.site/fb")
     .then(res => res.json())
     .then(data => {
       const tbody = document.querySelector("#FeedBackTable tbody");
@@ -478,7 +515,7 @@ fetch("https://server-web-hagotree.glitch.me/fb")
       document.body.innerHTML += "<p style='color:red;'>Không thể tải liên hệ!</p>";
     });
 function loadOrders() {
-  fetch("https://server-web-hagotree.glitch.me/dh")
+  fetch("https://dssc.hagotree.site/dh")
     .then(res => res.json())
     .then(data => {
       const tbody = document.querySelector("#DonHangTable tbody");
@@ -558,7 +595,52 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+document.addEventListener("DOMContentLoaded", function () {
+  // Ẩn tất cả section, chỉ hiện section đầu tiên
+  document.querySelectorAll('.admin-section-content').forEach((sec, idx) => {
+    sec.classList.toggle('active', idx === 0);
+    if (idx === 0) sec.style.opacity = 1;
+    else sec.style.opacity = 0;
+  });
 
+  document.querySelectorAll('.admin-sidebar li').forEach(li => {
+    li.addEventListener('click', function () {
+      // Đổi active menu
+      document.querySelectorAll('.admin-sidebar li').forEach(x => x.classList.remove('active'));
+      this.classList.add('active');
+      // Ẩn/hiện section với hiệu ứng
+      const sectionId = this.getAttribute('data-section');
+      document.querySelectorAll('.admin-section-content').forEach(sec => {
+        if (sec.id === sectionId) {
+          sec.classList.add('active');
+          sec.style.transition = 'opacity 0.4s';
+          sec.style.opacity = 1;
+        } else {
+          sec.classList.remove('active');
+          sec.style.transition = 'opacity 0.4s';
+          sec.style.opacity = 0;
+        }
+      });
+    });
+  });
+});
+document.addEventListener("DOMContentLoaded", function () {
+  const sidebar = document.getElementById('adminSidebar');
+  const toggleBtn = document.getElementById('sidebarToggle');
+
+  toggleBtn.addEventListener('click', function () {
+    sidebar.classList.toggle('collapsed');
+  });
+});
+document.addEventListener("DOMContentLoaded", function() {
+  const fileInput = document.getElementById('image');
+  const fileLabelText = document.getElementById('fileLabelText');
+  if (fileInput && fileLabelText) {
+    fileInput.addEventListener('change', function() {
+      fileLabelText.textContent = this.files && this.files.length > 0 ? this.files[0].name : 'Chọn tệp';
+    });
+  }
+});
 </script>
 
          <script src="JS/index.js"></script>
