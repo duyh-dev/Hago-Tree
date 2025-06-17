@@ -54,7 +54,7 @@ function loadDataofUser(userid) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email: userid })
+    body: JSON.stringify({ krlx: userid })
   })
     .then(res => res.json())
     .then(user => {
