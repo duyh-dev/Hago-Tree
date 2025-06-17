@@ -13,7 +13,7 @@
   alert("Bạn chưa đăng nhập hoặc phiên đã hết.");
   const email = prompt("Username");
   const password = prompt("Key");
-  fetch("https://dssc.hagotree.site/admin", {
+  fetch("https://server-web-hagotree.glitch.me/admin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -162,6 +162,8 @@
 <div style="max-height: 500px;max-width: 50%;  overflow-y: auto; ">
   <iframe style="border:none;" src="https://mmqstore.io.vn/wp/posthaogtree" height ="500px"width="90%"></iframe>
 </div>  <br><hr>
+
+</div>
 <main class="form-container">
     <form id="postForm">
       <label for="title">Tên sản phẩm:</label>
@@ -188,8 +190,6 @@
     Bài viết đã được lưu! Bạn có thể xem lại trong danh sách bài đăng.
   </div>
 </main>
-</div>
-
 
 
   </body>
@@ -235,28 +235,9 @@ contentform.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const formData = new FormData(contentform);
-  const contentformdata = Object.fromEntries(formData.entries());
-
-  const imageFile = contentform.image.files[0];
-
-  if (imageFile) {
-    try {
-      contentformdata.image = await convertToBase64(imageFile); 
-    } catch (err) {
-      console.error("Lỗi chuyển ảnh:", err);
-      alert("Không thể xử lý ảnh!");
-      return;
-    }
-  } else {
-    contentformdata.image = "";
-  }
-
   fetch("https://dssc.hagotree.site/upload-post", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(contentformdata),
+    body: formData, 
   })
     .then((res) => {
       if (res.ok) {
@@ -271,6 +252,7 @@ contentform.addEventListener("submit", async (e) => {
       alert("Lỗi kết nối đến server.");
     });
 });
+
 xacnhanform.addEventListener("submit", function (e) {
   e.preventDefault();
   const xacnhanformdata = Object.fromEntries(new FormData(xacnhanform).entries()); 
@@ -456,7 +438,7 @@ function getDiaChi(dayString) {
   return `${ward.Name}, ${district.Name}, ${city.Name}`;
 }
 
-fetch("https://dssc.hagotree.site/lh")
+fetch("https://server-web-hagotree.glitch.me/lh")
     .then(res => res.json())
     .then(data => {
       const tbody = document.querySelector("#LienHeTable tbody");
@@ -475,7 +457,7 @@ fetch("https://dssc.hagotree.site/lh")
       console.error("Lỗi khi lấy đơn hàng:", err);
       document.body.innerHTML += "<p style='color:red;'>Không thể tải liên hệ!</p>";
     });
-fetch("https://dssc.hagotree.site/fb")
+fetch("https://server-web-hagotree.glitch.me/fb")
     .then(res => res.json())
     .then(data => {
       const tbody = document.querySelector("#FeedBackTable tbody");
@@ -485,7 +467,7 @@ fetch("https://dssc.hagotree.site/fb")
           <td>${feedbackx.product}</td>
           <td>${feedbackx.feedback}</td>
           <td>${feedbackx.email}</td>
-          <td><img src="https://dssc.hagotree.site/${feedbackx.image}" alt="Ảnh Feedback" style="max-width:200px;"></td>
+          <td><img src="https://server-web-hagotree.glitch.me/${feedbackx.image}" alt="Ảnh Feedback" style="max-width:200px;"></td>
           <td>${feedbackx.star}</td>
         `;
         tbody.appendChild(row);
@@ -496,7 +478,7 @@ fetch("https://dssc.hagotree.site/fb")
       document.body.innerHTML += "<p style='color:red;'>Không thể tải liên hệ!</p>";
     });
 function loadOrders() {
-  fetch("https://dssc.hagotree.site/dh")
+  fetch("https://server-web-hagotree.glitch.me/dh")
     .then(res => res.json())
     .then(data => {
       const tbody = document.querySelector("#DonHangTable tbody");

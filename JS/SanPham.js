@@ -35,7 +35,7 @@ function displayProduct(product) {
         <div class="product-info">
           <h2>${product.title}</h2>
           <div class="product-price">${Number(product.cost).toLocaleString()}₫</div>
-          <p class="product-description">${product.content}</p>
+          <div class="product-description">${product.content}</div>
           <div class="feedback-stars"><strong>Đánh giá trung bình:</strong> ${stars}</div>
           <button onclick="addToCart('${product.name}', '${product.price}', '${product.img}')">
             Thêm vào giỏ hàng
