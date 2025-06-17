@@ -56,7 +56,8 @@ window.addEventListener("DOMContentLoaded", () => {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(email: base64)
+          body: JSON.stringify({ email: base64 })
+
         })
           .then(res => res.json())
           .then(userxa => {
