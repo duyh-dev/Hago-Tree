@@ -48,14 +48,15 @@ window.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("userPassword", loginFormdata.loginPassword);
       alert('Đăng nhập thành công!');
-      const encoder = new TextEncoder();
-      const byteArray = encoder.encode(email2);
+      const atob = (base64) => Buffer.from(base64, 'base64').toString('binary');
+      const bytes = new TextEncoder().encode(email2);
+      const base64 = btoa(String.fromCharCode(...bytes));
       fetch('https://dssc.hagotree.site/get-user', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(email: byteArray)
+          body: JSON.stringify(email: base64)
         })
           .then(res => res.json())
           .then(userxa => {

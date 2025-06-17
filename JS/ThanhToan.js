@@ -22,9 +22,10 @@ function removeVietnameseTones() {
       console.log(lastUser.email);
 
       document.getElementById("Accountchecker").innerHTML = lastUser.email;
-      const encoder = new TextEncoder();
-      const byteArray = encoder.encode(lastUser.email);
-      loadDataofUser(byteArray);
+      const atob = (base64) => Buffer.from(base64, 'base64').toString('binary');
+      const bytes = new TextEncoder().encode(lastUser.email);
+      const base64 = btoa(String.fromCharCode(...bytes));
+      loadDataofUser(base64);
       var usernamerecheck = lastUser.email;
       return usernamerecheck
         .normalize("NFD")
