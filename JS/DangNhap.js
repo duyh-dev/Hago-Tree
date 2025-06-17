@@ -32,7 +32,7 @@ window.addEventListener("DOMContentLoaded", () => {
     loginForm.loginEmail.value = lastUser.email || '';
     loginForm.loginPassword.value = localStorage.getItem("userPassword") || '';
     const loginFormdata = Object.fromEntries(new FormData(loginForm).entries()); 
-    fetch('https://server-web-hagotree.glitch.me/dang-nhap', {
+    fetch('https://dssc.hagotree.site/dang-nhap', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
