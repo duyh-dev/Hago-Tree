@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
   <head>
@@ -13,7 +14,7 @@
   alert("Bạn chưa đăng nhập hoặc phiên đã hết.");
   const email = prompt("Username");
   const password = prompt("Key");
-  fetch("https://server-web-hagotree.glitch.me/admin", {
+  fetch("https://dssc.hagotree.site/admin", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -103,6 +104,7 @@ document.querySelectorAll('.section-toggle-btn, .form-container button[type="sub
   </head>
   <body>
 
+
     <div class="admin-layout">
   <nav class="admin-sidebar" id="adminSidebar">
   <div class="sidebar-header">
@@ -138,26 +140,7 @@ document.querySelectorAll('.section-toggle-btn, .form-container button[type="sub
       <h3 class="section-title">ĐƠN HÀNG</h3>
     </div>
     <div id="donHangContainer" class="section-table-wrap">
-      <div style="max-height: 300px; overflow-y: auto;">
-        <table id="DonHangTable">
-          <thead>
-            <tr>
-              <th>Họ tên</th>
-              <th>Email</th>
-              <th>Điện thoại</th>
-              <th>Địa chỉ</th>
-              <th>Ghi chú</th>
-              <th>Mã giao dịch</th>
-              <th>Trạng thái đơn</th>
-              <th>Tỉnh/TP</th>
-              <th>Sản phẩm</th>
-              <th>Thời gian đặt</th>
-              <th>Thời gian giao</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
+      <div id="DonHangList"></div>
     </div>
   </section>
   <section class="section-card admin-section-content" id="giaoDichSection">
@@ -433,7 +416,7 @@ else if (chonxacnhan.value == "tg") {
 
 
 
-function convertToBase64(file) {  //chuyển ảnh sang dạng byte64
+function convertToBase64(file) {  
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result); 
@@ -475,7 +458,7 @@ function getDiaChi(dayString) {
   return `${ward.Name}, ${district.Name}, ${city.Name}`;
 }
 
-fetch("https://dssc.hagotree.site/lh")
+fetch("https://server-web-hagotree.glitch.me/lh")
     .then(res => res.json())
     .then(data => {
       const tbody = document.querySelector("#LienHeTable tbody");
@@ -494,7 +477,7 @@ fetch("https://dssc.hagotree.site/lh")
       console.error("Lỗi khi lấy đơn hàng:", err);
       document.body.innerHTML += "<p style='color:red;'>Không thể tải liên hệ!</p>";
     });
-fetch("https://dssc.hagotree.site/fb")
+fetch("https://server-web-hagotree.glitch.me/fb")
     .then(res => res.json())
     .then(data => {
       const tbody = document.querySelector("#FeedBackTable tbody");
@@ -515,10 +498,11 @@ fetch("https://dssc.hagotree.site/fb")
       document.body.innerHTML += "<p style='color:red;'>Không thể tải liên hệ!</p>";
     });
 function loadOrders() {
-  fetch("https://dssc.hagotree.site/dh")
+  fetch("https://server-web-hagotree.glitch.me/dh")
     .then(res => res.json())
     .then(data => {
-      const tbody = document.querySelector("#DonHangTable tbody");
+      const listDiv = document.getElementById("DonHangList");
+      listDiv.innerHTML = ""; // Xóa cũ nếu có
       data.forEach(order => {
         const donHangParsed = JSON.parse(order.DonHang || "[]");
         const productList = donHangParsed.map(p => `
@@ -530,26 +514,28 @@ function loadOrders() {
 
         const diaChiGoc = getDiaChi(order.DiaChiTinhThanh);
 
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${order.Name}</td>
-          <td>${order.email}</td>
-          <td>${order.phone}</td>
-          <td>${order.address}</td>
-          <td>${order.note}</td>
-          <td>${order.MaGiaoDich}</td>
-          <td>${order.Ttdon}</td>
-          <td>${diaChiGoc}</td>
-          <td>${productList}</td>
-          <td>${order.TimeDatHang}</td>
-          <td>${order.TimeNhanHang}</td>
+        // Tạo bảng dọc cho mỗi đơn hàng
+        const table = document.createElement("table");
+        table.className = "order-vertical-table";
+        table.innerHTML = `
+          <tr><th>Họ tên</th><td>${order.Name}</td></tr>
+          <tr><th>Email</th><td>${order.email}</td></tr>
+          <tr><th>Điện thoại</th><td>${order.phone}</td></tr>
+          <tr><th>Địa chỉ</th><td>${order.address}</td></tr>
+          <tr><th>Ghi chú</th><td>${order.note}</td></tr>
+          <tr><th>Mã giao dịch</th><td>${order.MaGiaoDich}</td></tr>
+          <tr><th>Trạng thái đơn</th><td>${order.Ttdon}</td></tr>
+          <tr><th>Tỉnh/TP</th><td>${diaChiGoc}</td></tr>
+          <tr><th>Sản phẩm</th><td>${productList}</td></tr>
+          <tr><th>Thời gian đặt</th><td>${order.TimeDatHang}</td></tr>
+          <tr><th>Thời gian giao</th><td>${order.TimeNhanHang}</td></tr>
         `;
-        tbody.appendChild(row);
+        listDiv.appendChild(table);
       });
     })
     .catch(err => {
       console.error("Lỗi khi lấy đơn hàng:", err);
-      document.body.innerHTML += "<p style='color:red;'>Không thể tải đơn hàng!</p>";
+      document.getElementById("DonHangList").innerHTML = "<p style='color:red;'>Không thể tải đơn hàng!</p>";
     });
 }
 document.addEventListener("DOMContentLoaded", () => {
