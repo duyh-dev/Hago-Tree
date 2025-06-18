@@ -43,7 +43,7 @@ window.addEventListener("DOMContentLoaded", () => {
   .then(response => {
     if (response.status === 201) {
       user.push({
-        email2: loginFormdata.loginEmail,
+        email: loginFormdata.loginEmail,
       });
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("userPassword", loginFormdata.loginPassword);
