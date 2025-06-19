@@ -32,16 +32,16 @@ function displayCart() {
   let total = 0;
 
   cart.forEach((item, index) => {
-    const itemPrice = Number(String(item.price).replace(/[.,₫]/g, ""));
+    const itemPrice = Number(String(item.cost).replace(/[.,₫]/g, ""));
     const itemTotal = itemPrice * item.quantity;
     total += itemTotal;
 
     const itemDiv = document.createElement("div");
     itemDiv.className = "cart-item";
     itemDiv.innerHTML = `
-      <img src="${item.image}" alt="${item.name}">
+      <img src="https://dssc.hagotree.site${item.img}" alt="${item.title}">
       <div class="cart-item-details">
-        <h4>${item.name}</h4>
+        <h4>${item.title}</h4>
         <p>Giá: ${itemPrice.toLocaleString()}₫</p>
         <div class="quantity-controls">
           <button class="decrease-btn">-</button>
