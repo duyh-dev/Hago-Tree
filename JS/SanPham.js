@@ -268,14 +268,14 @@ function addToCart(name, price, image) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   // Ép kiểu price về dạng số an toàn
-  price = Number(String(price).replace(/[.,₫]/g, ""));
+  cost = Number(String(price).replace(/[.,₫]/g, ""));
 
   const existingItemIndex = cart.findIndex((item) => item.name === name);
 
   if (existingItemIndex !== -1) {
     cart[existingItemIndex].quantity += 1;
   } else {
-    cart.push({ name, price, image, quantity: 1 });
+    cart.push({title, cost, image, quantity: 1 });
   }
 
   localStorage.setItem("cart", JSON.stringify(cart));
