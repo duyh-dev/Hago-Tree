@@ -270,7 +270,7 @@ function addToCart(name, price, image) {
   // Ép kiểu price về dạng số an toàn
   cost = Number(String(price).replace(/[.,₫]/g, ""));
 
-  const existingItemIndex = cart.findIndex((item) => item.name === name);
+  const existingItemIndex = cart.findIndex((item) => item.title === name);
 
   if (existingItemIndex !== -1) {
     cart[existingItemIndex].quantity += 1;
