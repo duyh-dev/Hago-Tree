@@ -268,7 +268,7 @@ function addToCart(name, price, image) {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   // Ép kiểu price về dạng số an toàn
-  cost = Number(String(price).replace(/[.,₫]/g, ""));
+  const cost = Number(String(price).replace(/[.,₫]/g, ""));
   const title = name;
   const existingItemIndex = cart.findIndex((item) => item.title === name);
 
