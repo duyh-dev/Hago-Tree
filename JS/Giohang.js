@@ -39,7 +39,7 @@ function displayCart() {
     const itemDiv = document.createElement("div");
     itemDiv.className = "cart-item";
     itemDiv.innerHTML = `
-      <img src="https://dssc.hagotree.site${item.img}" alt="${item.title}">
+      <img src="https://dssc.hagotree.site${item.image}" alt="${item.title}">
       <div class="cart-item-details">
         <h4>${item.title}</h4>
         <p>Giá: ${itemPrice.toLocaleString()}₫</p>
