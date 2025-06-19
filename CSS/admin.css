@@ -43,7 +43,7 @@ body {
   margin-top: 8px;
   margin-bottom: 18px;
   cursor: pointer;
-  box-shadow: 0 2px 8px #0001;
+  box-shadow: 0 2px 8px #579a62;
   transition: background 0.2s, transform 0.2s;
   display: inline-block;
 }
