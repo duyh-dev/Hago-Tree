@@ -84,7 +84,7 @@ function displayOrderSummary() {
 
   // Cập nhật productbuyed vào localStorage
   cart.forEach((item) => {
-    const itemPrice = item.price;
+    const itemPrice = item.cost;
     const itemTotal = itemPrice * item.quantity;
     total += itemTotal;
     if (!productbuyed.includes(item.name)) {
@@ -94,10 +94,10 @@ function displayOrderSummary() {
     const itemDiv = document.createElement("li");
     itemDiv.className = "cart-item-summary";
     itemDiv.innerHTML = `
-      <img src="${item.image}" alt="${
-      item.name
+      <img src="https://dssc.hagotree.site${item.image}" alt="${
+      item.title
     }" class="product-image" style="width: 50px; height: 50px; margin-right: 10px;">
-      ${item.name} - ${item.quantity} x ${itemPrice.toLocaleString()}₫
+      ${item.title} - ${item.quantity} x ${itemPrice.toLocaleString()}₫
     `;
     cartItemsContainer.appendChild(itemDiv);
   });

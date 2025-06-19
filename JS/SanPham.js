@@ -26,7 +26,13 @@ function getQueryParam(param) {
 
 function displayProduct(product) {
   const container = document.getElementById("product-detail");
-  
+  const title = encodeURIComponent(product.title);
+const cost = encodeURIComponent(product.cost);
+const image = encodeURIComponent(product.image);
+
+let btnadd = `<button onclick="addToCart(decodeURIComponent('${title}'), decodeURIComponent('${cost}'), decodeURIComponent('${image}'))">Thêm vào giỏ hàng</button>`;
+
+
   loadFeedbackAndAvg(product.id)
   if (product) {
     container.innerHTML = `
@@ -37,7 +43,7 @@ function displayProduct(product) {
           <div class="product-price">${Number(product.cost).toLocaleString()}₫</div>
           <div class="product-description">${product.content}</div>
           <div class="feedback-stars"><strong>Đánh giá trung bình:</strong> ${stars}</div>
-          <button onclick="addToCart('${product.title}', '${product.cost}', '${product.image}')">
+          ${btnadd}
             Thêm vào giỏ hàng
           </button>
           <form id="feedbackForm"  style=" border: 1px solid #ddd;border-radius: 10px;" class="form-container">
