@@ -269,7 +269,7 @@ function addToCart(name, price, image) {
 
   // Ép kiểu price về dạng số an toàn
   cost = Number(String(price).replace(/[.,₫]/g, ""));
-
+  const title = name;
   const existingItemIndex = cart.findIndex((item) => item.title === name);
 
   if (existingItemIndex !== -1) {
@@ -277,7 +277,6 @@ function addToCart(name, price, image) {
   } else {
     cart.push({title, cost, image, quantity: 1 });
   }
-
   localStorage.setItem("cart", JSON.stringify(cart));
 
   alert("Đã thêm vào giỏ hàng!");
