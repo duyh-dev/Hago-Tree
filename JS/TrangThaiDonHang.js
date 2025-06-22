@@ -10,7 +10,7 @@ setTimeout(() => {
       const lastUser = user[user.length - 1];
       const ordersList = document.getElementById("orders-list");
 
-      fetch("https://server-web-hagotree.glitch.me/get-don-hang", {
+      fetch("https://dssc.hagotree.site/get-don-hang", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
