@@ -652,7 +652,7 @@ function loadOrders() {
         const donHangParsed = JSON.parse(order.DonHang || "[]");
         const productList = donHangParsed.map(p => `
           <div>
-            <strong>${p.name}</strong> - ${p.price.toLocaleString()}₫ × ${p.quantity}
+            <strong>${p.title}</strong> - ${p.cost.toLocaleString()}₫ × ${p.quantity}
             <br><img src="IMG/${p.image}" width="50">
           </div>
         `).join("");
