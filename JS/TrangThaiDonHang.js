@@ -47,7 +47,7 @@ setTimeout(() => {
             try {
               const productList = JSON.parse(order.DonHang || "[]");
               products = productList
-                .map(p => `${p.title} (SL: ${p.quantity}, Giá: ${p.price.toLocaleString()}đ)`)
+                .map(p => `${p.title} x ${p.quantity}( Giá: ${p.price.toLocaleString()}đ)`)
                 .join("<br>");
             } catch {
               products = "---";
