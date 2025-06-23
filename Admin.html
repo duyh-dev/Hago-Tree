@@ -35,7 +35,7 @@
         alert("Đăng nhập thành công!");
       } else {
         alert("Sai email hoặc mật khẩu");
-         window.location.href = "/Admin.html";
+      //   window.location.href = "/Admin.html";
       }
     })
     .catch((err) => {
@@ -623,7 +623,7 @@ function loadOrders() {
         const productList = donHangParsed.map(p => `
           <div>
             <strong>${p.title}</strong> - ${p.cost.toLocaleString()}₫ × ${p.quantity}
-            <br><img src="IMG/${p.image}" width="50">
+            <br><img src="https://dssc.hagotree.site${p.image}" width="50">
           </div>
         `).join("");
 
