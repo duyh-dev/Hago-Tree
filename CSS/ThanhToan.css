@@ -201,7 +201,6 @@ input.error {
 .checkout-container button[type="submit"]:hover {
   background-color: #4e944f;
 }
-
 /*Modal pop up thông báo đã thanh toán và đường dẫn đến trang chi tiết đơn hàng*/
 .modal-success {
   position: fixed;
@@ -239,6 +238,44 @@ input.error {
 }
 .modal-content-success .close-success:hover {
   color: #d00;
+}
+/* Giao diện ô nhập mã voucher */
+.voucher-section {
+  margin: 10px 0;
+}
+.voucher-section label {
+  font-size: 14px;
+  margin-right: 8px;
+}
+.voucher-section input#voucher-code {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+.voucher-section button#apply-voucher-btn {
+  padding: 6px 12px;
+  background-color: #6bbf59;  /* màu xanh giống nút "Xác nhận thanh toán" */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.voucher-section button#apply-voucher-btn:hover {
+  background-color: #4e944f;
+}
+
+/* Định dạng giá gốc và giá giảm */
+
+
+.use-voucher-price {
+  text-decoration: line-through; /* gạch ngang giá gốc khi áp dụng mã */
+  color: #888;                  /* màu xám cho giá gốc đã gạch */
+  font-weight: normal;
+}
+.discounted-price {               /* ẩn giá sau giảm mặc định, sẽ hiện khi mã hợp lệ */                 /* màu đỏ để nhấn mạnh giá đã giảm */
+  font-weight: bold;
+  margin-top: 4px;
 }
 
 /* Footer styles */

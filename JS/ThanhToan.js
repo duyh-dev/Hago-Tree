@@ -73,8 +73,73 @@ function loadDataofUser(userid) {
       console.error("Lỗi khi tải dữ liệu:", err);
     });
 }
+
+function addvoucher() {
+  const cartTotalAf = document.getElementById("cart-total-summary-voucher");
+  const voucherCost = document.getElementById("discounted-total");
+  const voucherCode = document.getElementById("voucher-code").value.trim();
+  const cartTotalText = document.getElementById("cart-total-summary").innerText;
+
+   
+  if (!voucherCode) {
+    alert("Vui lòng nhập mã voucher.");
+    return;
+  }
+
+  fetch("https://server-web-hagotree.glitch.me/use-voucher", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ voucherCode })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (!data.success || !data.voucher) {
+        alert("Voucher không hợp lệ hoặc đã hết hạn!");
+        return;
+      }
+
+      const voucher = data.voucher;
+      const minCost = Number((voucher.minCost || "").toString().replace(/[^\d]/g, ""));
+      const maxUsed = Number((voucher.maxUsed || "").toString().replace(/[^\d]/g, ""));
+      const usedVoucher = Number((voucher.use || "0").toString().replace(/[^\d]/g, ""));
+      const discountType = voucher.discountType;
+      const discountValue = Number((voucher.discountValue || "").toString().replace(/[^\d]/g, ""));
+      const cartTotal = Number(cartTotalText.replace(/[^\d]/g, ""));
+
+      // chỗ này sẽ update giới hạn sử dụng voucher đối với tài khoản
+      if (cartTotal >= minCost && usedVoucher < maxUsed) {
+        alert("Voucher được áp dụng");
+
+        let totalAfterVoucher = cartTotal;
+
+        if (discountType =="per") {
+          totalAfterVoucher = cartTotal - (cartTotal * discountValue / 100);
+          voucherCost.textContent=`${Math.max((cartTotal * discountValue / 100), 0).toLocaleString()}₫`
+
+        } else {
+          totalAfterVoucher = cartTotal - discountValue;
+          voucherCost.textContent=`${Math.max(discountValue, 0).toLocaleString()}₫`
+        }
+        cartTotalAf.textContent = `${Math.max(totalAfterVoucher, 0).toLocaleString()}₫`;
+
+        TotalPriceToSummary = totalAfterVoucher;
+        generateQRCode();
+      } else {
+        alert("Không thể áp dụng voucher này.\nCó thể do chưa đủ giá trị đơn hàng hoặc đã hết lượt dùng.");
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Lỗi", err);
+    });
+}
+
+
 function displayOrderSummary() {
   const cartItemsContainer = document.getElementById("cart-items-summary");
+  const cartTotalAf = document.getElementById("cart-total-summary-voucher");
   const cartTotal = document.getElementById("cart-total-summary");
   let productbuyed = JSON.parse(localStorage.getItem("Productbuyed")) || [];
   let productnowbuying = [];
@@ -105,6 +170,8 @@ function displayOrderSummary() {
   localStorage.setItem("Productbuyed", JSON.stringify(productnowbuying));
   cartTotal.textContent = `${total.toLocaleString()}₫`;
   TotalPriceToSummary = total;
+  cartTotalAf.textContent = `${total.toLocaleString()}₫`;
+  generateQRCode();
 }
 
 // Kiểm tra thông tin trước khi summit thanh toán
@@ -166,11 +233,8 @@ function confirmPayment() {
 document.addEventListener("DOMContentLoaded", displayOrderSummary);
 
 //QR thanh toán
-function generateQRCode(paymentData) {
-  // Create a dynamic URL (e.g., payment URL or MoMo/ZaloPay link)
-  const paymentURL = `https://pay.example.com/${paymentData.paymentLink}`;
+function generateQRCode() {
 
-  // Set the QR code image
   const qrCodeImage = document.getElementById("qr-code-image");
   qrCodeImage.src = `https://img.vietqr.io/image/MB-0336735887-qr_only.png?amount=${TotalPriceToSummary}&addInfo=${getidsummary}&size=200x200`;
   console.log(username);
@@ -178,15 +242,6 @@ function generateQRCode(paymentData) {
   console.log(ProductWillBuy);
 }
 
-// Example of payment data
-const paymentData = {
-  paymentLink: "example-payment-id-12345",
-};
-
-// Generate QR code on page load
-document.addEventListener("DOMContentLoaded", () => {
-  generateQRCode(paymentData);
-});
 checkoutForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -208,12 +263,37 @@ checkoutForm.addEventListener("submit", function (e) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(checkoutFormdata)  // xử lý các phần riêng biệt thành những phần tử trong json
+    body: JSON.stringify(checkoutFormdata)  
   })
 
   .then(response => {
     if (response.status === 201) {
+      const voucherCode = document.getElementById("voucher-code").value.trim();
       alert('Đã thanh toán, sẽ có email xác nhận đơn!');
+
+        fetch("https://server-web-hagotree.glitch.me/used-voucher", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ voucherCode }), 
+        })
+          .then(async (response) => {
+            console.log("Status:", response.status);
+            const data = await response.json().catch(() => ({}));
+            console.log("Response body:", data);
+
+            if (response.status === 201) {
+              console.log("OK"); // ✅ Sửa console("OK") thành console.log
+            } else {
+              console.error("Server trả về lỗi:", data.message || "Không rõ");
+            }
+          })
+          .catch((error) => {
+            console.error("Fetch error:", error);
+            alert("Lỗi kết nối tới server!");
+          });
+
       showPaymentSuccessModal();
       checkoutForm.reset();
       confirmPayment();

@@ -251,65 +251,65 @@ document.querySelectorAll('.section-toggle-btn, .form-container button[type="sub
     <button class="voucher-tab-btn" data-voucher-tab="show">Hiển thị mã giảm giá</button>
   </div>
   <div class="voucher-tab-content" id="voucherTabInfo">
-<form class="voucher-basic-form-unique">
+<form class="voucher-basic-form-unique" id="voucher-create-data">
   <h4 class="voucher-form-title-unique">Thông tin cơ bản</h4>
   <div class="voucher-row-inline-unique">
     <div class="voucher-col-inline-unique">
       <label for="voucherType">Loại mã</label>
       <div class="voucher-type-select-unique" id="voucherType">
        <div class="voucher-form-row-unique">
-  <div class="voucher-type-card-group">
-    <label class="voucher-type-card">
-      <input type="radio" name="voucherType" value="shop" checked>
-      <div class="voucher-type-card-content">
-        <i class="fas fa-store"></i>
-        <div>
-          <strong>Voucher<br>toàn Shop</strong>
+        <div class="voucher-type-card-group">
+          <label class="voucher-type-card">
+            <input type="radio" name="voucherType" value="shop" checked>
+            <div class="voucher-type-card-content">
+              <i class="fas fa-store"></i>
+              <div>
+                <strong>Voucher<br>toàn Shop</strong>
+              </div>
+            </div>
+          </label>
+          <label class="voucher-type-card">
+            <input value="sp"  type="radio" name="  " value="product">
+            <div class="voucher-type-card-content">
+              <i class="fas fa-tag"></i>
+              <div>
+                <strong>Voucher<br>theo từng sản phẩm</strong>
+              </div>
+            </div>
+          </label>
+          <div class="voucher-code-inline">
+            <label for="voucherCode">Mã voucher</label>
+            <div style="display:flex;align-items:center;">
+              <input name="voucher-code-id"type="text" id="voucherCode" maxlength="5" value="YTV" />
+              <span class="voucher-char-count">0/5</span>
+            </div>
+          </div>
         </div>
       </div>
-    </label>
-    <label class="voucher-type-card">
-      <input type="radio" name="voucherType" value="product">
-      <div class="voucher-type-card-content">
-        <i class="fas fa-tag"></i>
-        <div>
-          <strong>Voucher<br>theo từng sản phẩm</strong>
-        </div>
-      </div>
-    </label>
-    <div class="voucher-code-inline">
-      <label for="voucherCode">Mã voucher</label>
-      <div style="display:flex;align-items:center;">
-        <input type="text" id="voucherCode" maxlength="5" value="YTV" />
-        <span class="voucher-char-count">0/5</span>
-      </div>
-    </div>
-  </div>
-</div>
       </div>
     </div>
   </div>
   <div class="voucher-form-row-unique">
     <label for="voucherName">Tên chương trình giảm giá</label>
-    <input type="text" id="voucherName" maxlength="100" />
+    <input name="voucher-name"type="text" id="voucherName" maxlength="100" />
     <span class="voucher-char-count">0/100</span>
     <div class="voucher-note">Tên Voucher sẽ không được hiển thị cho Người mua</div>
   </div>
   <div class="voucher-form-row-unique">
+
     <label>Thời gian sử dụng mã</label>
-    <input type="datetime-local" style="margin-bottom:6px;">
-    <input type="datetime-local">
+
+    <p>Từ</p>
+    <input name ="DateFrom" type="datetime-local" style="margin-bottom:6px;">
+    <p>Đến</p>
+    <input name ="DateTo" type="datetime-local">
+
   </div>
   <div class="voucher-form-row-unique voucher-checkbox-row-unique">
     <input type="checkbox" id="allowSaveBefore" />
     <label for="allowSaveBefore" class="voucher-checkbox-label-unique">Cho phép lưu mã trước Thời gian sử dụng</label>
   </div>
-</form>
-<button type="submit" class="voucher-save-btn-unique">Lưu thiết lập</button>
-  </div>
-  <div class="voucher-tab-content" id="voucherTabSetup" style="display:none">
-    <form class="voucher-setup-form">
-  <h4 class="voucher-form-title">Thiết lập mã giảm giá</h4>
+    <h4 class="voucher-form-title">Thiết lập mã giảm giá</h4>
   <div class="voucher-form-row">
     <label>Loại Voucher</label>
     <div class="voucher-radio-group">
@@ -319,30 +319,62 @@ document.querySelectorAll('.section-toggle-btn, .form-container button[type="sub
   <div class="voucher-form-row">
     <label>Loại giảm giá | Mức giảm</label>
     <div style="display: flex; gap: 8px;">
-      <select>
-        <option>Theo số tiền</option>
-        <option>Theo %</option>
+      <select name ="TypeValuedatavoucher">
+        <option value="money">Theo số tiền</option>
+        <option value="per">Theo %</option>
       </select>
-      <input type="number" min="0" placeholder="đ" style="width:100px;">
+      <input name ="Valuedatavoucher" type="number" min="0" placeholder="đ" style="width:100px;">
     </div>
   </div>
   <div class="voucher-form-row">
     <label>Giá trị đơn hàng tối thiểu</label>
-    <input type="number" min="0" placeholder="đ">
+    <input name ="MinCost" type="number" min="0" placeholder="đ">
   </div>
   <div class="voucher-form-row">
     <label>Tổng lượt sử dụng tối đa</label>
-    <input type="number" min="0" placeholder="">
-    <div class="voucher-note">Tổng số Mã giảm giá có thể sử dụng</div>
+    <input name="MaxUsed" type="number" min="0" placeholder="">
+    <div   class="voucher-note">Tổng số Mã giảm giá có thể sử dụng</div>
   </div>
   <div class="voucher-form-row">
     <label>Lượt sử dụng tối đa/Người mua</label>
-    <input type="number" min="1" value="1">
+    <input   name ="MaxPerCus"  type="number" min="1" value="1">
   </div>
+  <button type="submit" class="voucher-save-btn-unique">Lưu thiết lập</button>
 </form>
-<button type="submit" class="voucher-save-btn-unique">Lưu thiết lập</button>
+
+  </div>
+  <div class="voucher-tab-content" id="voucherTabSetup" style="display:none">
+    <form class="voucher-setup-form">
+
+  <button type="submit" class="voucher-save-btn-unique">Lưu thiết lập</button>
+</form>
+
   </div>
   <div class="voucher-tab-content" id="voucherTabShow" style="display:none">
+    <table id="Vouchertable">
+          <thead>
+            <tr>
+              <th>Loại Mã</th>
+              <th>Mã</th>
+              <th>Tên CT</th>
+              <th>Loại Voucher</th>
+              <th>Loại giảm giá</th>
+              <th>Mức giảm</th>
+              <th>Giá trị tối thiểu</th>
+              <th>Tổng lượt SD tối đa</th>
+              <th>Lượt Sử dụng</th>
+              <th>Từ</th>
+              <th>Đến</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+    <form id="xoavoucher1" class="form-container">
+        <label for="MaVoucher">XÓA VOUCHER</label>
+        <input type="text" id="MaVoucher" name="MaVoucher" required />
+        <button type="submit">XÓA</button>
+      </form>
     <form class="voucher-show-form">
   <h4 class="voucher-form-title">Hiển thị mã giảm giá và các sản phẩm áp dụng</h4>
   <div class="voucher-form-row">
@@ -362,7 +394,7 @@ document.querySelectorAll('.section-toggle-btn, .form-container button[type="sub
     </div>
   </div>
 </form>
-<button type="submit" class="voucher-save-btn-unique">Lưu thiết lập</button>
+<!---<button type="submit" class="voucher-save-btn-unique">Lưu thiết lập</button> !-->
   </div>
 </section>
 </div>
@@ -372,6 +404,70 @@ document.querySelectorAll('.section-toggle-btn, .form-container button[type="sub
 const contentform = document.getElementById("postForm");
 const xacnhanform = document.getElementById("xndform");
 const thanhcongform = document.getElementById("dntcform");
+const xoavoucher = document.getElementById("xoavoucher1");
+document.getElementById("voucher-create-data").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const data = {
+    voucherType: form.querySelector('input[name="voucherType"]:checked')?.value,
+    voucherCode: form.querySelector('input[name="voucher-code-id"]')?.value,
+    voucherName: form.querySelector('input[name="voucher-name"]')?.value,
+    dateFrom: form.querySelector('input[name="DateFrom"]')?.value,
+    dateTo: form.querySelector('input[name="DateTo"]')?.value,
+    allowSaveBefore: form.querySelector('#allowSaveBefore')?.checked,
+    voucherOption: "Khuyến Mãi", 
+    discountType: form.querySelector('select[name="TypeValuedatavoucher"]')?.value,
+    discountValue: form.querySelector('input[name="Valuedatavoucher"]')?.value,
+    minCost: form.querySelector('input[name="MinCost"]')?.value,
+    use: 0,
+    maxUsed: form.querySelector('input[name="MaxUsed"]')?.value,
+    maxPerCustomer: form.querySelector('input[name="MaxPerCus"]')?.value
+  };
+
+  const res = await fetch("https://server-web-hagotree.glitch.me/voucher", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (res.ok) {
+    alert("Gửi thành công!");
+    form.reset();
+  } else {
+    alert("Gửi thất bại!");
+  }
+});
+
+xoavoucher.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const voucherCode = document.getElementById("MaVoucher").value;
+
+  fetch("https://server-web-hagotree.glitch.me/del-voucher", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ voucherCode }),
+  })
+    .then((res) => {
+      if (res.ok) {
+        alert("Đã xóa thành công!");
+        xoavoucher.reset();
+      } else {
+        alert("Xóa thất bại!");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Lỗi kết nối đến server.");
+    });
+});
+
+
 
 contentform.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -572,7 +668,32 @@ function getDiaChi(dayString) {
 
   return `${ward.Name}, ${district.Name}, ${city.Name}`;
 }
-
+fetch("https://server-web-hagotree.glitch.me/voucher")
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.querySelector("#Vouchertable tbody");
+      data.forEach(voucherdata => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${voucherdata.voucherType}</td>
+          <td>${voucherdata.voucherCode}</td>
+          <td>${voucherdata.voucherName}</td>
+          <td>${voucherdata.voucherOption}</td>
+          <td>${voucherdata.discountType}</td>
+          <td>${voucherdata.discountValue}</td>
+          <td>${voucherdata.minCost}</td>
+          <td>${voucherdata.maxPerCustomer}</td>
+          <td>${voucherdata.use}/${voucherdata.maxUsed}</td>
+          <td>${voucherdata.dateFrom}</td>
+          <td>${voucherdata.dateTo}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(err => {
+      console.error("Lỗi khi lấy đơn hàng:", err);
+      document.body.innerHTML += "<p style='color:red;'>Không thể tải voucher!</p>";
+    });
 fetch("https://dssc.hagotree.site/lh")
     .then(res => res.json())
     .then(data => {

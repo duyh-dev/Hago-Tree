@@ -73,29 +73,26 @@
               <!-- Cart items with images will be displayed here -->
             </ul>
              <div class="voucher-section">
-    <label for="voucher-code">Mã giảm giá:</label>
-    <input type="text" id="voucher-code" name="voucher-code" placeholder="Nhập mã voucher" />
-    <button type="button" id="apply-voucher-btn">Áp dụng</button>
-  </div>
-  <!-- Kết thúc ĐOẠN CODE MỚI -->
+              <label for="voucher-code">Mã giảm giá:</label>
+              <input type="text" id="voucher-code" name="voucher-code" placeholder="Nhập mã voucher" />
+              <button type="button" id="apply-voucher-btn" onclick="addvoucher()">Áp dụng</button>
+            </div>
+            <!-- Kết thúc ĐOẠN CODE MỚI -->
 
-  <p>
-    <strong>Tổng cộng: </strong>
-    <span id="cart-total-summary" class="original-price">100,000₫</span>
-  </p>
-  <p class="discounted-price">
-    <strong>Sau khi giảm: </strong>
-    <span id="discounted-total">80,000₫</span>
-</div>
             <p>
-              <strong>Tổng cộng: </strong
-              ><span id="cart-total-summary">0₫</span>
+              <strong>Tổng cộng: </strong>
+              <span id="cart-total-summary" ></span>
+            </p>
+            <p class="discounted-price">
+              <strong>Giảm: </strong>
+              <span class="discounted-price" id="discounted-total">0đ</span>
+          </div>
+            <p>
+              <strong>Tổng cộng: </strong>
+              <span class ="discounted-price" id="cart-total-summary-voucher"></span>
             </p>
           </div>
-        </div>
-
-        <!-- Right side: QR Code -->
-        <div class="qr-code">
+          <div class="qr-code">
           <img
             id="qr-code-image"
             src="https://via.placeholder.com/200.png?text=Scan+to+Pay"
@@ -105,6 +102,10 @@
         
         </div>
       </div>
+        </div>
+
+        <!-- Right side: QR Code -->
+        
 
       <!-- Địa chỉ thanh toán -->
 
