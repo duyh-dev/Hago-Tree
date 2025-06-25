@@ -86,7 +86,7 @@ function addvoucher() {
     return;
   }
 
-  fetch("https://hagotree.site/use-voucher", {
+  fetch("https://dssc.hagotree.site/use-voucher", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -271,7 +271,7 @@ checkoutForm.addEventListener("submit", function (e) {
       const voucherCode = document.getElementById("voucher-code").value.trim();
       alert('Đã thanh toán, sẽ có email xác nhận đơn!');
 
-        fetch("https://hagotree.site/used-voucher", {
+        fetch("https://dssc.hagotree.site/used-voucher", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
