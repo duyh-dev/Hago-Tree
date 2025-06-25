@@ -425,7 +425,7 @@ document.getElementById("voucher-create-data").addEventListener("submit", async 
     maxPerCustomer: form.querySelector('input[name="MaxPerCus"]')?.value
   };
 
-  const res = await fetch("https://hagotree.site/voucher", {
+  const res = await fetch("https://dssc.hagotree.site/voucher", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -446,7 +446,7 @@ xoavoucher.addEventListener("submit", async (e) => {
 
   const voucherCode = document.getElementById("MaVoucher").value;
 
-  fetch("https://hagotree.site/del-voucher", {
+  fetch("https://dssc.hagotree.site/del-voucher", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -668,7 +668,7 @@ function getDiaChi(dayString) {
 
   return `${ward.Name}, ${district.Name}, ${city.Name}`;
 }
-fetch("https://hagotree.site/voucher")
+fetch("https://dssc.hagotree.site/voucher")
     .then(res => res.json())
     .then(data => {
       const tbody = document.querySelector("#Vouchertable tbody");
