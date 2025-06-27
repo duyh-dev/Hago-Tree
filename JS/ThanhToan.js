@@ -15,8 +15,9 @@ function removeVietnameseTones() {
   const user = JSON.parse(localStorage.getItem("user")) || [];
   try {
     if (
-      (user.length > 0) &
-      (localStorage.getItem("userPassword").length > 0)
+      user.length > 0 &&
+      localStorage.getItem("userPassword") &&
+      localStorage.getItem("userPassword").length > 0
     ) {
       const lastUser = user[user.length - 1];
       console.log(lastUser.email);
