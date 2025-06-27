@@ -1042,3 +1042,38 @@ th:not([data-fulltext]):hover::after {
     width: 100%;
   }
 }
+
+/* Product management table */
+#ProductManageTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+#ProductManageTable th,
+#ProductManageTable td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  vertical-align: top;
+}
+#ProductManageTable input,
+#ProductManageTable textarea {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+#ProductManageTable img.pm-preview {
+  max-width: 60px;
+  margin-bottom: 6px;
+  display: block;
+}
+.pm-save-btn {
+  background: #579a52;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.pm-save-btn:hover {
+  background: #467d42;
+}
