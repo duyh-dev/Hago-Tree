@@ -26,7 +26,7 @@
     <div class="right-icons">
       <a href="../HTML/dangnhap.html" class="icon-link"><img src="../IMG/HAGOTK.png" /><span id="Accountchecker">Đăng nhập/đăng ký</span></a>
       <a href="../HTML/LienHe.html" class="icon-link"><img src="../IMG/HAGOLH.png" /><span>Liên hệ</span></a>
-      <a href="../HTML/GioHang.html" class="icon-link"><img src="../IMG/HAGOGH.png" /><span>Giỏ hàng</span><span class="cart-count"></span></a>
+      <a href="../HTML/GioHang.html" class="icon-link"><img src="../IMG/HAGOGH.png" /><span>Giỏ hàng</span></a>
       
     </div>
   </div>
@@ -222,9 +222,20 @@
     &copy; 2025 Hago Tree. All rights reserved.
   </div>
 </footer>
+
   <script src="../JS/ThanhToan.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script>
+      const searchInput = document.querySelector(".searchbox");
+
+  searchInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      const keyword = encodeURIComponent(searchInput.value.trim());
+      if (keyword) {
+        window.location.href = `search.html?s=${keyword}`;
+      }
+    }
+  });
   var citis = document.getElementById("city");
 var districts = document.getElementById("district");
 var wards = document.getElementById("ward");

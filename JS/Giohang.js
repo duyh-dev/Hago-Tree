@@ -17,7 +17,16 @@ function updateCartCount() {
   }
 }
 
+const searchInput = document.querySelector(".searchbox");
 
+  searchInput.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      const keyword = encodeURIComponent(searchInput.value.trim());
+      if (keyword) {
+        window.location.href = `search.html?s=${keyword}`;
+      }
+    }
+  });
 // Hiển thị sản phẩm trong giỏ hàng
 function displayCart() {
   const cartItemsContainer = document.getElementById("cart-items");
