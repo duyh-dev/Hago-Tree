@@ -64,7 +64,7 @@ body {
 .pm-save-btn:hover {
   background: #467d42;
 }
-.pm-del-btn {
+.pm-delete-btn {
   background: #579a52;
   color: #fff;
   border: none;
