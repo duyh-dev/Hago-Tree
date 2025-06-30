@@ -72,7 +72,7 @@ body {
   border-radius: 6px;
   cursor: pointer;
 }
-.pm-del-btn:hover {
+.pm-delete-btn:hover {
   background: #467d42;
 }
 .section-toggle-btn,
