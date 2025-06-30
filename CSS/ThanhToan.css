@@ -1,0 +1,281 @@
+.payment-container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.payment-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.payment-details h2 {
+  text-align: center;
+  color: #4a4a4a;
+}
+
+.payment-details p {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Left side: Payment Method and Order Info */
+.payment-details-left {
+  width: 60%; /* Adjust as needed */
+}
+
+.payment-details-left h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.payment-details-left p {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+/* Right side: QR Code */
+.qr-code {
+  width: 30%; /* Adjust width for QR code */
+  text-align: center;
+}
+
+.qr-code img {
+  width: 200px; /* Customize QR code size */
+  height: 200px;
+  margin-bottom: 10px;
+}
+
+.qr-code p {
+  font-size: 14px;
+  color: #888;
+}
+
+/* Order summary section */
+.order-summary {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #e9f5e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+.order-summary ul {
+  padding: 0;
+  list-style-type: none;
+  margin: 10px 0;
+}
+
+.order-summary ul li {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.order-summary p {
+  font-weight: bold;
+  color: #333;
+}
+
+.cart-item-summary {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.cart-item-summary img {
+  width: 400px; /* Adjust the image size */
+  height: 400px;
+  margin-right: 10px;
+}
+
+/* Button Styling */
+#confirm-payment-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+}
+
+#confirm-payment-btn:hover {
+  background-color: #218838;
+}
+
+/* CSS cho địa chỉ thanh toán */
+
+.checkout-container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #fffaf3;
+  padding: 32px 32px 24px 32px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px #0001;
+}
+.checkout-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+.form-group {
+  margin-bottom: 18px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+label {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+.required {
+  color: #d00;
+}
+input,
+select {
+  padding: 10px;
+  border: 1.5px solid #a3d08c;
+  border-radius: 4px;
+  font-size: 15px;
+  background: #fff;
+}
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #6bbf59;
+}
+.note {
+  font-size: 13px;
+  color: #888;
+  margin-top: 2px;
+}
+.error {
+  border-color: #e74c3c !important;
+  background: #fff0f0;
+}
+.email-group input {
+  border-color: #e74c3c;
+}
+.email-group .note {
+  color: #e74c3c;
+}
+#address2 {
+  margin-top: 10px;
+}
+input.error {
+  border-color: #e74c3c !important;
+  background: #fff0f0;
+}
+.checkout-container button[type="submit"] {
+  background-color: #6bbf59;
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 28px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px #0001;
+}
+
+.checkout-container button[type="submit"]:hover {
+  background-color: #4e944f;
+}
+/*Modal pop up thông báo đã thanh toán và đường dẫn đến trang chi tiết đơn hàng*/
+.modal-success {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content-success {
+  background: #fff;
+  padding: 32px 28px 24px 28px;
+  border-radius: 10px;
+  text-align: center;
+  min-width: 320px;
+  position: relative;
+  box-shadow: 0 4px 24px #0002;
+}
+.modal-content-success h2 {
+  color: #4e944f;
+  margin-bottom: 18px;
+}
+.modal-content-success .close-success {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 28px;
+  color: #888;
+  cursor: pointer;
+  font-weight: bold;
+}
+.modal-content-success .close-success:hover {
+  color: #d00;
+}
+/* Giao diện ô nhập mã voucher */
+.voucher-section {
+  margin: 10px 0;
+}
+.voucher-section label {
+  font-size: 14px;
+  margin-right: 8px;
+}
+.voucher-section input#voucher-code {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+.voucher-section button#apply-voucher-btn {
+  padding: 6px 12px;
+  background-color: #6bbf59;  /* màu xanh giống nút "Xác nhận thanh toán" */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.voucher-section button#apply-voucher-btn:hover {
+  background-color: #4e944f;
+}
+
+/* Định dạng giá gốc và giá giảm */
+
+
+.use-voucher-price {
+  text-decoration: line-through; /* gạch ngang giá gốc khi áp dụng mã */
+  color: #888;                  /* màu xám cho giá gốc đã gạch */
+  font-weight: normal;
+}
+.discounted-price {               /* ẩn giá sau giảm mặc định, sẽ hiện khi mã hợp lệ */                 /* màu đỏ để nhấn mạnh giá đã giảm */
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+/* Footer styles */
