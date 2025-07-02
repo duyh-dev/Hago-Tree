@@ -25,7 +25,7 @@ async function loadTatCaSanPhamTheoTag() {
     const res = await fetch("https://dssc.hagotree.site/sp/12");
     const data = await res.json();
 
-    const template = document.getElementById("sanpham-template");
+    const template = document.querySelector(".sanpham-template");
     if (!template) {
       console.error("Không tìm thấy template sản phẩm!"); 
       return;
@@ -50,10 +50,10 @@ async function loadTatCaSanPhamTheoTag() {
       clone.querySelector(".detail-link").href = `../HTML/SanPham.html?id=${sp.id}`;
 
       // Tìm hoặc tạo container con để gắn sản phẩm
-      let innerContainer = container.querySelector("#sanpham-container");
+      let innerContainer = container.querySelector(".sanpham-container");
       if (!innerContainer) {
         innerContainer = document.createElement("div");
-        innerContainer.id = "sanpham-container";
+        innerContainer.classList.add("sanpham-container");
         container.appendChild(innerContainer);
       }
 
