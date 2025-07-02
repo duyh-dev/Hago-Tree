@@ -22,16 +22,31 @@ async function loadProducts() {
     ]);
     const salesMap = {};
     const revenueMap = {};
-    orders
-      .filter(o => o.Ttdon === 'Hoàn thành đơn')
-      .forEach(o => {
-        const title = o.title; 
-        const qty = parseInt(o.quantity || 1);
-        const price = parseFloat(o.price || 0);
 
-        salesMap[title] = (salesMap[title] || 0) + qty;
-        revenueMap[title] = (revenueMap[title] || 0) + qty * price;
+    orders.forEach(order => {
+      if (order.Ttdon !== "Hoàn thành đơn") return;
+
+      let items = [];
+
+      try {
+        items = JSON.parse(order.DonHang); // phải parse chuỗi JSON này thành array
+      } catch (e) {
+        console.warn("Lỗi parse DonHang:", e, order.DonHang);
+        return;
+      }
+
+      items.forEach(item => {
+        const key = normalizeTitle(item.title);
+        const qty = parseInt(item.quantity || 1);
+        const price = parseFloat(item.cost || 0);
+
+        salesMap[key] = (salesMap[key] || 0) + qty;
+        revenueMap[key] = (revenueMap[key] || 0) + qty * price;
       });
+    });
+
+
+
 
     const fbMap = {};
     feedbacks.forEach(f => {
@@ -41,11 +56,19 @@ async function loadProducts() {
 
     tbody.innerHTML = '';
     products.forEach((p, idx) => {
-      p.sales = salesMap[p.title] || 0;
-      p.revenue = revenueMap[p.title] || 0;
-      p.feedback = fbMap[p.id] || 0;
-      tbody.appendChild(createRow(p, idx));
-    });
+
+        const key = normalizeTitle(p.title);
+        p.sales = salesMap[key] || 0;
+        p.revenue = revenueMap[key] || 0;
+        p.feedback = fbMap[p.id] || 0;
+
+        tbody.appendChild(createRow(p, idx));
+        
+
+      });
+
+
+
 
   } catch (err) {
     console.error('Lỗi load sản phẩm:', err);
@@ -55,7 +78,7 @@ async function loadProducts() {
 function createRow(product, index) {
   const tr = document.createElement('tr');
   tr.innerHTML = `
-    <td><input class="pm-name" type="text" value="${product.title || ''}"></td>
+    <td><input class="pm-name" type="text" value="${escapeHtml(product.title || '')}"></td>
     <td><input class="pm-price" type="number" value="${product.cost || ''}"></td>
     <td>
       <img class="pm-preview" src="https://dssc.hagotree.site${product.image || ''}" alt="preview" width="60">
@@ -104,6 +127,23 @@ function createRow(product, index) {
   });
 
   return tr;
+}
+
+function normalizeTitle(title) {
+  return (title || '')
+     .replace(/\\+"/g, '"')  
+    .replace(/\\+/g, '')     
+    .replace(/[^a-zA-Z0-9\s]/g, '') 
+    .toLowerCase()
+    .trim();
+}
+function escapeHtml(str) {
+  if (!str) return '';
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;") 
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 

@@ -82,8 +82,10 @@
         />
 
         <button type="submit">Đăng nhập</button>
-        <p>Bạn quên mật khẩu: liên hệ để cấp lại tài khoản<a href="../HTML/LienHe.html" >Liên hệ</a> hoặc <a href="https://zalo.me/0947192590" >Zalo</a> </p>
+        <p>Bạn quên mật khẩu: liên hệ để cấp lại tài khoản<a href="../HTML/LienHe.html" >Liên hệ</a> hoặc <a href="https://zalo.me/0947192590" >Zalo</a>
+         </p><a id="showFogotPass" hidden href="#">Quên mật khẩu</a>
         <div class="switch-form">
+
           Chưa có tài khoản? <a id="showRegister" href="#">Đăng ký ngay</a>
         </div>
       </form>
@@ -143,12 +145,47 @@
           required
           placeholder="Nhập lại mật khẩu"
         />
-
+        
+        
+        <div class="form-container">
+        <label for="OTPPassword">Nhập mã xác nhận email</label>
+        <button type="submit">Nhận mã xác nhận email</button>
+          <input
+          type="text"
+          id="OTPPassword"
+          name="OTPPassword"
+          required
+          placeholder="Nhập mã xác nhận 8 chữ số"
+        />
+        </div>
         <button type="submit">Đăng ký</button>
 
         <div class="switch-form">
           Đã có tài khoản? <a id="showLogin" href="#">Đăng nhập</a>
         </div>
+      </form>
+       <form class="hidden" id="ForgotPassForm" >
+        <h2>Quên mật khẩu</h2>
+        <label for="loginEmail">Email</label>
+        <input
+          type="email"
+          id="loginEmail"
+          name="loginEmail"
+          required
+          placeholder="Nhập email của bạn"
+        />
+        <div class="form-container">
+        <label for="OTPPassword">Nhập mã xác nhận email</label>
+        <button type="submit">Nhận mã xác nhận email</button>
+          <input
+          type="text"
+          id="OTPPassword"
+          name="OTPPassword"
+          required
+          placeholder="Nhập mã xác nhận 8 chữ số"
+        />
+        </div>
+        <button type="submit">Nhận Mật khẩu</button>
       </form>
     </div>
  </div>
