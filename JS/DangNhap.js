@@ -24,7 +24,53 @@ showFogotPass.addEventListener("click", (e) => {
   loginForm.classList.add("hidden");
   forgotPassForm.classList.remove("hidden");
 });
+ function sendOTP() {
+    const email = document.getElementById("registerEmail").value;
 
+    if (!email) {
+      alert("Vui lòng nhập email trước khi nhận mã xác nhận.");
+      return;
+    }
+
+    fetch("https://dssc.hagotree.site/send-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Mã OTP đã được gửi tới email của bạn.");
+        } else {
+          alert("Gửi OTP thất bại: " + data.message);
+        }
+      });
+  }
+
+  function verifyOTP() {
+    const email = document.getElementById("registerEmail").value;
+    const otpInput = document.getElementById("OTPPassword").value;
+
+    if (!otpInput) {
+      alert("Vui lòng nhập mã OTP.");
+      return;
+    }
+
+    fetch("https://dssc.hagotree.site/verify-otp", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, otp: otpInput })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert("Xác nhận OTP thành công. Bạn có thể đăng ký.");
+          document.getElementById("registerBtn").disabled = false;
+        } else {
+          alert("OTP không hợp lệ hoặc đã hết hạn.");
+        }
+      });
+  }
 window.addEventListener("DOMContentLoaded", () => {
 
 
@@ -135,6 +181,11 @@ loginForm.addEventListener("submit", (e) => {
 
 
 registerForm.addEventListener("submit", (e) => {
+  const btn = document.getElementById("registerBtn");
+    if (btn.disabled) {
+      alert("Bạn cần xác nhận OTP trước khi đăng ký.");
+      return false;
+    }
   e.preventDefault();
   if (
     registerForm.registerPassword.value !==

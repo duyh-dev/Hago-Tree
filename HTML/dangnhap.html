@@ -91,79 +91,41 @@
       </form>
 
       <!-- FORM ĐĂNG KÝ -->
-      <form  class="hidden"id="registerForm">
-        <h2>Đăng ký</h2>
-        <label for="registerName">Họ và tên</label>
-        <input
-          type="text"
-          id="registerName"
-          name="registerName"
-          required
-          placeholder="Nhập họ và tên"
-        />
+            <form class="hidden" id="registerForm">
+          <h2>Đăng ký</h2>
 
-        <label for="registerEmail">Email</label>
-        <input
-          type="email"
-          id="registerEmail"
-          name="registerEmail"
-          required
-          placeholder="Nhập email"
-        />
+          <label for="registerName">Họ và tên</label>
+          <input type="text" id="registerName" name="registerName" required placeholder="Nhập họ và tên" />
 
-        <label for="registerPasswordConfirm">Số điện thoại</label>
-        <input
-          type="text"
-          id="sdt"
-          name="sdt"
-          required
-          placeholder="Nhập lại mật khẩu"
-        />
+          <label for="registerEmail">Email</label>
+          <input type="email" id="registerEmail" name="registerEmail" required placeholder="Nhập email" />
 
-        <label for="registerPasswordConfirm">Địa chỉ</label>
-        <input
-          type="text"
-          id="address"
-          name="address"
-          required
-          placeholder="Nhập lại mật khẩu"
-        />
-        <label for="registerPassword">Mật khẩu</label>
-        <input
-          type="password"
-          id="registerPassword"
-          name="registerPassword"
-          required
-          placeholder="Nhập mật khẩu"
-        />
+          <label for="sdt">Số điện thoại</label>
+          <input type="text" id="sdt" name="sdt" required placeholder="Nhập số điện thoại" />
 
-        <label for="registerPasswordConfirm">Xác nhận mật khẩu</label>
-        <input
-          type="password"
-          id="registerPasswordConfirm"
-          name="registerPasswordConfirm"
-          required
-          placeholder="Nhập lại mật khẩu"
-        />
-        
-        
-        <div class="form-container">
-        <label for="OTPPassword">Nhập mã xác nhận email</label>
-        <button type="submit">Nhận mã xác nhận email</button>
-          <input
-          type="text"
-          id="OTPPassword"
-          name="OTPPassword"
-          required
-          placeholder="Nhập mã xác nhận 8 chữ số"
-        />
-        </div>
-        <button type="submit">Đăng ký</button>
+          <label for="address">Địa chỉ</label>
+          <input type="text" id="address" name="address" required placeholder="Nhập địa chỉ" />
 
-        <div class="switch-form">
-          Đã có tài khoản? <a id="showLogin" href="#">Đăng nhập</a>
-        </div>
-      </form>
+          <label for="registerPassword">Mật khẩu</label>
+          <input type="password" id="registerPassword" name="registerPassword" required placeholder="Nhập mật khẩu" />
+
+          <label for="registerPasswordConfirm">Xác nhận mật khẩu</label>
+          <input type="password" id="registerPasswordConfirm" name="registerPasswordConfirm" required placeholder="Nhập lại mật khẩu" />
+
+          <div class="form-container">
+            <label for="OTPPassword">Nhập mã xác nhận email</label>
+            <button type="button" onclick="sendOTP()">Nhận mã xác nhận</button>
+            <input type="text" id="OTPPassword" name="OTPPassword" placeholder="Nhập mã xác nhận 6 số" />
+            <button type="button" onclick="verifyOTP()">Xác nhận mã</button>
+          </div>
+
+          <button id="registerBtn" type="submit"disabled >Đăng ký</button>
+
+          <div class="switch-form">
+            Đã có tài khoản? <a id="showLogin" href="#">Đăng nhập</a>
+          </div>
+        </form>
+
        <form class="hidden" id="ForgotPassForm" >
         <h2>Quên mật khẩu</h2>
         <label for="loginEmail">Email</label>
