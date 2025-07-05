@@ -1,0 +1,54 @@
+body {
+  background: #f6f6f6;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.gmail-container {
+  max-width: 400px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 32px 24px 24px 24px;
+  text-align: center;
+}
+.gmail-logo {
+  width: 80px;
+  margin-bottom: 18px;
+}
+.gmail-title {
+  font-size: 1.7em;
+  margin: 0 0 10px 0;
+  font-weight: bold;
+  color: #222;
+}
+.gmail-desc {
+  color: #555;
+  margin-bottom: 18px;
+}
+.gmail-otp {
+  font-size: 2.5em;
+  letter-spacing: 10px;
+  font-weight: 600;
+  color: #222;
+  background: #f2f7f3;
+  border-radius: 8px;
+  padding: 18px 0;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+.gmail-expire {
+  color: #888;
+  margin-bottom: 18px;
+}
+.gmail-warning {
+  color: #d32f2f;
+  font-size: 1em;
+  margin-bottom: 18px;
+}
+.gmail-from {
+  color: #555;
+  font-size: 0.98em;
+  margin-top: 18px;
+}

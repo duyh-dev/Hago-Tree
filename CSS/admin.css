@@ -315,6 +315,7 @@ td {
   transition: background 0.2s, border-color 0.2s;
   display: flex;
   align-items: center;
+  white-space: nowrap;
   color: #fff;
 }
 .admin-sidebar li:hover,
@@ -1085,4 +1086,40 @@ th:not([data-fulltext]):hover::after {
   .voucher-type-card {
     width: 100%;
   }
+}
+
+.user-manage-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #579a6233;
+  overflow: hidden;
+}
+.user-manage-table th, .user-manage-table td {
+  border: 1px solid #579a62;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 1.05rem;
+  color: #22543d;
+  background: #f8f5e3;
+}
+.user-manage-table th {
+  background: #579a62;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.user-manage-table tr:nth-child(even) td {
+  background: #e6f9e6;
+}
+.user-manage-table tr:hover td {
+  background: #d0e9d0;
+  color: #22543d;
+}
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }

@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ADMIN</title>
      <link rel="icon" href="../IMG/HAGO icon.png" type="image/png" />
-    <link rel="stylesheet" href="CSS/baidang.css" /><link rel="stylesheet" href="CSS/SanPham.css" />
+    <!-- Đảm bảo đường dẫn đúng cho CSS -->
+    <link rel="stylesheet" href="../CSS/baidang.css" />
+<link rel="stylesheet" href="../CSS/SanPham.css" />
+<link rel="stylesheet" href="../CSS/admin.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -100,6 +103,7 @@ document.querySelectorAll('.section-toggle-btn, .form-container button[type="sub
     th {
       background: #f2f2f2;
     }
+  
   </style>
   </head>
   <body>
@@ -133,6 +137,9 @@ document.querySelectorAll('.section-toggle-btn, .form-container button[type="sub
     </li>
     <li data-section="voucherSection">
       <i class="fas fa-ticket-alt"></i> <span>Voucher</span>
+    </li>
+    <li data-section="userManageSection">
+      <i class="fas fa-users"></i> <span>Quản lý tài khoản</span>
     </li>
   </ul>
 </nav>
@@ -416,6 +423,28 @@ document.querySelectorAll('.section-toggle-btn, .form-container button[type="sub
 <!---<button type="submit" class="voucher-save-btn-unique">Lưu thiết lập</button> !-->
   </div>
 </section>
+<section class="section-card admin-section-content" id="userManageSection">
+    <div class="section-header">
+      <h3 class="section-title">Quản lý tài khoản người dùng</h3>
+    </div>
+    <div id="UserManageContainer" class="section-table-wrap">
+      <table id="UserManageTable" class="user-manage-table">
+        <thead>
+          <tr>
+            <th>Họ tên</th>
+            <th>Email</th>
+            <th>SĐT</th>
+            <th>Địa chỉ</th>
+            <th>Thời gian tạo</th>
+            <th>Mật khẩu</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dữ liệu user sẽ được render ở đây -->
+        </tbody>
+      </table>
+    </div>
+  </section>
 </div>
   </div>
 
@@ -655,7 +684,44 @@ function convertToBase64(file) {
   });
 }
 
-     </script>
+// Quản lý tài khoản user
+function loadUsers() {
+  fetch("https://dssc.hagotree.site/users")
+    .then(res => res.json())
+    .then(users => {
+      const tbody = document.querySelector("#UserManageTable tbody");
+      tbody.innerHTML = "";
+      users.forEach(user => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${user.registerName || ""}</td>
+          <td>${user.registerEmail || ""}</td>
+          <td>${user.sdt || ""}</td>
+          <td>${user.address || ""}</td>
+          <td>${user.createdAt ? new Date(user.createdAt).toLocaleString("vi-VN") : ""}</td>
+          <td style="font-family:monospace;color:#579a62;">${user.registerPassword ? btoa(user.registerPassword).slice(0, 12) + "..." : ""}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    })
+    .catch(err => {
+      console.error("Lỗi khi lấy user:", err);
+      document.querySelector("#UserManageTable tbody").innerHTML = "<tr><td colspan='6' style='color:red;'>Không thể tải danh sách user!</td></tr>";
+    });
+}
+document.addEventListener("DOMContentLoaded", function () {
+  // ...existing code...
+  // Gọi loadUsers khi chuyển sang tab user
+  document.querySelectorAll('.admin-sidebar li').forEach(li => {
+    li.addEventListener('click', function () {
+      // ...existing code...
+      if (this.getAttribute('data-section') === "userManageSection") {
+        loadUsers();
+      }
+    });
+  });
+});
+</script>
 
      <script>
 let cityData = [];
@@ -883,8 +949,9 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 </script>
-         <script src="JS/index.js"></script>
-         <script src="JS/adminProduct.js"></script>
+         <!-- Đảm bảo đường dẫn đúng cho JS -->
+         <script src="../JS/index.js"></script>
+<script src="../JS/adminProduct.js"></script>
          <script>
 document.addEventListener("DOMContentLoaded", function() {
   // ...code chuyển section menu...
