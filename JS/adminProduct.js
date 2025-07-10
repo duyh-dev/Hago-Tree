@@ -77,12 +77,20 @@ async function loadProducts() {
 
 function createRow(product, index) {
   const tr = document.createElement('tr');
+  // Giả sử product.images là mảng các ảnh chi tiết, product.image là ảnh bìa
+  const detailImgs = Array.isArray(product.images) ? product.images : [];
   tr.innerHTML = `
     <td><input class="pm-name" type="text" value="${escapeHtml(product.title || '')}"></td>
     <td><input class="pm-price" type="number" value="${product.cost || ''}"></td>
     <td>
       <img class="pm-preview" src="https://dssc.hagotree.site${product.image || ''}" alt="preview" width="60">
       <input class="pm-image" type="file" accept="image/*">
+    </td>
+    <td>
+      <div class="pm-detail-imgs">
+        ${detailImgs.map(img => `<img src="https://dssc.hagotree.site${img}" alt="detail" />`).join('')}
+      </div>
+      <input class="pm-detail-image" type="file" accept="image/*" multiple style="margin-top:6px;">
     </td>
     <td><textarea class="pm-desc">${product.content || ''}</textarea></td>
     <td class="pm-feedback">${product.feedback}</td>
@@ -103,6 +111,22 @@ function createRow(product, index) {
       reader.onload = e => preview.src = e.target.result;
       reader.readAsDataURL(f);
     }
+  });
+
+  // Preview nhiều ảnh chi tiết
+  const detailInput = tr.querySelector('.pm-detail-image');
+  const detailPreview = tr.querySelector('.pm-detail-imgs');
+  detailInput.addEventListener('change', () => {
+    detailPreview.innerHTML = '';
+    Array.from(detailInput.files).forEach(f => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        detailPreview.appendChild(img);
+      };
+      reader.readAsDataURL(f);
+    });
   });
 
   tr.querySelector('.pm-save-btn').addEventListener('click', () =>
