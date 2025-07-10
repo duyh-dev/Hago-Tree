@@ -82,8 +82,7 @@
         />
 
         <button type="submit">Đăng nhập</button>
-        <p>Bạn quên mật khẩu: liên hệ để cấp lại tài khoản<a href="../HTML/LienHe.html" >Liên hệ</a> hoặc <a href="https://zalo.me/0947192590" >Zalo</a>
-         </p><a id="showFogotPass" hidden href="#">Quên mật khẩu</a>
+        <button type="button" id="showFogotPass" class="forgot-btn-custom">Quên mật khẩu</button>
         <div class="switch-form">
 
           Chưa có tài khoản? <a id="showRegister" href="#">Đăng ký ngay</a>
@@ -153,12 +152,66 @@
  </div>
 
 <div id="accontid" style="display: none;">
-  <div class="form-container">
-    <p>Tên : <span id="name"></span></p>
-    <p>Email : <span id="email"></span></p>
-    <p>SĐT : <span id="sdtx"></span></p>
-    <p>Địa chỉ : <span id="diachi"></span></p><span>Lưu ý: Hiện tại bạn không thể thay đổi thông tin này</span>
-    <button onclick="localStorage.removeItem('userPassword');window.location.href = '../HTML/dangnhap.html';">Đăng xuất</button>
+  <form id="editAccountForm" class="form-container" style="max-width:520px;background:#f8f5e3;border:2px solid #579a62;">
+    <h2 style="color:#579a62;text-align:center;">Thông tin tài khoản</h2>
+    <div class="form-group">
+      <label for="editName">Họ và tên</label>
+      <input type="text" id="editName" name="editName" required />
+    </div>
+    <div class="form-group">
+      <label for="editEmail">Email</label>
+      <input type="email" id="editEmail" name="editEmail" required readonly style="background:#e0e0e0;color:#888;" />
+
+    </div>
+    <div class="form-group">
+      <label for="editPhone">Số điện thoại</label>
+      <input type="text" id="editPhone" name="editPhone" required />
+    </div>
+    <div class="form-group">
+      <label for="editAddress">Địa chỉ</label>
+      <input type="text" id="editAddress" name="editAddress" required />
+    </div>
+    <div class="form-group">
+      <label for="editPassword">Mật khẩu mới (bỏ trống nếu không đổi)</label>
+      <input type="password" id="editPassword" name="editPassword" placeholder="Nhập mật khẩu mới nếu muốn đổi" />
+    </div>
+    <div style="display:flex;gap:12px;justify-content:center;margin-top:18px;">
+      <button type="submit" style="background:#579a62;color:#fff;font-weight:600;padding:10px 32px;border-radius:8px;">Lưu thay đổi</button>
+      <button type="button" onclick="localStorage.removeItem('userPassword');window.location.href = '../HTML/dangnhap.html';" style="background:#d32f2f;color:#fff;font-weight:600;padding:10px 32px;border-radius:8px;">Đăng xuất</button>
+    </div>
+    <div id="editAccountMsg" style="margin-top:12px;text-align:center;font-weight:600;"></div>
+  </form>
+  <!-- Bảng thông tin tài khoản -->
+  <div id="userInfoTableWrap" style="max-width:520px;margin:24px auto 0 auto;">
+    <table id="userInfoTable" style="width:100%;border-collapse:collapse;background:#fff;border-radius:10px;box-shadow:0 2px 8px #579a6233;">
+      <thead>
+        <tr style="background:#579a62;color:#fff;">
+          <th colspan="2" style="padding:12px;font-size:1.15rem;">Bảng thông tin tài khoản</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;color:#22543d;width:160px;">Họ và tên</td>
+          <td id="infoName"></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#22543d;">Email</td>
+          <td id="infoEmail"></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#22543d;">Số điện thoại</td>
+          <td id="infoPhone"></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#22543d;">Địa chỉ</td>
+          <td id="infoAddress"></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#22543d;">Ngày tạo</td>
+          <td id="infoCreatedAt"></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
