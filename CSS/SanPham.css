@@ -89,40 +89,104 @@
     display: block;
     position: static;
   }
+/* Bao chứa toàn bộ form đánh giá */
+.review-section {
+  margin-top: 2rem;                 /* Khoảng cách phía trên form tách với phần trên */
+  background: #fff;                 /* Nền trắng (có thể dùng #f9f9f9 nhạt tùy nền trang) */
+  padding: 1.5rem;                  /* Khoảng đệm bên trong cho thoáng */
+  border-radius: 8px;               /* Bo góc container form */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Đổ bóng nhẹ quanh form cho nổi bật */
+}
 
-  @media (max-width: 600px) {
-    .mobile-only {
-      display: inline-block;
-    }
+/* Tiêu đề của form */
+.review-section h3 {
+  color: #579a62;                   /* Màu tiêu đề dùng màu xanh chủ đạo */
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
 
-    .responsive-menu {
-      position: absolute;
-      display: none;
-    }
+/* Container chứa các ngôi sao */
+.star-rating {
+  display: flex;
+  gap: 0.5rem;                      /* Khoảng cách giữa các sao */
+  margin-bottom: 1rem;
+  flex-wrap: wrap;                  /* Đảm bảo sao xuống hàng nếu màn hình hẹp */
+}
 
-    .mobile-only.show + .responsive-menu {
-      display: block !important;
-    }
-  }
-.starsx1 span {
-  font-size: 24px;
+/* Mỗi ngôi sao (icon FontAwesome) mặc định */
+.star i {
+  font-size: 2rem;
+  color: #ccc;                      /* Màu xám nhạt cho sao chưa chọn */
   cursor: pointer;
-  color: gray;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.starsx1 span.selected {
-  color: gold;
+/* Hiệu ứng hover: khi di chuột vào sao */
+.star i:hover {
+  transform: scale(1.2);            /* Phóng to nhẹ ngôi sao khi hover */
 }
 
-.feedback-itemx1 {
+/* Trạng thái tô sáng khi hover (tạm thời) hoặc khi đã chọn (vĩnh viễn) */
+.star.hovered i,
+.star.selected i {
+  color: #579a62;                   /* Tô màu xanh chủ đạo cho sao được hover/chọn */
+}
+
+/* Định dạng ô nhập (textarea và input) bên trong form */
+.review-section textarea,
+.review-section input[type="text"] {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  font: 1rem "Arial", sans-serif;
   border: 1px solid #ccc;
-  
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  resize: vertical;                 /* Cho phép textarea co giãn dọc (vertical) */
+  outline: none;                    /* Bỏ viền outline mặc định khi focus */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.feedback-itemx1 img,
-.feedback-item video {
-  max-width: 200px;
-  margin-top: 5px;
+/* Hiệu ứng khi focus vào ô nhập liệu */
+.review-section textarea:focus,
+.review-section input[type="text"]:focus {
+  border-color: #579a62;            /* Đổi viền sang màu xanh khi focus */
+  box-shadow: 0 0 0 3px rgba(87,154,98, 0.2);  /* Halo xanh nhạt xung quanh */
+}
+
+/* Định dạng nút gửi đánh giá */
+#submitReview {
+  background-color: #579a62;        /* Nền xanh chủ đạo */
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  /* Optionally add a slight shadow for depth */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Hiệu ứng hover và active cho nút */
+#submitReview:hover {
+  background-color: #4e8e58;        /* Đậm hơn khi hover (hoặc dùng lighten/darken) */
+  transform: translateY(-2px);      /* Đẩy nút lên một chút khi hover */
+}
+#submitReview:active {
+  transform: translateY(0);         /* Khi click giữ, nút nhấn xuống trở lại */
+}
+
+/* Đảm bảo form hiển thị tốt trên mobile */
+@media (max-width: 576px) {
+  .review-section {
+    padding: 1rem;
+  }
+  .star-rating {
+    justify-content: flex-start;
+  }
+  .review-section h3 {
+    font-size: 1.25rem;
+  }
 }
 
 .back {

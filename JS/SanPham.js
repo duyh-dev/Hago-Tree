@@ -65,7 +65,9 @@ let btnadd = `<button onclick="addToCart(decodeURIComponent('${title}'), decodeU
           </button>
           <form id="feedbackForm"  style=" border: 1px solid #ddd;border-radius: 10px;" class="form-container">
             <h2>Gửi đánh giá</h2>
+// Chức năng tương tác đánh giá sao và gửi form đánh giá
 
+<<<<<<< Updated upstream
             <label for="starRating" style="footer-container">Đánh giá sao:</label>
             <div id="starRating" class="starsx1">
               <span data-star="1">★</span>
@@ -74,14 +76,49 @@ let btnadd = `<button onclick="addToCart(decodeURIComponent('${title}'), decodeU
               <span data-star="4">★</span>
               <span data-star="5">★</span>
             </div>
+=======
+// Lấy danh sách tất cả các phần tử sao
+const stars = document.querySelectorAll('#ratingStars .star');
+let selectedRating = 0;  // lưu số sao được chọn
+>>>>>>> Stashed changes
 
-            <label for="feedbackContent">Nhận xét của bạn</label>
-            <input type="text" id="feedbackContent" required placeholder="Nhập nhận xét của bạn" /><br>
+// Gắn sự kiện hover (mouseover) cho mỗi ngôi sao
+stars.forEach(star => {
+  star.addEventListener('mouseover', function() {
+    const val = Number(this.dataset.value);
+    // Tô sáng tất cả các sao <= sao đang hover
+    stars.forEach(s => {
+      if (Number(s.dataset.value) <= val) {
+        s.classList.add('hovered');
+      } else {
+        s.classList.remove('hovered');
+      }
+    });
+  });
+});
 
-            <label for="image">Ảnh minh họa:</label>
-            <input type="file" id="image" name="image" accept="image/*" /><br>
+// Khi rời chuột khỏi vùng sao, bỏ trạng thái hover
+const starContainer = document.getElementById('ratingStars');
+starContainer.addEventListener('mouseleave', function() {
+  stars.forEach(s => s.classList.remove('hovered'));
+});
 
+// Gắn sự kiện click cho mỗi ngôi sao
+stars.forEach(star => {
+  star.addEventListener('click', function() {
+    selectedRating = Number(this.dataset.value);  // cập nhật số sao được chọn
+    // Tô màu cố định các sao <= số sao được chọn
+    stars.forEach(s => {
+      if (Number(s.dataset.value) <= selectedRating) {
+        s.classList.add('selected');
+      } else {
+        s.classList.remove('selected');
+      }
+    });
+  });
+});
 
+<<<<<<< Updated upstream
 
             <button type="submit" class="btn SanPham">Gửi</button>
           </form>
@@ -102,6 +139,31 @@ let btnadd = `<button onclick="addToCart(decodeURIComponent('${title}'), decodeU
             });
           });
         });
+=======
+// Xử lý sự kiện click nút "Gửi đánh giá"
+const submitBtn = document.getElementById('submitReview');
+submitBtn.addEventListener('click', function() {
+  const name = document.getElementById('reviewerName').value.trim();
+  const content = document.getElementById('reviewContent').value.trim();
+  // Kiểm tra hợp lệ trước khi gửi
+  if (selectedRating === 0) {
+    alert('Vui lòng chọn số sao đánh giá!');
+    return;
+  }
+  if (name === '' || content === '') {
+    alert('Vui lòng nhập đầy đủ tên và nội dung đánh giá.');
+    return;
+  }
+  // Thông báo gửi thành công (hoặc thực hiện gửi dữ liệu lên server tại đây)
+  alert(`Cảm ơn ${name}! Bạn đã gửi đánh giá ${selectedRating} sao.\Nội dung: ${content}`);
+  // Reset form sau khi gửi
+  document.getElementById('reviewContent').value = '';
+  document.getElementById('reviewerName').value = '';
+  selectedRating = 0;
+  stars.forEach(s => s.classList.remove('selected'));  // bỏ chọn sao về trạng thái ban đầu
+});
+    });
+>>>>>>> Stashed changes
 
       const form = document.getElementById("feedbackForm");
       form.addEventListener("submit", async (e) => {

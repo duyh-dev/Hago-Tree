@@ -61,6 +61,33 @@
     <div id="product-detail" aria-live="polite" aria-atomic="true"></div>
     <button class="back-button" onclick="goBack()">← Quay lại</button>
   </body>
+  <!-- Phần Form Đánh Giá Sản Phẩm -->
+<div class="review-section">
+  <h3>Đánh giá sản phẩm</h3>
+  <!-- Hệ thống 5 sao đánh giá -->
+  <div class="star-rating" id="ratingStars">
+    <span class="star" data-value="1"><i class="fa-solid fa-star"></i></span>
+    <span class="star" data-value="2"><i class="fa-solid fa-star"></i></span>
+    <span class="star" data-value="3"><i class="fa-solid fa-star"></i></span>
+    <span class="star" data-value="4"><i class="fa-solid fa-star"></i></span>
+    <span class="star" data-value="5"><i class="fa-solid fa-star"></i></span>
+  </div>
+
+  <!-- Ô nhập nội dung đánh giá -->
+  <div class="form-group">
+    <label for="reviewContent">Nội dung đánh giá:</label>
+    <textarea id="reviewContent" placeholder="Nhập nội dung đánh giá của bạn..." required></textarea>
+  </div>
+
+  <!-- Ô nhập tên người dùng -->
+  <div class="form-group">
+    <label for="reviewerName">Tên của bạn:</label>
+    <input type="text" id="reviewerName" placeholder="Nhập tên của bạn..." required />
+  </div>
+
+  <!-- Nút gửi đánh giá -->
+  <button type="button" id="submitReview">Gửi đánh giá</button>
+</div>
 <footer>
   <div class="footer-container">
     <div class="footer-section">
