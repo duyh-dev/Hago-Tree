@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hago - Đăng nhập</title>
+     <link rel="icon" href="../IMG/HAGO icon.png" type="image/png" />
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="../CSS/DangNhap.css" /><link rel="stylesheet" href="../CSS/index.css" />  <link rel="stylesheet" href="../CSS/SanPham.css" />
        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -81,84 +82,136 @@
         />
 
         <button type="submit">Đăng nhập</button>
-        <p>Bạn quên mật khẩu: liên hệ để cấp lại tài khoản<a href="../HTML/LienHe.html" >Liên hệ</a> hoặc <a href="https://zalo.me/0947192590" >Zalo</a> </p>
+        <button type="button" id="showFogotPass" class="forgot-btn-custom">Quên mật khẩu</button>
         <div class="switch-form">
+
           Chưa có tài khoản? <a id="showRegister" href="#">Đăng ký ngay</a>
         </div>
       </form>
 
       <!-- FORM ĐĂNG KÝ -->
-      <form  class="hidden"id="registerForm">
-        <h2>Đăng ký</h2>
-        <label for="registerName">Họ và tên</label>
-        <input
-          type="text"
-          id="registerName"
-          name="registerName"
-          required
-          placeholder="Nhập họ và tên"
-        />
+            <form class="hidden" id="registerForm">
+          <h2>Đăng ký</h2>
 
-        <label for="registerEmail">Email</label>
+          <label for="registerName">Họ và tên</label>
+          <input type="text" id="registerName" name="registerName" required placeholder="Nhập họ và tên" />
+
+          <label for="registerEmail">Email</label>
+          <input type="email" id="registerEmail" name="registerEmail" required placeholder="Nhập email" />
+
+          <label for="sdt">Số điện thoại</label>
+          <input type="text" id="sdt" name="sdt" required placeholder="Nhập số điện thoại" />
+
+          <label for="address">Địa chỉ</label>
+          <input type="text" id="address" name="address" required placeholder="Nhập địa chỉ" />
+
+          <label for="registerPassword">Mật khẩu</label>
+          <input type="password" id="registerPassword" name="registerPassword" required placeholder="Nhập mật khẩu" />
+
+          <label for="registerPasswordConfirm">Xác nhận mật khẩu</label>
+          <input type="password" id="registerPasswordConfirm" name="registerPasswordConfirm" required placeholder="Nhập lại mật khẩu" />
+
+          <div class="form-container">
+            <label for="OTPPassword">Nhập mã xác nhận email</label>
+            <button type="button" onclick="sendOTP()">Nhận mã xác nhận</button>
+            <input type="text" id="OTPPassword" name="OTPPassword" placeholder="Nhập mã xác nhận 6 số" />
+            <button type="button" onclick="verifyOTP()">Xác nhận mã</button>
+          </div>
+
+          <button id="registerBtn" type="submit"disabled >Đăng ký</button>
+
+          <div class="switch-form">
+            Đã có tài khoản? <a id="showLogin" href="#">Đăng nhập</a>
+          </div>
+        </form>
+
+       <form class="hidden" id="ForgotPassForm" >
+        <h2>Quên mật khẩu</h2>
+        <label for="loginEmail">Email</label>
         <input
           type="email"
-          id="registerEmail"
-          name="registerEmail"
+          id="loginEmail"
+          name="loginEmail"
           required
-          placeholder="Nhập email"
+          placeholder="Nhập email của bạn"
         />
-
-        <label for="registerPasswordConfirm">Số điện thoại</label>
-        <input
+        <div class="form-container">
+        <label for="OTPPassword">Nhập mã xác nhận email</label>
+        <button type="submit">Nhận mã xác nhận email</button>
+          <input
           type="text"
-          id="sdt"
-          name="sdt"
+          id="OTPPassword"
+          name="OTPPassword"
           required
-          placeholder="Nhập lại mật khẩu"
+          placeholder="Nhập mã xác nhận 8 chữ số"
         />
-
-        <label for="registerPasswordConfirm">Địa chỉ</label>
-        <input
-          type="text"
-          id="address"
-          name="address"
-          required
-          placeholder="Nhập lại mật khẩu"
-        />
-        <label for="registerPassword">Mật khẩu</label>
-        <input
-          type="password"
-          id="registerPassword"
-          name="registerPassword"
-          required
-          placeholder="Nhập mật khẩu"
-        />
-
-        <label for="registerPasswordConfirm">Xác nhận mật khẩu</label>
-        <input
-          type="password"
-          id="registerPasswordConfirm"
-          name="registerPasswordConfirm"
-          required
-          placeholder="Nhập lại mật khẩu"
-        />
-
-        <button type="submit">Đăng ký</button>
-
-        <div class="switch-form">
-          Đã có tài khoản? <a id="showLogin" href="#">Đăng nhập</a>
         </div>
+        <button type="submit">Nhận Mật khẩu</button>
       </form>
     </div>
  </div>
 
 <div id="accontid" style="display: none;">
-  <div class="form-container">
-    <p>Tên : <span id="name"></span></p>
-    <p>Email : <span id="email"></span></p>
-    <p>SĐT : <span id="sdtx"></span></p>
-    <p>Địa chỉ : <span id="diachi"></span></p><span>Lưu ý: Hiện tại bạn không thể thay đổi thông tin này</span>
-    <button onclick="localStorage.removeItem('userPassword');window.location.href = '../HTML/dangnhap.html';">Đăng xuất</button>
+  <form id="editAccountForm" class="form-container" style="max-width:520px;background:#f8f5e3;border:2px solid #579a62;">
+    <h2 style="color:#579a62;text-align:center;">Thông tin tài khoản</h2>
+    <div class="form-group">
+      <label for="editName">Họ và tên</label>
+      <input type="text" id="editName" name="editName" required />
+    </div>
+    <div class="form-group">
+      <label for="editEmail">Email</label>
+      <input type="email" id="editEmail" name="editEmail" required readonly style="background:#e0e0e0;color:#888;" />
+
+    </div>
+    <div class="form-group">
+      <label for="editPhone">Số điện thoại</label>
+      <input type="text" id="editPhone" name="editPhone" required />
+    </div>
+    <div class="form-group">
+      <label for="editAddress">Địa chỉ</label>
+      <input type="text" id="editAddress" name="editAddress" required />
+    </div>
+    <div class="form-group">
+      <label for="editPassword">Mật khẩu mới (bỏ trống nếu không đổi)</label>
+      <input type="password" id="editPassword" name="editPassword" placeholder="Nhập mật khẩu mới nếu muốn đổi" />
+    </div>
+    <div style="display:flex;gap:12px;justify-content:center;margin-top:18px;">
+      <button type="submit" style="background:#579a62;color:#fff;font-weight:600;padding:10px 32px;border-radius:8px;">Lưu thay đổi</button>
+      <button type="button" onclick="localStorage.removeItem('userPassword');window.location.href = '../HTML/dangnhap.html';" style="background:#d32f2f;color:#fff;font-weight:600;padding:10px 32px;border-radius:8px;">Đăng xuất</button>
+    </div>
+    <div id="editAccountMsg" style="margin-top:12px;text-align:center;font-weight:600;"></div>
+  </form>
+  <!-- Bảng thông tin tài khoản -->
+  <div id="userInfoTableWrap" style="max-width:520px;margin:24px auto 0 auto;">
+    <table id="userInfoTable" style="width:100%;border-collapse:collapse;background:#fff;border-radius:10px;box-shadow:0 2px 8px #579a6233;">
+      <thead>
+        <tr style="background:#579a62;color:#fff;">
+          <th colspan="2" style="padding:12px;font-size:1.15rem;">Bảng thông tin tài khoản</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;color:#22543d;width:160px;">Họ và tên</td>
+          <td id="infoName"></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#22543d;">Email</td>
+          <td id="infoEmail"></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#22543d;">Số điện thoại</td>
+          <td id="infoPhone"></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#22543d;">Địa chỉ</td>
+          <td id="infoAddress"></td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#22543d;">Ngày tạo</td>
+          <td id="infoCreatedAt"></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 

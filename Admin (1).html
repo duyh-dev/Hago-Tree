@@ -1,0 +1,967 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ADMIN</title>
+     <link rel="icon" href="../IMG/HAGO icon.png" type="image/png" />
+    <!-- Đảm bảo đường dẫn đúng cho CSS -->
+    <link rel="stylesheet" href="../CSS/baidang.css" />
+<link rel="stylesheet" href="CSS/SanPham.css" />
+<link rel="stylesheet" href="CSS/admin.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      if (sessionStorage.getItem("adminLoggedIn") !== "true") {
+  alert("Bạn chưa đăng nhập hoặc phiên đã hết.");
+  const email = prompt("Username");
+  const password = prompt("Key");
+  fetch("https://dssc.hagotree.site/admin", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      loginEmail: email,
+      loginPassword: password
+    })
+  })
+    .then((res) =>
+      res.json().then((data) => ({
+        status: res.status,
+        body: data
+      }))
+    )
+    .then(({ status, body }) => {
+      if (status === 202) {
+        sessionStorage.setItem("adminLoggedIn", "true");
+        alert("Đăng nhập thành công!");
+      } else {
+        alert("Sai email hoặc mật khẩu");
+        window.location.href = "/Admin.html";
+      }
+    })
+    .catch((err) => {
+      console.error("Lỗi:", err);
+      alert("Lỗi kết nối tới server");
+    });
+
+}
+// Hiệu ứng ripple cho nút
+document.querySelectorAll('.section-toggle-btn, .form-container button[type="submit"]').forEach(btn => {
+  btn.addEventListener('click', function (e) {
+    const circle = document.createElement('span');
+    circle.classList.add('ripple');
+    const rect = btn.getBoundingClientRect();
+    circle.style.left = `${e.clientX - rect.left}px`;
+    circle.style.top = `${e.clientY - rect.top}px`;
+    btn.appendChild(circle);
+    setTimeout(() => circle.remove(), 500);
+  });
+});
+
+// Hiện/ẩn nội dung và đổi tên nút
+[
+  {btn: 'toggleDonHang', container: 'donHangContainer', label: ['Hiện đơn hàng', 'Ẩn đơn hàng']},
+  {btn: 'toggleGiaoDich', container: 'GiaoDichContainer', label: ['Hiện giao dịch', 'Ẩn giao dịch']},
+  {btn: 'toggleLienHe', container: 'LienHeContainer', label: ['Hiện liên hệ', 'Ẩn liên hệ']},
+  {btn: 'toggleFeedBack', container: 'FeedBackContainer', label: ['Hiện phản hồi', 'Ẩn phản hồi']},
+  {btn: 'toggleBaiViet', container: 'BaiVietContainer', label: ['Hiện bài viết', 'Ẩn bài viết']},
+].forEach(({btn, container, label}) => {
+  const btnEl = document.getElementById(btn);
+  const contEl = document.getElementById(container);
+  if (btnEl && contEl) {
+    btnEl.textContent = label[0];
+    contEl.style.display = 'none';
+    btnEl.addEventListener('click', () => {
+      if (contEl.style.display === 'none' || contEl.style.display === '') {
+        contEl.style.display = 'block';
+        btnEl.textContent = label[1];
+        contEl.animate([{opacity:0},{opacity:1}],{duration:300,fill:'forwards'});
+      } else {
+        contEl.animate([{opacity:1},{opacity:0}],{duration:200,fill:'forwards'}).onfinish = () => {
+          contEl.style.display = 'none';
+          btnEl.textContent = label[0];
+        };
+      }
+    });
+  }
+});
+
+    </script>
+<link rel="stylesheet" href="CSS/admin.css" />
+<style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      padding: 8px;
+      border: 1px solid #ccc;
+    }
+    th {
+      background: #f2f2f2;
+    }
+  
+  </style>
+  </head>
+  <body>
+
+    <div class="admin-layout">
+  <nav class="admin-sidebar" id="adminSidebar">
+  <div class="sidebar-header">
+    <button class="sidebar-toggle" id="sidebarToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    <span class="sidebar-title">Menu</span>
+  </div>
+  <ul>
+    <li data-section="donHangSection" class="active">
+      <i class="fas fa-receipt"></i> <span>Đơn hàng</span>
+    </li>
+    <li data-section="giaoDichSection">
+      <i class="fas fa-check-circle"></i> <span>Xác nhận đơn</span>
+    </li>
+    <li data-section="lienHeSection">
+      <i class="fas fa-envelope"></i> <span>Liên hệ</span>
+    </li>
+    <li data-section="feedbackSection">
+      <i class="fas fa-comment-dots"></i> <span>Feedback</span>
+    </li>
+    <li data-section="baiVietSection">
+      <i class="fas fa-newspaper"></i> <span>Bài viết</span>
+    </li>
+    <li data-section="dangSanPhamSection">
+      <i class="fas fa-plus-square"></i> <span>Đăng sản phẩm mới</span>
+    </li>
+    <li data-section="voucherSection">
+      <i class="fas fa-ticket-alt"></i> <span>Voucher</span>
+    </li>
+    <li data-section="userManageSection">
+      <i class="fas fa-users"></i> <span>Quản lý tài khoản</span>
+    </li>
+  </ul>
+</nav>
+  <div class="admin-main-content">
+  <section class="section-card admin-section-content" id="donHangSection">
+    <div class="section-header">
+      <h3 class="section-title">ĐƠN HÀNG</h3>
+    </div>
+    <div id="donHangContainer" class="section-table-wrap">
+      <div id="DonHangList"></div>
+    </div>
+  </section>
+  <section class="section-card admin-section-content" id="giaoDichSection">
+    <div class="section-header">
+      <h3 class="section-title">XÁC NHẬN ĐƠN</h3>
+    </div>
+    <div id="GiaoDichContainer">
+      <form id="xndform" class="form-container">
+        <label for="MaGiaoDich">MÃ GIAO DỊCH CẦN THỰC HIỆN</label>
+        <input type="text" id="MaGiaoDich" name="MaGiaoDich" required />
+        <select id="chonxacnhan" required>
+          <option selected value="xn">Xác nhận đơn</option>
+          <option value="ht">Đã hoàn thành</option>
+          <option value="hd">Hủy đơn</option>
+          <option value="xd">Xóa đơn</option>
+          <option value="tg">Thời gian giao đơn</option>
+        </select>
+        <button type="submit">XÁC NHẬN ĐƠN</button>
+      </form>
+    </div>
+  </section>
+  <section class="section-card admin-section-content" id="lienHeSection">
+    <div class="section-header">
+      <h3 class="section-title">LIÊN HỆ</h3>
+    </div>
+    <div id="LienHeContainer" class="section-table-wrap">
+      <div style="max-height: 300px; overflow-y: auto;">
+        <table id="LienHeTable">
+          <thead>
+            <tr>
+              <th>Họ tên</th>
+              <th>Email</th>
+              <th>Điện thoại</th>
+              <th>Lời nhắn</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <section class="section-card admin-section-content" id="feedbackSection">
+    <div class="section-header">
+      <h3 class="section-title">FeedBack Sản Phẩm</h3>
+    </div>
+    <div id="FeedBackContainer" class="section-table-wrap">
+      <div style="max-height: 300px; overflow-y: auto;">
+        <table id="FeedBackTable">
+          <thead>
+            <tr>
+              <th>Sản phẩm</th>
+              <th>Lời nhắn</th>
+              <th>Email người gửi</th>
+              <th>Ảnh</th>
+              <th>Sao</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <section class="section-card admin-section-content" id="baiVietSection">
+    <div class="section-header">
+      <h3 class="section-title">Bài viết</h3>
+    </div>
+    <div id="BaiVietContainer">
+      <div style="max-height: 500px; overflow-y: auto;">
+        <iframe style="border:none;" src="https://mmqstore.io.vn/wp/posthaogtree" height="500px" width="100%"></iframe>
+      </div>
+    </div>
+  </section>
+  <section class="section-card admin-section-content" id="dangSanPhamSection">
+  <h3 class="section-title">Đăng sản phẩm mới</h3>
+  <form id="postForm" enctype="multipart/form-data" class="form-container product-upload-form">
+    <label for="title">Tên sản phẩm:</label>
+    <input type="text" id="title" name="title" required />
+
+    <!-- Ảnh bìa sản phẩm -->
+    <label for="mainImage" style="color:#579a62;font-weight:600;">Ảnh bìa sản phẩm (ảnh chính):</label>
+    <div class="main-image-upload" style="border:2.5px solid #579a62;border-radius:12px;padding:16px 18px 12px 18px;margin-bottom:16px;">
+      <input type="file" id="mainImage" name="mainImage" accept="image/*" required style="display:none;" />
+      <label for="mainImage" class="main-image-label">
+        <span id="mainImageText">Chọn ảnh bìa</span>
+        <img id="mainImagePreview" src="" alt="Ảnh bìa" style="display:none;max-width:120px;max-height:120px;border-radius:10px;border:2px solid #579a62;margin-top:8px;" />
+      </label>
+    </div>
+
+    <!-- Ảnh chi tiết sản phẩm -->
+    <label for="detailImages" style="color:#579a62;font-weight:600;">Các ảnh chi tiết sản phẩm:</label>
+    <div class="detail-images-upload" style="border:2.5px solid #579a62;border-radius:12px;padding:16px 18px 12px 18px;margin-bottom:16px;">
+      <input type="file" id="detailImages" name="detailImages" accept="image/*" multiple style="display:none;" />
+      <label for="detailImages" class="detail-images-label">
+        <span id="detailImagesText">Chọn nhiều ảnh</span>
+      </label>
+      <div id="detailImagesPreview" class="detail-images-preview"></div>
+    </div>
+
+    <label for="cost">Giá sản phẩm:</label>
+    <input type="number" id="cost" name="cost" required />
+
+    <label for="content">Miêu tả sản phẩm:</label>
+    <textarea id="content" name="content" rows="10" required></textarea>
+
+    <label for="tag_product">Chọn tag cho sản phẩm:</label>
+    <select id="tag_product" name="tag" required>
+      <option selected value="caycanhnhantao">Cây cảnh nhân tạo</option>
+      <option value="chaucay">Chậu cây</option>
+      <option value="combochaucay">Combo cây chậu</option>
+      <option value="caycanh">Cây cảnh</option>
+    </select>
+    <button type="submit" style="background:#579a62;">Đăng sản phẩm</button>
+  </form>
+  <div id="successMessage" style="display: none;">
+    Sản phẩm đã được lưu! Bạn có thể xem lại trong danh sách sản phẩm.
+  </div>
+  <div id="productManageContainer" class="section-table-wrap">
+    <h4 class="section-title" style="margin-top:20px;">Quản lý sản phẩm</h4>
+    <table id="ProductManageTable">
+      <thead>
+        <tr>
+          <th>Tên</th>
+          <th>Giá</th>
+          <th>Ảnh bìa</th>
+          <th>Ảnh chi tiết</th>
+          <th>Mô tả</th>
+          <th>Feedback</th>
+          <th>Lượt bán</th>
+          <th>Doanh thu</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+  <section class="section-card admin-section-content" id="voucherSection">
+  <h3 class="section-title" style="text-align:left;">Quản lý Voucher</h3>
+  <div class="voucher-btn-group" style="justify-content:flex-start;">
+    <button class="voucher-tab-btn" data-voucher-tab="info">Tạo voucher mới</button>
+    <button class="voucher-tab-btn" data-voucher-tab="show">Danh sách voucher</button>
+  </div>
+  <div class="voucher-tab-content voucher-no-border" id="voucherTabInfo" style="box-shadow:none;background:none;border-radius:0;max-width:900px;margin-left:0;">
+    <form class="voucher-basic-form-unique voucher-no-border" id="voucher-create-data" style="box-shadow:none;background:none;border-radius:0;max-width:700px;margin-left:0;">
+      <h4 class="voucher-form-title-unique" style="text-align:left;">Tạo voucher mới</h4>
+      <div class="voucher-row-inline-unique" style="justify-content:flex-start;">
+        <div class="voucher-col-inline-unique">
+          <label for="voucherType">Loại mã</label>
+          <div class="voucher-type-select-unique" id="voucherType" style="background:none;">
+            <div class="voucher-form-row-unique">
+              <div class="voucher-type-card-group">
+                <label class="voucher-type-card">
+                  <input type="radio" name="voucherType" value="shop" checked>
+                  <div class="voucher-type-card-content">
+                    <i class="fas fa-store"></i>
+                    <div>
+                      <strong>Voucher toàn Shop</strong>
+                    </div>
+                  </div>
+                </label>
+                <label class="voucher-type-card">
+                  <input value="sp"  type="radio" name="voucherType">
+                  <div class="voucher-type-card-content">
+                    <i class="fas fa-tag"></i>
+                    <div>
+                      <strong>Voucher theo từng sản phẩm</strong>
+                    </div>
+                  </div>
+                </label>
+                <div class="voucher-code-inline">
+                  <label for="voucherCode">Mã voucher</label>
+                  <div style="display:flex;align-items:center;">
+                    <input name="voucher-code-id" type="text" id="voucherCode" maxlength="5" value="YTV" />
+                    <span class="voucher-char-count">0/5</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="voucher-form-row-unique">
+        <label for="voucherName">Tên chương trình giảm giá</label>
+        <input name="voucher-name" type="text" id="voucherName" maxlength="100" />
+        <span class="voucher-char-count">0/100</span>
+        <div class="voucher-note">Tên Voucher sẽ không được hiển thị cho Người mua</div>
+      </div>
+      <div class="voucher-form-row-unique">
+        <label>Thời gian sử dụng mã</label>
+        <div style="display:flex;gap:16px;align-items:center;">
+          <span>Từ</span>
+          <input name="DateFrom" type="datetime-local" style="margin-bottom:6px;">
+          <span>Đến</span>
+          <input name="DateTo" type="datetime-local">
+        </div>
+      </div>
+      <div class="voucher-form-row-unique voucher-checkbox-row-unique">
+        <input type="checkbox" id="allowSaveBefore" />
+        <label for="allowSaveBefore" class="voucher-checkbox-label-unique">Cho phép lưu mã trước Thời gian sử dụng</label>
+      </div>
+      <div class="voucher-form-row-unique">
+        <label>Loại giảm giá</label>
+        <div style="display: flex; gap: 8px;">
+          <select name="TypeValuedatavoucher">
+            <option value="money">Theo số tiền</option>
+            <option value="per">Theo %</option>
+          </select>
+          <input name="Valuedatavoucher" type="number" min="0" placeholder="đ" style="width:100px;">
+        </div>
+      </div>
+      <div class="voucher-form-row-unique">
+        <label>Giá trị đơn hàng tối thiểu</label>
+        <input name="MinCost" type="number" min="0" placeholder="đ">
+      </div>
+      <div class="voucher-form-row-unique">
+        <label>Tổng lượt sử dụng tối đa</label>
+        <input name="MaxUsed" type="number" min="0" placeholder="">
+        <div class="voucher-note">Tổng số Mã giảm giá có thể sử dụng</div>
+      </div>
+      <div class="voucher-form-row-unique">
+        <label>Lượt sử dụng tối đa/Người mua</label>
+        <input name="MaxPerCus" type="number" min="1" value="1">
+      </div>
+      <div style="text-align:left;margin-top:24px;">
+        <button type="submit" class="voucher-save-btn-unique" style="padding:12px 40px;font-size:1.15rem;">Tạo voucher</button>
+      </div>
+    </form>
+  </div>
+  <div class="voucher-tab-content voucher-no-border" id="voucherTabShow" style="box-shadow:none;background:none;border-radius:0;max-width:1100px;margin-left:0;">
+    <table id="Vouchertable">
+      <thead>
+        <tr>
+          <th>Loại Mã</th>
+          <th>Mã</th>
+          <th>Tên CT</th>
+          <th>Loại Voucher</th>
+          <th>Loại giảm giá</th>
+          <th>Mức giảm</th>
+          <th>Giá trị tối thiểu</th>
+          <th>Tổng lượt SD tối đa</th>
+          <th>Lượt Sử dụng</th>
+          <th>Từ</th>
+          <th>Đến</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <form id="xoavoucher1" class="form-container" style="max-width:400px;margin:32px 0 0 0;background:none;box-shadow:none;border-radius:0;">
+      <label for="MaVoucher">XÓA VOUCHER</label>
+      <input type="text" id="MaVoucher" name="MaVoucher" required />
+      <button type="submit" style="background:#d32f2f;">XÓA</button>
+    </form>
+  </div>
+</section>
+<section class="section-card admin-section-content" id="userManageSection">
+  <div class="section-header">
+    <h3 class="section-title">Quản lý tài khoản người dùng</h3>
+  </div>
+  <div id="UserManageTableWrap" style="margin:24px 0 0 0;max-width:1200px;">
+    <table id="UserManageTable" style="width:100%;border-collapse:collapse;background:#fff;border-radius:10px;box-shadow:0 2px 8px #579a6233;">
+      <thead>
+        <tr style="background:#579a62;color:#fff;">
+          <th>Họ và tên</th>
+          <th>Email</th>
+          <th>Số điện thoại</th>
+          <th>Địa chỉ</th>
+          <th>Ngày tạo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dữ liệu user sẽ được render ở đây -->
+      </tbody>
+    </table>
+  </div>
+</section>
+</div>
+  </div>
+
+     <script>
+const contentform = document.getElementById("postForm");
+const xacnhanform = document.getElementById("xndform");
+const thanhcongform = document.getElementById("dntcform");
+const xoavoucher = document.getElementById("xoavoucher1");
+document.getElementById("voucher-create-data").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const data = {
+    voucherType: form.querySelector('input[name="voucherType"]:checked')?.value,
+    voucherCode: form.querySelector('input[name="voucher-code-id"]')?.value,
+    voucherName: form.querySelector('input[name="voucher-name"]')?.value,
+    dateFrom: form.querySelector('input[name="DateFrom"]')?.value,
+    dateTo: form.querySelector('input[name="DateTo"]')?.value,
+    allowSaveBefore: form.querySelector('#allowSaveBefore')?.checked,
+    voucherOption: "Khuyến Mãi", 
+    discountType: form.querySelector('select[name="TypeValuedatavoucher"]')?.value,
+    discountValue: form.querySelector('input[name="Valuedatavoucher"]')?.value,
+    minCost: form.querySelector('input[name="MinCost"]')?.value,
+    use: 0,
+    maxUsed: form.querySelector('input[name="MaxUsed"]')?.value,
+    maxPerCustomer: form.querySelector('input[name="MaxPerCus"]')?.value
+  };
+
+  const res = await fetch("https://dssc.hagotree.site/voucher", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+
+  if (res.ok) {
+    alert("Gửi thành công!");
+    form.reset();
+  } else {
+    alert("Gửi thất bại!");
+  }
+});
+
+xoavoucher.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const voucherCode = document.getElementById("MaVoucher").value;
+
+  fetch("https://dssc.hagotree.site/del-voucher", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ voucherCode }),
+  })
+    .then((res) => {
+      if (res.ok) {
+        alert("Đã xóa thành công!");
+        xoavoucher.reset();
+      } else {
+        alert("Xóa thất bại!");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Lỗi kết nối đến server.");
+    });
+});
+
+
+
+contentform.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(contentform);
+  fetch("https://dssc.hagotree.site/upload-post", {
+    method: "POST",
+    body: formData, 
+  })
+    .then((res) => {
+      if (res.ok) {
+        document.getElementById("successMessage").style.display = "block";
+        contentform.reset();
+      } else {
+        alert("Lỗi khi đăng bài viết!");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Lỗi kết nối đến server.");
+    });
+});
+xacnhanform.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const xacnhanformdata = Object.fromEntries(new FormData(xacnhanform).entries()); 
+  if(chonxacnhan.value=="xn"){
+    fetch('https://dssc.hagotree.site/xac-nhan-don', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(xacnhanformdata) 
+  })
+
+  .then(async (response) => {
+      console.log("Status:", response.status);
+      const data = await response.json().catch(() => ({}));
+      console.log("Response body:", data);
+
+      if (response.status === 201) {
+        alert("Xong");
+      } else {
+        alert("Có lỗi xảy ra, vui lòng thử lại.\n" + (data.message || ""));
+      }
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+      alert("Lỗi kết nối tới server!");
+    });
+}
+
+else if (chonxacnhan.value == "ht") {
+  fetch("https://dssc.hagotree.site/xac-nhan-don-xong", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(xacnhanformdata),
+  })
+    .then(async (response) => {
+      console.log("Status:", response.status);
+      const data = await response.json().catch(() => ({}));
+      console.log("Response body:", data);
+
+      if (response.status === 201) {
+        alert("Xong");
+      } else {
+        alert("Có lỗi xảy ra, vui lòng thử lại.\n" + (data.message || ""));
+      }
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+      alert("Lỗi kết nối tới server!");
+    });
+}
+else if (chonxacnhan.value == "tg") {
+  const datattime = prompt("Nhập thời gian giao");
+
+  const maGiaoDichx = document.getElementById("MaGiaoDich").value;
+
+  const dataToSend = {
+    thoiGianGiao: datattime,
+    maGiaoDich: maGiaoDichx
+  };
+
+  fetch("https://dssc.hagotree.site/thoi-gian-giao", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dataToSend),
+  })
+    .then(async (response) => {
+      console.log("Status:", response.status);
+      const data = await response.json().catch(() => ({}));
+      console.log("Response body:", data);
+
+      if (response.status === 201) {
+        alert("Xong");
+      } else {
+        alert("Có lỗi xảy ra, vui lòng thử lại.\n" + (data.message || ""));
+      }
+    })
+    .catch((error) => {
+      console.error("Fetch error:", error);
+      alert("Lỗi kết nối tới server!");
+    });
+}
+
+  else if(chonxacnhan.value=="hd"){
+      fetch('https://dssc.hagotree.site/huy-don', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(xacnhanformdata)  
+      })
+
+      .then(async (response) => {
+          console.log("Status:", response.status);
+          const data = await response.json().catch(() => ({}));
+          console.log("Response body:", data);
+
+          if (response.status === 201) {
+            alert("Xong");
+          } else {
+            alert("Có lỗi xảy ra, vui lòng thử lại.\n" + (data.message || ""));
+          }
+        })
+        .catch((error) => {
+          console.error("Fetch error:", error);
+        });
+  }
+   else if(chonxacnhan.value=="xd"){
+      fetch('https://dssc.hagotree.site/xoa-don', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(xacnhanformdata)  
+        })
+            .then(async (response) => {
+            console.log("Status:", response.status);
+            const data = await response.json().catch(() => ({}));
+            console.log("Response body:", data);
+
+            if (response.status === 201) {
+              alert("Xong");
+            } else {
+              alert("Có lỗi xảy ra, vui lòng thử lại.\n" + (data.message || ""));
+            }
+          })
+          .catch((error) => {
+            console.error("Fetch error:", error);
+            alert("Lỗi kết nối tới server!");
+          });
+      }
+
+})
+function convertToBase64(file) {  
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result); 
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// Quản lý tài khoản user
+function loadUsers() {
+      fetch("https://dssc.hagotree.site/s2", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams({
+        version: "krcl-180210812368012841098769010238172"
+      })
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Không lấy được dữ liệu");
+        return res.json();
+      })
+      .then(users => {
+        const tbody = document.querySelector("#UserManageTable tbody");
+        tbody.innerHTML = "";
+
+        users.forEach(user => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td style="color:#22543d;font-weight:600;">${user.registerName || ""}</td>
+            <td style="color:#579a62;">${user.registerEmail || ""}</td>
+            <td>${user.sdt || ""}</td>
+            <td>${user.address || ""}</td>
+            <td>${user.createdAt ? new Date(user.createdAt).toLocaleString("vi-VN") : ""}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(err => {
+        console.error("Lỗi khi lấy user:", err);
+        document.querySelector("#UserManageTable tbody").innerHTML =
+          "<tr><td colspan='5' style='color:red;'>Không thể tải danh sách user!</td></tr>";
+      });
+}
+document.addEventListener("DOMContentLoaded", function () {
+  // ...existing code...
+  // Gọi loadUsers khi chuyển sang tab user
+  document.querySelectorAll('.admin-sidebar li').forEach(li => {
+    li.addEventListener('click', function () {
+      // ...existing code...
+      if (this.getAttribute('data-section') === "userManageSection") {
+        loadUsers();
+      }
+    });
+  });
+});
+</script>
+
+     <script>
+let cityData = [];
+
+
+fetch("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json")
+  .then(response => response.json()) 
+  .then(data => {
+    cityData = data;
+    loadOrders(); 
+  })
+  .catch(error => {
+    console.error("Lỗi khi tải dữ liệu tỉnh thành:", error);
+  });
+
+function getDiaChi(dayString) {
+  if (!dayString || !dayString.includes(",")) return "Không rõ";
+
+  const [wardId, districtId, cityId] = dayString.split(",");
+
+  const city = cityData.find(c => c.Id === cityId);
+  if (!city) return "Không rõ thành phố";
+
+  const district = city.Districts.find(d => d.Id === districtId);
+  if (!district) return `${city.Name}`;
+
+  const ward = district.Wards.find(w => w.Id === wardId);
+  if (!ward) return `${district.Name}, ${city.Name}`;
+
+  return `${ward.Name}, ${district.Name}, ${city.Name}`;
+}
+fetch("https://dssc.hagotree.site/voucher")
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.querySelector("#Vouchertable tbody");
+      data.forEach(voucherdata => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${voucherdata.voucherType}</td>
+          <td>${voucherdata.voucherCode}</td>
+          <td>${voucherdata.voucherName}</td>
+          <td>${voucherdata.voucherOption}</td>
+          <td>${voucherdata.discountType}</td>
+          <td>${voucherdata.discountValue}</td>
+          <td>${voucherdata.minCost}</td>
+          <td>${voucherdata.maxPerCustomer}</td>
+          <td>${voucherdata.use}/${voucherdata.maxUsed}</td>
+          <td>${voucherdata.dateFrom}</td>
+          <td>${voucherdata.dateTo}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(err => {
+      console.error("Lỗi khi lấy đơn hàng:", err);
+      document.body.innerHTML += "<p style='color:red;'>Không thể tải voucher!</p>";
+    });
+fetch("https://dssc.hagotree.site/lh")
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.querySelector("#LienHeTable tbody");
+      data.forEach(lienhe => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${lienhe.name}</td>
+          <td>${lienhe.email}</td>
+          <td>${lienhe.phone}</td>
+          <td>${lienhe.message}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(err => {
+      console.error("Lỗi khi lấy đơn hàng:", err);
+      document.body.innerHTML += "<p style='color:red;'>Không thể tải liên hệ!</p>";
+    });
+fetch("https://dssc.hagotree.site/fb")
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.querySelector("#FeedBackTable tbody");
+      data.forEach(feedbackx => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${feedbackx.product}</td>
+          <td>${feedbackx.feedback}</td>
+          <td>${feedbackx.email}</td>
+          <td><img src="https://dssc.hagotree.site${feedbackx.image}" alt="Ảnh Feedback" style="max-width:200px;"></td>
+          <td>${feedbackx.star}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(err => {
+      console.error("Lỗi khi lấy đơn hàng:", err);
+      document.body.innerHTML += "<p style='color:red;'>Không thể tải liên hệ!</p>";
+    });
+function loadOrders() {
+  fetch("https://dssc.hagotree.site/dh")
+    .then(res => res.json())
+    .then(data => {
+      const listDiv = document.getElementById("DonHangList");
+      listDiv.innerHTML = ""; // Xóa cũ nếu có
+      data.forEach(order => {
+        const donHangParsed = JSON.parse(order.DonHang || "[]");
+        const productList = donHangParsed.map(p => `
+          <div>
+            <strong>${p.title}</strong> -  ${p.cost.toLocaleString()}đ × ${p.quantity}
+            <br><img src="https://dssc.hagotree.site${p.image}" width="50">
+          </div>
+        `).join("");
+
+        const diaChiGoc = getDiaChi(order.DiaChiTinhThanh);
+
+        // Tạo bảng dọc cho mỗi đơn hàng
+        const table = document.createElement("table");
+        table.className = "order-vertical-table";
+        table.innerHTML = `
+          <tr><th>Họ tên</th><td>${order.Name}</td></tr>
+          <tr><th>Email</th><td>${order.email}</td></tr>
+          <tr><th>Điện thoại</th><td>${order.phone}</td></tr>
+          <tr><th>Địa chỉ</th><td>${order.address}</td></tr>
+          <tr><th>Ghi chú</th><td>${order.note}</td></tr>
+          <tr><th>Mã giao dịch</th><td>${order.MaGiaoDich}</td></tr>
+          <tr><th>Trạng thái đơn</th><td>${order.Ttdon}</td></tr>
+          <tr><th>Tỉnh/TP</th><td>${diaChiGoc}</td></tr>
+          <tr><th>Sản phẩm</th><td>${productList}</td></tr>
+          <tr><th>Thời gian đặt</th><td>${order.TimeDatHang}</td></tr>
+          <tr><th>Thời gian giao</th><td>${order.TimeNhanHang}</td></tr>
+        `;
+        listDiv.appendChild(table);
+      });
+    })
+    .catch(err => {
+      console.error("Lỗi khi lấy đơn hàng:", err);
+      document.getElementById("DonHangList").innerHTML = "<p style='color:red;'>Không thể tải đơn hàng!</p>";
+    });
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("toggleDonHang");
+  const btn1 = document.getElementById("toggleGiaoDich");
+  const btn2 = document.getElementById("toggleLienHe");
+  const btn3 = document.getElementById("toggleFeedBack");
+  const btn4 = document.getElementById("toggleBaiViet");
+
+  const donHangDiv = document.getElementById("donHangContainer");
+  const giaoDichDiv = document.getElementById("GiaoDichContainer");
+  const lienHeDiv = document.getElementById("LienHeContainer");
+  const feedBackDiv = document.getElementById("FeedBackContainer");
+  const baiVietDiv = document.getElementById("BaiVietContainer");
+
+  btn.addEventListener("click", () => {
+    toggleDiv(donHangDiv, btn, "Xem đơn hàng", "Ẩn đơn hàng");
+  });
+
+  btn1.addEventListener("click", () => {
+    toggleDiv(giaoDichDiv, btn1, "Xem giao dịch", "Ẩn giao dịch");
+  });
+
+  btn2.addEventListener("click", () => {
+    toggleDiv(lienHeDiv, btn2, "Xem liên hệ", "Ẩn liên hệ");
+  });
+
+  btn3.addEventListener("click", () => {
+    toggleDiv(feedBackDiv, btn3, "Xem phản hồi", "Ẩn phản hồi");
+  });
+
+  btn4.addEventListener("click", () => {
+    toggleDiv(baiVietDiv, btn4, "Xem bài viết", "Ẩn bài viết");
+  });
+
+  function toggleDiv(div, button, textShow, textHide) {
+    if (div.style.display === "none" || div.style.display === "") {
+      div.style.display = "block";
+      button.textContent = textHide;
+    } else {
+      div.style.display = "none";
+      button.textContent = textShow;
+    }
+  }
+});
+document.addEventListener("DOMContentLoaded", function () {
+  // Ẩn tất cả section, chỉ hiện section đầu tiên
+  document.querySelectorAll('.admin-section-content').forEach((sec, idx) => {
+    sec.classList.toggle('active', idx === 0);
+    if (idx === 0) sec.style.opacity = 1;
+    else sec.style.opacity = 0;
+  });
+
+  document.querySelectorAll('.admin-sidebar li').forEach(li => {
+    li.addEventListener('click', function () {
+      // Đổi active menu
+      document.querySelectorAll('.admin-sidebar li').forEach(x => x.classList.remove('active'));
+      this.classList.add('active');
+      // Ẩn/hiện section với hiệu ứng
+      const sectionId = this.getAttribute('data-section');
+      document.querySelectorAll('.admin-section-content').forEach(sec => {
+        if (sec.id === sectionId) {
+          sec.classList.add('active');
+          sec.style.transition = 'opacity 0.4s';
+          sec.style.opacity = 1;
+        } else {
+          sec.classList.remove('active');
+          sec.style.transition = 'opacity 0.4s';
+          sec.style.opacity = 0;
+        }
+      });
+    });
+  });
+});
+document.addEventListener("DOMContentLoaded", function () {
+  const sidebar = document.getElementById('adminSidebar');
+  const toggleBtn = document.getElementById('sidebarToggle');
+
+  toggleBtn.addEventListener('click', function () {
+    sidebar.classList.toggle('collapsed');
+  });
+});
+document.addEventListener("DOMContentLoaded", function() {
+  const fileInput = document.getElementById('image');
+  const fileLabelText = document.getElementById('fileLabelText');
+  if (fileInput && fileLabelText) {
+    fileInput.addEventListener('change', function() {
+      fileLabelText.textContent = this.files && this.files.length > 0 ? this.files[0].name : 'Chọn tệp';
+    });
+  }
+});
+</script>
+         <!-- Đảm bảo đường dẫn đúng cho JS -->
+         <script src="JS/index.js"></script>
+<script src="JS/adminProduct.js"></script>
+         <script>
+document.addEventListener("DOMContentLoaded", function() {
+  // ...code chuyển section menu...
+  // Voucher tab
+  const voucherBtns = document.querySelectorAll('.voucher-tab-btn');
+  const voucherTabs = document.querySelectorAll('.voucher-tab-content');
+  voucherBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      voucherBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      voucherTabs.forEach(tab => {
+        tab.style.display = tab.id === 'voucherTab' + this.dataset.voucherTab.charAt(0).toUpperCase() + this.dataset.voucherTab.slice(1)
+          ? 'block' : 'none';
+      });
+    });
+  });
+  // Mặc định chọn tab đầu tiên
+  if (voucherBtns.length) voucherBtns[0].classList.add('active');
+});
+</script>
