@@ -104,7 +104,9 @@
   margin-bottom: 1rem;
   font-size: 1.5rem;
 }
-
+.starsx1 span.selected {
+  color: gold;
+}
 /* Container chứa các ngôi sao */
 .star-rating {
   display: flex;
@@ -188,7 +190,11 @@
     font-size: 1.25rem;
   }
 }
-
+.starsx1 span {
+  font-size: 24px;
+  cursor: pointer;
+  color: gray;
+}
 .back {
   display: inline-block;
   margin-top: 20px;

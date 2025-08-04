@@ -13,12 +13,11 @@ document.querySelectorAll(".add-cart").forEach(button => {
     const priceText = sanPhamDiv.querySelector("p").innerText;
     const image = sanPhamDiv.querySelector("img").getAttribute("src");
 
-    const price = Number(priceText.replace(/[^\d]/g, "")); // Lấy số từ 'Giá: 100.000₫'
+    const price = Number(priceText.replace(/[^\d]/g, ""));
 
     addToCart(name, price, image);
   });
 });
-
 
 async function loadTatCaSanPhamTheoTag() {
   try {
@@ -40,16 +39,17 @@ async function loadTatCaSanPhamTheoTag() {
       const clone = template.cloneNode(true);
       clone.style.display = "block";
 
-      // Gán dữ liệu
+      // Gán dữ liệu    <a id="addcart" href="#" class="btnx add-cart">Giỏ hàng</a>
+
       clone.querySelector("#image").src = "https://dssc.hagotree.site" + sp.image;
       clone.querySelector("#title").textContent = sp.title;
       clone.querySelector("#cost").textContent = `Giá: ${parseInt(sp.cost).toLocaleString("vi-VN")}₫`;
-
-      // Gán link chi tiết
+      const title = encodeURIComponent(sp.title);
+      const cost = encodeURIComponent(sp.cost);
+      const image = encodeURIComponent(sp.image);
+      clone.querySelector("#add-cart").innerHTML = `<button class="btnx" onclick="addToCart(decodeURIComponent('${title}'), decodeURIComponent('${cost}'), decodeURIComponent('${image}'))">Giỏ hàng</button>`;
       const n = index + 1; 
       clone.querySelector(".detail-link").href = `../HTML/SanPham.html?id=${sp.id}`;
-
-      // Tìm hoặc tạo container con để gắn sản phẩm
       let innerContainer = container.querySelector("#sanpham-container");
       if (!innerContainer) {
         innerContainer = document.createElement("div");

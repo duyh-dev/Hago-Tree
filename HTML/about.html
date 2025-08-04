@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HAGO Tree</title>
+    <link rel="stylesheet" href="../CSS/index.css"  ><link rel="stylesheet" href="../CSS/SanPham.css" />
+    <link rel="icon" href="../IMG/HAGO icon.png" type="image/png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZj3z9tJ+4D5X7Z6E2eGqjYfKtYv5K4Tn5qjThKBYK9eDkzrG+ZkG8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    * {margin:0; padding:0; box-sizing:border-box}
+    body {font-family:sans-serif; color:#333; background:#f9f9f9}
+    header {width:100%; background:#fff; box-shadow:0 2px 5px rgba(0,0,0,0.1); z-index:1000}
+    header .nav {max-width:1000px; margin:auto; padding:10px; display:flex; justify-content:space-between; align-items:center}
+    header .nav .logo {display:flex; align-items:center}
+    header .nav .logo img {height:40px; margin-right:10px}
+    header .nav a {margin:0 10px; color:#333; text-decoration:none; font-weight:500}
+    main {padding-top:80px}
+    section {padding:80px 20px; display:flex; align-items:center; justify-content:center; opacity:0; transform:translateY(30px); transition:all 1s ease}
+    section.active {opacity:1; transform:translateY(0)}
+    .container {max-width:900px; margin:auto; display:flex; align-items:center; justify-content:space-between}
+    .zigzag-left {flex-direction:row}
+    .zigzag-right {flex-direction:row-reverse}
+    .content {width:50%; text-align:left}
+    .image-box {width:40%;}
+    .image-box img {width:100%; height:auto; display:block;}
+    ul {list-style:none; padding:0}
+    ul li::before {content:"• "; color:#4CAF50; font-weight:bold}
+  </style>
+  </head>
+  <body>
+<header class="main-header">
+  <div class="top-header">
+    <div class="header-left">
+      <a href="index.html"><img src="../IMG/logo.png" alt="logo" class="logo-hago"/></a>
+    </div>
+
+    <div class="search-container">
+      <span class="search-icon">🔍</span>
+      <input class="searchbox" type="search" placeholder="Tìm kiếm..." />
+    </div>
+
+    <div class="right-icons">
+      <a href="../HTML/dangnhap.html" class="icon-link"><img src="../IMG/HAGOTK.png" /><span id="Accountchecker">Đăng nhập/đăng ký</span></a>
+      <a href="../HTML/LienHe.html" class="icon-link"><img src="../IMG/HAGOLH.png" /><span>Liên hệ</span></a>
+      <a href="../HTML/GioHang.html" class="icon-link"><img src="../IMG/HAGOGH.png" /><span>Giỏ hàng</span><span class="cart-count"></span></a>
+      
+    </div>
+  </div>
+<!-- NÚT HIỆN CHỈ TRÊN MOBILE -->
+<!-- MENU CHO MOBILE -->
+<div class="dropdown d-block d-sm-none ">
+  <button style ="background-color: #579a62"class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Menu
+  </button>
+  <ul class="dropdown-menu ThanhDM" style="background-color:#579a62">
+    <li><a class="pentagon-link" href="../HTML/BaiDang.html"><div class="pentagon">Bài Đăng</div></a></li>
+    <li><a class="pentagon-link" href="../HTML/TrangThaiDonHang.html"><div class="pentagon">Trạng thái đơn hàng</div></a></li>
+    <li><a class="pentagon-link"  href="../HTML/about.html"><div class="pentagon">Về chúng tôi</div></a></li>
+    <li><a class="pentagon-link" href="../HTML/LienHe.html"><div class="pentagon">Hỗ trợ</div></a></li>
+  </ul>
+</div>
+
+<!-- MENU CHO DESKTOP -->
+<nav class="d-none d-sm-block ThanhDM">
+  <div class=" flex-wrap gap-2 category-container">
+    <a class="pentagon-link" href="../HTML/BaiDang.html"><div class="pentagon">Bài Đăng</div></a>
+    <a class="pentagon-link" href="../HTML/TrangThaiDonHang.html"><div class="pentagon">Trạng thái đơn hàng</div></a>
+    <a class="pentagon-link"  href="../HTML/about.html"><div class="pentagon">Về chúng tôi</div></a>
+    <a class="pentagon-link" href="../HTML/LienHe.html"><div class="pentagon">Hỗ trợ</div></a>
+  </div>
+</nav>
+
+</header>
+  
+    
+    <header>
+    <div class="nav">
+      <div class="logo"><h1> TỔNG QUAN VỀ CHÚNG TÔI - HAGO TREE</h1></div>
+      <nav>
+        <a href="#overview">Tổng quan</a>
+        <a href="#story">Câu chuyện</a>
+        <a href="#products">Sản phẩm</a>
+        <a href="#vision">Tương lai</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section id="overview" class="zigzag-left"><div class="container">
+      <div class="content">
+        <h2>Tổng Quan Thương Hiệu</h2>
+        <p>Hago Tree là thương hiệu tiên phong cung cấp cây cảnh giả, cây cảnh thật và hạt giống – với sứ mệnh đưa thiên nhiên chạm tới từng góc sống của con người hiện đại.</p>
+        <p>Slogan "Sống xanh – Sống trọn" thể hiện trọn vẹn tinh thần mà chúng tôi theo đuổi: sống nhẹ nhàng hơn, sâu sắc hơn, có thiên nhiên đồng hành – dù chỉ là một nhành cây nhỏ.</p>
+      </div>
+      <div class="image-box">
+        <img src="../IMG/HAGO%20icon.png" alt="Overview Image">
+      </div>
+    </div></section>
+
+    <section id="story" class="zigzag-right"><div class="container">
+      <div class="content">
+        <h2>Câu Chuyện Ra Đời</h2>
+        <p>Khi cuộc sống ngày càng bóp nghẹt mảng xanh, Hago Tree ra đời để trả lại một phần bình yên ấy – bằng cây xanh.</p>
+        <p>Xuất phát từ một dự án sinh viên, chúng tôi đã tìm thấy điểm giao giữa đam mê thiên nhiên, khả năng sáng tạo và nhu cầu sống xanh của xã hội.</p>
+      </div>
+      <div class="image-box">
+        <img src="../IMG/banner2%20hago.png" alt="Story Image">
+      </div>
+    </div></section>
+
+    <section id="products" class="zigzag-left"><div class="container">
+      <div class="content">
+        <h2>Sản Phẩm Của HAGO TREE</h2>
+        <p>Chúng tôi không đơn thuần bán cây. Chúng tôi bán trải nghiệm sống xanh, cảm xúc dịu dàng và một góc thiên nhiên nhỏ làm dịu tâm hồn bận rộn.</p>
+        <ul>
+          <li>🌿 Cây cảnh giả cao cấp – mềm mịn, màu sắc như thật, không cần tưới, không rụng lá.<br>Không cần tưới, không rụng lá, không gây dị ứng.<br>Phù hợp mọi không gian: phòng khách, bàn học, nhà vệ sinh, xe hơi...</li>
+          <li>🌱 Cây thật mini – dễ chăm sóc, sống khỏe với ánh sáng gián tiếp, phong thủy, lọc không khí.<br>Kết hợp decor bàn học, bàn làm việc cực chill.Có phiên bản cây theo phong thủy, lọc không khí, tăng tài lộc<br></li>
+          <li>🌾 Hạt giống và combo trồng tại nhà – dễ trồng, có hướng dẫn chi tiết, kèm chậu và bảng tên cây.<br>Phù hợp người mới bắt đầu hoặc gia đình có trẻ nhỏ muốn cùng nhau gieo trồng.<br>Tặng kèm chậu, đất và bảng tên cây</li>
+        </ul>
+      </div>
+      <div class="image-box">
+        <img src="../IMG/tạo%20ra%201%20chậu%20cây%20giả%20trong%201%20góc%20tường%20(1).jpg" alt="Products Image">
+      </div>
+    </div></section>
+
+    <section id="vision" class="zigzag-right"><div class="container">
+      <div class="content">
+        <h2>Tầm Nhìn Tương Lai</h2>
+        <p>Hago Tree hướng tới tương lai nơi mỗi ngôi nhà đều có cây xanh xuất hiện tự nhiên, tinh tế.</p>
+        <ul>
+          <li>Phát triển dòng cây giả cao cấp với mùi hương tự nhiên, tích hợp đèn decor.</li>
+          <li>Mở rộng bộ sưu tập cây phong thủy, cây theo mệnh cá nhân hóa.</li>
+          <li>Ra mắt bộ quà tặng cây xanh cá nhân hóa.</li>
+          <li>Giải pháp decor cây xanh trọn gói cho quán cà phê, homestay.</li>
+        </ul>
+      </div>
+      <div class="image-box">
+        <img src="..//IMG/tạo%20ra%201%20chậu%20cây%20giả%20trong%201%20góc%20tường.jpg" alt="Vision Image">
+      </div>
+    </div></section>
+  </main>
+
+    <script src="../JS/search.js"></script>
+    <script src="../JS/SanPham.js"></script>
+    <script src="../JS/index.js"></script>
+    <script src="../JS/Giohang.js"></script>
+
+  </body>
+<footer>
+  <div class="footer-container">
+    <div class="footer-section">
+      <h2>Hago Tree</h2>
+      <p>Chuyên cây cảnh nhân tạo thẩm mỹ – Đẹp bền vững theo thời gian.</p>
+    </div>
+    <div class="footer-section">
+      <h2>Liên hệ</h2>
+      <p><i class="fas fa-map-marker-alt"></i> Hẻm 1581, Đường Bùi Hữu Nghĩa, Phường Tân Hạnh, TP. Biên Hòa, Đồng Nai</p>
+      <p><i class="fas fa-envelope"></i> HagoTree@gmail.com</p>
+      <p><i class="fas fa-phone-alt"></i> 0947192590</p>
+    </div>
+    <div class="footer-section">
+      <h2>Theo dõi</h2>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/HagoTreee" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://zalo.me/0947192590" target="_blank" aria-label="Zalo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" class="zalo-icon">
+        </a>
+        <a href="https://shopee.vn/maminhquan245" target="_blank" aria-label="Shopee">
+          <img src="https://images.seeklogo.com/logo-png/53/3/shopee-logo-png_seeklogo-530807.png" alt="Shopee" class="zalo-icon">
+        </a>
+      </div>
+      <p style="margin-top:8px;font-size:13px;">Kết nối với chúng tôi để nhận ưu đãi & tin tức mới nhất!</p>
+    </div>
+  </div>
+   <script>
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active') })
+    }, {threshold:0.3});
+    document.querySelectorAll('section').forEach(s => obs.observe(s));
+  </script>
+  <div class="footer-quote">
+    <em>“Cây cảnh giả, cảm xúc thật.”</em>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2025 Hago Tree. All rights reserved.
+  </div>
+</footer>
+</html>
