@@ -6,30 +6,11 @@
     <title>HAGO Tree</title>
     <link rel="stylesheet" href="../CSS/index.css"  ><link rel="stylesheet" href="../CSS/SanPham.css" />
     <link rel="icon" href="../IMG/HAGO icon.png" type="image/png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZj3z9tJ+4D5X7Z6E2eGqjYfKtYv5K4Tn5qjThKBYK9eDkzrG+ZkG8w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <style>
-    * {margin:0; padding:0; box-sizing:border-box}
-    main {font-family:sans-serif;font-size:20px; color:#fff; background:#579a62}
-    header {width:100%; background:#579a62; box-shadow:0 2px 5px rgba(0,0,0,0.1); z-index:1000}
-    header .nav {background:#579a50;max-width:1000px; margin:auto; padding:10px; display:flex; justify-content:space-between; align-items:center}
-    header .nav .logo {display:flex; align-items:center}
-    header .nav .logo img {height:40px; margin-right:10px}
-    header .nav a {margin:0 10px; color:#fff; text-decoration:none; font-weight:500}
-    main {padding-top:80px;background:#579a62;}
-    section {padding:80px 20px; display:flex; align-items:center; justify-content:center; opacity:0; transform:translateY(30px); transition:all 1s ease}
-    section.active {opacity:1; transform:translateY(0)}
-    .container {max-width:900px; margin:auto; display:flex; align-items:center; justify-content:space-between}
-    .zigzag-left {flex-direction:row}
-    .zigzag-right {flex-direction:row-reverse}
-    .content {width:50%; text-align:left}
-    .image-box {width:70%;}
-    .image-box img {width:100%; height:auto; display:block;}
-    ul {list-style:none; padding:0}
-    ul li::before {content:"• "; color:#4CAF50; font-weight:bold}
-  </style>
+   <link rel="stylesheet" href="../CSS/index.css">
+  <link rel="stylesheet" href="../CSS/about.css">
   </head>
   <body>
 <header class="main-header">
@@ -77,77 +58,110 @@
 </header>
   
     
-    <header>
-    <div class="nav">
-    
-      <nav>
-        <a href="#overview">Tổng quan</a>
-        <a href="#story">Câu chuyện</a>
-        <a href="#products">Sản phẩm</a>
-        <a href="#vision">Tương lai</a>
-      </nav>
-    </div>
+    <header class="about-header">
+    <h1>HAGO Tree – Sống xanh, Sống trọn</h1>
+    <p>Chúng tôi cam kết mang lại giá trị bền vững cho cộng đồng qua từng sản phẩm cây xanh, góp phần xây dựng môi trường sống lành mạnh và kết nối mọi người.</p>
   </header>
   <main>
-    <section id="overview" class="zigzag-left"><div class="container">
-      <div class="content">
+    <!-- Timeline lịch sử Hago Tree -->
+    <section class="timeline-section">
+      <h2 class="timeline-title">Dòng thời gian phát triển HAGO Tree</h2>
+      <div class="timeline">
+        <div class="timeline-item left">
+          <div class="timeline-dot"></div>
+          <img class="timeline-img" src="../IMG/apk4.jpg" alt="Khởi đầu 2025">
+          <div class="timeline-content">
+            <div class="timeline-year">2025</div>
+            <div>HAGO Tree ra đời từ dự án sinh viên, khởi đầu với sứ mệnh mang thiên nhiên đến không gian sống hiện đại.</div>
+          </div>
+        </div>
+        <div class="timeline-item right">
+          <div class="timeline-dot"></div>
+          <img class="timeline-img" src="../IMG/tạo ra 1 chậu cây giả trong 1 góc tường.jpg" alt="Cột mốc 2026">
+          <div class="timeline-content">
+            <div class="timeline-year">2026</div>
+            <div>Mở rộng sản phẩm cây cảnh giả cao cấp, hợp tác với các văn phòng và trường đại học lớn.</div>
+          </div>
+        </div>
+        <div class="timeline-item left">
+          <div class="timeline-dot"></div>
+          <img class="timeline-img" src="../IMG/apk3.jpg" alt="Cột mốc 2027">
+          <div class="timeline-content">
+            <div class="timeline-year">2027</div>
+            <div>Ra mắt chương trình "Sống xanh cùng HAGO" – thúc đẩy ý thức bảo vệ môi trường trong cộng đồng trẻ.</div>
+          </div>
+        </div>
+        <div class="timeline-item right">
+          <div class="timeline-dot"></div>
+          <img class="timeline-img" src="../IMG/apk1.jpg" alt="Cột mốc 2028">
+          <div class="timeline-content">
+            <div class="timeline-year">2028</div>
+            <div>Đạt mốc 10.000 khách hàng, trở thành đối tác tin cậy của nhiều doanh nghiệp và tổ chức giáo dục.</div>
+          </div>
+        </div>
+        <div class="timeline-item left">
+          <div class="timeline-dot"></div>
+          <img class="timeline-img" src="../IMG/banner2 hago.png" alt="Hiện tại">
+          <div class="timeline-content">
+            <div class="timeline-year">Hiện tại</div>
+            <div>Tiếp tục đổi mới, phát triển sản phẩm thân thiện môi trường, lan tỏa giá trị sống xanh đến thế hệ trẻ.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="about-section">
+      <div class="about-section-bg"></div>
+      <div class="about-content">
         <h2>Tổng Quan Thương Hiệu</h2>
-        <p>Hago Tree là thương hiệu tiên phong cung cấp cây cảnh giả, cây cảnh thật và hạt giống – với sứ mệnh đưa thiên nhiên chạm tới từng góc sống của con người hiện đại.</p>
-        <p>Slogan "Sống xanh – Sống trọn" thể hiện trọn vẹn tinh thần mà chúng tôi theo đuổi: sống nhẹ nhàng hơn, sâu sắc hơn, có thiên nhiên đồng hành – dù chỉ là một nhành cây nhỏ.</p>
+        <p>HAGO Tree là thương hiệu tiên phong cung cấp cây cảnh giả, cây thật và hạt giống – với sứ mệnh đưa thiên nhiên chạm tới từng góc sống của con người hiện đại.</p>
+        <p>Slogan "Sống xanh – Sống trọn" thể hiện tinh thần mà chúng tôi theo đuổi: sống nhẹ nhàng hơn, sâu sắc hơn, có thiên nhiên đồng hành – dù chỉ là một nhành cây nhỏ.</p>
       </div>
-      <div class="image-box">
-        <img src="../IMG/logo.png" alt="Overview Image">
+      <div class="about-image">
+        <img src="../IMG/apk2.jpg" alt="Cây phát triển mạnh" />
       </div>
-    </div></section>
-
-    <section id="story" class="zigzag-right"><div class="container">
-      <div class="content">
+    </section>
+    <section class="about-section reverse">
+      <div class="about-section-bg"></div>
+      <div class="about-content">
         <h2>Câu Chuyện Ra Đời</h2>
-        <p>Khi cuộc sống ngày càng bóp nghẹt mảng xanh, Hago Tree ra đời để trả lại một phần bình yên ấy – bằng cây xanh.</p>
-        <p>Xuất phát từ một dự án sinh viên, chúng tôi đã tìm thấy điểm giao giữa đam mê thiên nhiên, khả năng sáng tạo và nhu cầu sống xanh của xã hội.</p>
+        <p>Khi cuộc sống ngày càng bóp nghẹt mảng xanh, HAGO Tree ra đời để trả lại một phần bình yên ấy – bằng cây xanh. Xuất phát từ một dự án sinh viên, chúng tôi đã tìm thấy điểm giao giữa đam mê thiên nhiên, khả năng sáng tạo và nhu cầu sống xanh của xã hội.</p>
       </div>
-      <div class="image-box">
-        <img src="../IMG/banner2%20hago.png" alt="Story Image">
+      <div class="about-image">
+        <img src="../IMG/HAGO icon.png" alt="Cộng đồng HAGO Tree" />
       </div>
-    </div></section>
-
-    <section id="products" class="zigzag-left"><div class="container">
-      <div class="content">
-        <h2>Sản Phẩm Của HAGO TREE</h2>
+    </section>
+    <section class="about-section">
+      <div class="about-section-bg"></div>
+      <div class="about-content">
+        <h2>Sản Phẩm & Giá Trị</h2>
         <p>Chúng tôi không đơn thuần bán cây. Chúng tôi bán trải nghiệm sống xanh, cảm xúc dịu dàng và một góc thiên nhiên nhỏ làm dịu tâm hồn bận rộn.</p>
         <ul>
-          <li>🌿 Cây cảnh giả cao cấp – mềm mịn, màu sắc như thật, không cần tưới, không rụng lá.<br>Không cần tưới, không rụng lá, không gây dị ứng.<br>Phù hợp mọi không gian: phòng khách, bàn học, nhà vệ sinh, xe hơi...</li>
-          <li>🌱 Cây thật mini – dễ chăm sóc, sống khỏe với ánh sáng gián tiếp, phong thủy, lọc không khí.<br>Kết hợp decor bàn học, bàn làm việc cực chill.Có phiên bản cây theo phong thủy, lọc không khí, tăng tài lộc<br></li>
-          <li>🌾 Hạt giống và combo trồng tại nhà – dễ trồng, có hướng dẫn chi tiết, kèm chậu và bảng tên cây.<br>Phù hợp người mới bắt đầu hoặc gia đình có trẻ nhỏ muốn cùng nhau gieo trồng.<br>Tặng kèm chậu, đất và bảng tên cây</li>
+          <li>Cây cảnh giả cao cấp – mềm mịn, màu sắc như thật, không cần tưới, không rụng lá, không gây dị ứng.</li>
+          <li>Cây thật mini – dễ chăm sóc, sống khỏe với ánh sáng gián tiếp, phong thủy, lọc không khí.</li>
+          <li>Hạt giống và combo trồng tại nhà – dễ trồng, có hướng dẫn chi tiết, kèm chậu và bảng tên cây.</li>
         </ul>
       </div>
-      <div class="image-box">
-        <img src="../IMG/tạo%20ra%201%20chậu%20cây%20giả%20trong%201%20góc%20tường%20(1).jpg" alt="Products Image">
+      <div class="about-image">
+        <img src="../IMG/SanPham02.jpg" alt="Trải nghiệm thiên nhiên" />
       </div>
-    </div></section>
-
-    <section id="vision" class="zigzag-right"><div class="container">
-      <div class="content">
+    </section>
+    <section class="about-section reverse">
+      <div class="about-section-bg"></div>
+      <div class="about-content">
         <h2>Tầm Nhìn Tương Lai</h2>
-        <p>Hago Tree hướng tới tương lai nơi mỗi ngôi nhà đều có cây xanh xuất hiện tự nhiên, tinh tế.</p>
-        <ul>
-          <li>Phát triển dòng cây giả cao cấp với mùi hương tự nhiên, tích hợp đèn decor.</li>
-          <li>Mở rộng bộ sưu tập cây phong thủy, cây theo mệnh cá nhân hóa.</li>
-          <li>Ra mắt bộ quà tặng cây xanh cá nhân hóa.</li>
-          <li>Giải pháp decor cây xanh trọn gói cho quán cà phê, homestay.</li>
-        </ul>
+        <p>HAGO Tree hướng tới tương lai nơi mỗi ngôi nhà đều có cây xanh xuất hiện tự nhiên, tinh tế. Chúng tôi phát triển dòng cây giả cao cấp với mùi hương tự nhiên, tích hợp đèn decor, mở rộng bộ sưu tập cây phong thủy, cây theo mệnh cá nhân hóa và giải pháp decor cây xanh trọn gói cho quán cà phê, homestay.</p>
       </div>
-      <div class="image-box">
-        <img src="..//IMG/tạo%20ra%201%20chậu%20cây%20giả%20trong%201%20góc%20tường.jpg" alt="Vision Image">
+      <div class="about-image">
+        <img src="../IMG/apk5.jpg" alt="Tương lai xanh" />
       </div>
-    </div></section>
+    </section>
   </main>
 
     <script src="../JS/search.js"></script>
     <script src="../JS/SanPham.js"></script>
     <script src="../JS/index.js"></script>
     <script src="../JS/Giohang.js"></script>
-
+ <script src="../JS/about.js"></script>
   </body>
 <footer>
   <div class="footer-container">
