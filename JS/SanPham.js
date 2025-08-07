@@ -261,7 +261,7 @@ async function displayProducts() {
       card.className = "product-card";
       card.style.cursor = "pointer";
       card.addEventListener("click", () => {
-        window.location.href = `../HTML/SanPham.html?id=sp${stt}`;
+        window.location.href = `../HTML/SanPham.html?id=${product.id}`;
       });
 
       const img = document.createElement("img");
