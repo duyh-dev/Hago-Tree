@@ -54,7 +54,18 @@ let btnadd = `<button onclick="addToCart(decodeURIComponent('${title}'), decodeU
   if (product) {
     container.innerHTML = `
       <div class="single-product">
-        <img src="https://dssc.hagotree.site${product.image}" alt="${product.title}" />
+      <div class="image-wrapper">
+      <img id="mainImage" class="main-image" src="https://dssc.hagotree.site${product.image}" alt="${product.title}" />
+      
+      ${product.detailImages && Array.isArray(product.detailImages) ? `
+        <div class="image-overlay-thumbnails">
+          ${product.detailImages.map(img => `
+            <img class="thumbnail" src="https://dssc.hagotree.site${img}" />
+          `).join('')}
+        </div>
+      ` : ''}
+        </div>
+      <br>
         <div class="product-info">
           <h2>${product.title}</h2>
           <div class="product-price">${Number(product.cost).toLocaleString()}₫</div>
@@ -63,7 +74,7 @@ let btnadd = `<button onclick="addToCart(decodeURIComponent('${title}'), decodeU
           ${btnadd}
             Thêm vào giỏ hàng
           </button>
-          <form id="feedbackForm"  style=" border: 1px solid #ddd;border-radius: 10px;" class="form-container">
+          <form id="feedbackForm"  style=" border: 1px solid #ddd;border-radius: 10px;" class="form-container form-feedback">
             <h2>Gửi đánh giá</h2>
             <label for="starRating" style="footer-container">Đánh giá sao:</label>
             <div id="starRating" class="starsx1">
@@ -100,6 +111,14 @@ let btnadd = `<button onclick="addToCart(decodeURIComponent('${title}'), decodeU
             });
           });
         });
+      setTimeout(() => {
+        const mainImage = document.getElementById("mainImage");
+        document.querySelectorAll(".thumbnail").forEach(thumb => {
+          thumb.addEventListener("click", () => {
+            mainImage.src = thumb.src;
+          });
+        });
+      }, 0);
 
 
       const form = document.getElementById("feedbackForm");
@@ -197,12 +216,12 @@ async function loadFeedbackAndAvg(productName) {
 
     fbs.reverse().forEach(data => {
       const item = document.createElement("div");
-      item.className = "feedback-itemx1 product-card product-info ";
+      item.className = "feedback-item";
       let imagefiledata="";
       const starStr = "★".repeat(data.star || 0) + "☆".repeat(5 - (data.star || 0));
       if(data.image){imagefiledata=` src="https://dssc.hagotree.site${data.image}"`}
       item.innerHTML = `
-        <div class="feedback-stars-small"><strong>Đánh giá:</strong> ${starStr}</div>
+        <div class="feedback"><strong>Đánh giá: <div class="feedback-stars-small">${starStr}</div></strong></div>
         <div class="feedback-content"><strong>${data.email}:</strong> ${data.feedback} <div style"border: 2px solid red ;border-style: solid;"><img ${imagefiledata} style="width:25%;height:25%"></div></div>
       `;
       list.appendChild(item);
