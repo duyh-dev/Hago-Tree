@@ -24,14 +24,14 @@ img {
 
 button {
   padding: 5px 10px;
-  background-color: red;
+  background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: darkred;
+  background-color: #417c4c;
 }
 
 .cart-container {
