@@ -214,6 +214,7 @@
     width: 40px;
     height: 40px;
   }
+
 }
 .image-wrapper {
   position: relative;
@@ -332,7 +333,11 @@
   gap: 30px;
   margin-top: 30px;
 }
-
+@media (max-width: 600px) {
+ .products-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
 .product-card {
   background: white;
   border-radius: 10px;
