@@ -841,9 +841,9 @@ function loadOrders() {
           <tr><th>Trạng thái đơn</th><td>${order.Ttdon}</td></tr>
           <tr><th>Tỉnh/TP</th><td>${diaChiGoc}</td></tr>
           <tr><th>Sản phẩm</th><td>${productList}</td></tr>
-          <tr><th>Thời gian đặt</th><td>${order.TimeDatHang}</td></tr>
+          
           <tr><th>Thời gian giao</th><td>${order.TimeNhanHang}</td></tr>
-        `;
+        `;//<tr><th>Thời gian đặt</th><td>${order.TimeDatHang}</td></tr>
         listDiv.appendChild(table);
       });
     })
