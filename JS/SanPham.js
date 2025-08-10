@@ -52,6 +52,7 @@ let btnadd = `<button onclick="addToCart(decodeURIComponent('${title}'), decodeU
 
   loadFeedbackAndAvg(product.id)
   if (product) {
+    const descirpt=product.content.replace(/\\n|\\r|\n/g, '<br>')
     container.innerHTML = `
       <div class="single-product">
       <div class="image-wrapper">
@@ -69,7 +70,7 @@ let btnadd = `<button onclick="addToCart(decodeURIComponent('${title}'), decodeU
         <div class="product-info">
           <h2>${product.title}</h2>
           <div class="product-price">${Number(product.cost).toLocaleString()}₫</div>
-          <div class="product-description">${product.content}</div>
+          <div class="product-description">${descirpt}</div>
           <div class="feedback-stars"><strong>Đánh giá trung bình:</strong> ${stars}</div>
           ${btnadd}
             Thêm vào giỏ hàng

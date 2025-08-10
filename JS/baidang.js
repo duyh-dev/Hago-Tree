@@ -1,39 +1,68 @@
 
 window.addEventListener("DOMContentLoaded", () => {
+const urlParams = new URLSearchParams(window.location.search);
+const postId = urlParams.get("id");
 
-fetch("https://server-web-hagotree.glitch.me/get-posts")
-  .then((res) => res.json())
-  .then((posts) => {
-    const container = document.getElementById("ContentPost");
-    container.innerHTML = posts.reverse()
-      .map((post) => {
-        return `
-          <main class="post-container dropdown d-block">
-          <article class="post">
-            <h2>${post.title}</h2> <button class="btn btn-primary dropdown-content-post"> Xem </button>
-            <div class="showing-content" style="display: none;">
-            <span>📝 Tác giả: <strong>Admin - Cửa hàng</strong></span>
-          <p>🕒 ${new Date(post.createdAt).toLocaleString()}</p>
-            ${post.image ? `<img src="https://server-web-hagotree.glitch.me/${post.image}" alt="Ảnh bài viết" style="max-width:300px;">` : ""}
-            <p class="post-content">${post.content}</p>
-            </div>
-            <hr />
-          </article>
-            </main>
-        `;
-      })
-      .join("");
-         const buttons = document.querySelectorAll(".dropdown-content-post");
-         buttons.forEach((button) => {
-        button.addEventListener("click", () => {
-          const content = button.nextElementSibling;
-          const isHidden = content.style.display === "none" || content.style.display === "";
-          content.style.display = isHidden ? "block" : "none";
-        });
-      });
+function truncateText(text, maxLength) {
+  if (!text) return "";
+  return text.length > maxLength ? text.slice(0, maxLength).trim() + "..." : text;
+}
+if (postId) {
+  fetch(`https://dssc.hagotree.site/baiviet/${postId}`)
+    .then(res => {
+      if (!res.ok) throw new Error("Không tìm thấy bài viết");
+      return res.text();
     })
-  .catch((err) => {
-    console.error("Lỗi khi tải bài viết:", err);
-    document.getElementById("postList").innerHTML = "<p>Không thể tải bài viết!</p>";
-  });
-  });
+    .then(data => {
+      document.getElementById("postcontainer").innerHTML = `
+        <div class="card full-content"" style="max-width:800px; margin:auto;">
+          <div>${data}</div>
+        </div>
+      `;
+    })
+    .catch(err => {
+      document.getElementById("postcontainer").innerHTML = `ER 1<p>${err.message} </p>`;
+    });
+
+} else {
+  fetch(`https://dssc.hagotree.site/list-baiviet-all`)
+    .then(res => res.json())
+    .then(files => {
+      const container = document.getElementById("postcontainer");
+      container.innerHTML = "";
+      files.forEach(item => {
+        const previewText = truncateText(item.content.replace(/<[^>]*>?/gm, ''), 512);
+        const card = document.createElement("div");
+       card.innerHTML = `
+  <div>
+    <a href="?id=${item.filename}" style="text-decoration: none; color: inherit;width: 100%; max-width: 1200px;">
+      <div  class="card" style="
+          display: flex;
+          border: 1px solid #eee;
+          border-radius: 8px;
+          padding: 15px;
+          margin-bottom: 15px;
+          align-items: center;
+          gap: 15px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+          transition: background 0.2s;
+          margin: auto;
+        "
+        onmouseover="this.style.background='#f9f9f9'" 
+        onmouseout="this.style.background='white'">
+        <div style="flex: 1;">
+          <h3 style="margin: 0 0 8px; font-size: 20px; color: #333; font-weight: 600;">${item.title}</h3>
+          <p style="margin: 0; font-size: 16px; color: #666; line-height: 1.4;">
+            ${previewText}
+          </p>
+        </div>
+      </div>
+    </a>
+  </div>
+
+        `;
+        container.appendChild(card);
+      });
+    });
+}
+});

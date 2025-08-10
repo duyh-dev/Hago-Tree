@@ -6,15 +6,43 @@ const params = new URLSearchParams(window.location.search);
       resultDiv.innerHTML = "<p>Không tìm thấy kết quả.</p>";
       return;
     }
+    function truncateText(text, maxLength) {
+      if (!text) return "";
+      return text.length > maxLength ? text.slice(0, maxLength).trim() + "..." : text;
+    }
 
     resultDiv.innerHTML = results.map(item => `
-      <a href="../HTML/SanPham.html?id=${item.id}"><div style="border-bottom:1px solid #ccc; padding:10px;" class="container single-product">
-      <img src="https://dssc.hagotree.site${item.image}" alt="Sản phẩm 2">
-      <div class="product-info">
-      <h3>${item.title}</h3>
-        <p>${item.content}</p>
+     <div style="display: flex; flex-direction: column; align-items: center;">
+
+    <a href="../HTML/SanPham.html?id=${item.id}" style="text-decoration: none; color: inherit; width: 100%; max-width: 1200px;">
+      <div style="display: flex; border: 1px solid #eee; border-radius: 12px; padding: 20px; margin-bottom: 20px; align-items: center; gap: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); transition: background 0.2s; background: white;" 
+           class="container single-product" 
+           onmouseover="this.style.background='#f5f5f5'" 
+           onmouseout="this.style.background='white'">
+
+        <img src="https://dssc.hagotree.site${item.image}" 
+             alt="${item.title}" 
+             style="width: 220px; height: 220px; object-fit: cover; border-radius: 10px; border: 1px solid #ddd; background: #fff; flex-shrink: 0;">
+
+        <div class="product-info" style="flex: 1;">
+          <h3 style="margin: 0 0 10px; font-size: 24px; color: #222; font-weight: bold;">
+            ${item.title}
+          </h3>
+
+          <p style="margin: 0 0 12px; font-size: 16px; color: #555; line-height: 1.5;">
+            ${truncateText(item.content.replace(/\\n|\n/g, " "), 256)}
+          </p>
+
+          <h3 style="margin: 0; font-size: 20px; color: #e60023; font-weight: bold;">
+            ${Number(item.cost).toLocaleString()}₫
+          </h3>
+        </div>
+
       </div>
-      </div></a>
+    </a>
+
+    </div>
+
     `).join("");
   }
 
