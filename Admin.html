@@ -574,7 +574,7 @@ document.getElementById("uploadHtmlForm").addEventListener("submit", async (e) =
   formData.append("htmlfile", fileInput.files[0]);
   formData.append("title", titleInput.value);
 
-  const res = await fetch(`http://dssc.hagotree.site/upload-html`, {
+  const res = await fetch(`https://dssc.hagotree.site/upload-html`, {
     method: "POST",
     body: formData
   });
