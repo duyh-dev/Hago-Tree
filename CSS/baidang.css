@@ -1,132 +1,56 @@
-
-
-
-.right-icons {
-  display: flex;
-  align-items: center;
-  gap: 35px;
-}
-
-.icon-link {
+.cards-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  color: #fff;
-  text-decoration: none;
-}
-
-.icon-link img {
-  height: 28px;
-  margin-bottom: 5px;
-}
-
-.icon-link span {
-  font-size: 14px;
-  margin-top: 2px;
-}
-
-.icon-link:hover {
-  color: #ffd700;
-}
-
-.cart-count {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: red;
-  color: white;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font: bold 12px sans-serif;
-  font-size: 12px;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px; 
+  margin: auto;
 }
 
 
-/* Responsive Header */
-@media (max-width: 992px) {
-  header {
-    flex-direction: column;
-    gap: 12px;
-    padding: 12px 2%;
+  .card {
+    background: white;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease;
+    cursor: pointer;
   }
-  .search-container {
-    margin: 10px 0;
-    width: 98%;
-    max-width: 100%;
+
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+    background: #f9f9f9;
   }
-  .right-icons {
-    gap: 18px;
+
+  .card h3 {
+    font-size: 20px;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 10px;
   }
-  nav {
-    gap: 18px;
+
+  .card p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+    margin: 0;
+  }
+    .card .preview {
+    color: #666;
     font-size: 16px;
   }
-}
-@media (max-width: 576px) {
-  header {
-    padding: 5px 1%;
+
+  .card .full-content {
+    display: none;
+    margin-top: 15px;
+    font-size: 15px;
+    color: #444;
+    line-height: 1.6;
   }
-  .logo-hago {
-    height: 32px;
+
+  .card.open .full-content {
+    display: block;
   }
-  .searchbox {
-    font-size: 0.92rem;
-  }
-  nav a {
-    font-size: 13px;
-    padding: 3px 6px;
-  }
-}
-/* === END HEADER FIX === */
-
-/* Giữ lại các phần style còn lại như cũ */
-main.post-container {
-  max-width: 800px;
-  margin: 30px auto;
-  background: white;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-.post h2 { color: #333; }
-.post-meta {
-  font-size: 0.9em;
-  color: #666;
-  margin-bottom: 15px;
-}
-.post-img {
-  width: 100%;
-  border-radius: 6px;
-  margin-bottom: 20px;
-}
-.post-content h3 { color: #007a5a; margin-top: 20px; }
-.back-link { margin-top: 20px; }
-.back-link a {
-  color: #00cd82;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-/* FORM, FOOTER, CÁC PHẦN KHÁC */
-.form-container {
-  max-width: 700px;
-  margin: 30px auto;
-  background: white;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-label { display: block; margin-top: 15px; font-weight: bold; }
-input, textarea {
-  width: 100%; padding: 10px; margin-top: 5px;
-  border-radius: 4px; border: 1px solid #ccc;
-}
-button {
-  margin-top: 20px; padding: 10px 20px; background-color: #00cd82; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;
-}
-button:hover { background-color: #009d66; }
-#successMessage { margin-top: 20px; color: green; font-weight: bold; text-align: center; }
-
-
-
-

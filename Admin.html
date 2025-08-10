@@ -219,8 +219,54 @@ document.querySelectorAll('.section-toggle-btn, .form-container button[type="sub
     </div>
     <div id="BaiVietContainer">
       <div style="max-height: 500px; overflow-y: auto;">
-        <iframe style="border:none;" src="https://mmqstore.io.vn/wp/posthaogtree" height="500px" width="100%"></iframe>
+        <form id="uploadHtmlForm">
+            <input type="text" name="title" placeholder="Nhập tiêu đề bài viết" required>
+            <input type="file" name="htmlfile" accept=".html" required>
+            <button type="submit">Tải lên</button>
+          </form>
+          <form id="uploadHtmlDel">
+            <input type="text" name="title" placeholder="Nhập tên file theo id bài viết" required>
+            <button type="submit">Xóa</button>
+          </form>
       </div>
+      <div id="fileList" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+
+        <script>
+        const API_URL = "https://dssc.hagotree.site/list-baiviet-all";
+
+        function truncateText(text, maxLength) {
+          if (!text) return "";
+          return text.length > maxLength ? text.slice(0, maxLength).trim() + "..." : text;
+        }
+
+        async function loadFileList() {
+          const res = await fetch(`${API_URL}`);
+          const files = await res.json();
+          const container = document.getElementById("fileList");
+          container.innerHTML = "";
+
+          files.forEach(item => {
+            const card = document.createElement("div");
+            card.style.border = "1px solid #ccc";
+            card.style.padding = "10px";
+            card.style.width = "300px";
+            card.style.background = "#f9f9f9";
+            card.style.borderRadius = "8px";
+
+            const previewText = truncateText(item.content.replace(/<[^>]*>?/gm, ''), 256);
+
+            card.innerHTML = `
+              <h3>${item.title}</h3>
+              <p>${previewText}</p>
+              <a href="HTML/BaiDang.html?id=${item.filename}">Xem chi tiết</a>
+            `;
+            container.appendChild(card);
+          });
+        }
+
+        loadFileList();
+        </script>
+
     </div>
   </section>
   <section class="section-card admin-section-content" id="dangSanPhamSection">
@@ -469,7 +515,31 @@ document.getElementById("voucher-create-data").addEventListener("submit", async 
     alert("Gửi thất bại!");
   }
 });
+document.getElementById("uploadHtmlDel").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  
+  const fileName = e.target.title.value.trim();
+  if (!fileName) return alert("ID ĐÂU?");
 
+  await deleteFileHtml(fileName);
+});
+
+async function deleteFileHtml(fileName) {
+  if (!confirm("Bạn có chắc muốn xóa bài viết này?")) return;
+  try {
+    const res = await fetch(`https://dssc.hagotree.site/delete-baiviet/${fileName}`, {
+      method: "DELETE"
+    });
+    const data = await res.json();
+    console.log(data);
+
+    alert("Xóa thành công!");
+    loadFileList();
+  } catch (err) {
+    console.error(err);
+    alert("Lỗi khi xóa bài viết");
+  }
+}
 xoavoucher.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -495,7 +565,24 @@ xoavoucher.addEventListener("submit", async (e) => {
       alert("Lỗi kết nối đến server.");
     });
 });
+document.getElementById("uploadHtmlForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const formData = new FormData();
+  const fileInput = document.querySelector('input[name="htmlfile"]');
+  const titleInput = document.querySelector('input[name="title"]');
 
+  formData.append("htmlfile", fileInput.files[0]);
+  formData.append("title", titleInput.value);
+
+  const res = await fetch(`http://dssc.hagotree.site/upload-html`, {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await res.json();
+  console.log("Upload:", data);
+  loadFileList();
+});
 
 
 contentform.addEventListener("submit", async (e) => {
