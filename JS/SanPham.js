@@ -197,6 +197,64 @@ function convertToBase64(file) {
     reader.readAsDataURL(file);
   });
 }
+function displaySuggestions(currentProduct, allProducts) {
+  const container = document.createElement("div");
+  container.className = "related-products";
+  container.innerHTML = `<h3>Sản phẩm gợi ý</h3>`;
+  console.log("loadsuggest");
+
+  let suggestions = [];
+
+  // Ép tag_product về mảng để tránh lỗi
+  const normalizeTags = (tags) =>
+    Array.isArray(tags) ? tags : (tags ? [tags] : []);
+
+  if (currentProduct.tag_product) {
+    const currentTags = normalizeTags(currentProduct.tag_product);
+
+    suggestions = allProducts.filter(p => {
+      if (p.id === currentProduct.id) return false;
+
+      const tags = normalizeTags(p.tag_product);
+      return tags.some(tag => currentTags.includes(tag));
+    });
+  }
+
+  if (suggestions.length < 4) {
+    const keyword = currentProduct.title.toLowerCase().split(" ")[0];
+    const byName = allProducts.filter(p =>
+      p.id !== currentProduct.id &&
+      p.title.toLowerCase().includes(keyword)
+    );
+    suggestions = [...suggestions, ...byName];
+  }
+  suggestions = suggestions.slice(0, 4);
+
+  if (suggestions.length === 0) {
+    container.innerHTML += `<p>Không có sản phẩm gợi ý.</p>`;
+  } else {
+    const list = document.createElement("div");
+    list.className = "related-grid";
+
+    suggestions.forEach(sp => {
+      const card = document.createElement("div");
+      card.className = "related-card";
+      card.innerHTML = `
+        <img src="https://dssc.hagotree.site${sp.image}" alt="${sp.title}" />
+        <h4>${sp.title}</h4>
+        <div class="price">${parseInt(sp.cost).toLocaleString("vi-VN")}₫</div>
+      `;
+      card.addEventListener("click", () => {
+        window.location.href = `../HTML/SanPham.html?id=${sp.id}`;
+      });
+      list.appendChild(card);
+    });
+
+    container.appendChild(list);
+  }
+
+  document.getElementById("product-detail").appendChild(container);
+}
 
 async function loadFeedbackAndAvg(productName) {
   try {
@@ -333,9 +391,11 @@ window.onload = async () => {
       const matched = allProducts.find(p => p.id === id);
       console.log(matched)
       if (matched) {
-        displayProduct(matched);
-        return;
-      } else {
+      displayProduct(matched);
+      displaySuggestions(matched, allProducts);
+      return;
+    }
+ else {
         console.warn("Không tìm thấy sản phẩm:", id);
       }
     }

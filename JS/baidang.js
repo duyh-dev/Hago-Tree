@@ -2,7 +2,16 @@
 window.addEventListener("DOMContentLoaded", () => {
 const urlParams = new URLSearchParams(window.location.search);
 const postId = urlParams.get("id");
+function formatDateTime(isoString) {
+  const date = new Date(isoString);
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
 
+  return `${hours}:${minutes} ${day}/${month}/${year}`;
+}
 function truncateText(text, maxLength) {
   if (!text) return "";
   return text.length > maxLength ? text.slice(0, maxLength).trim() + "..." : text;
@@ -30,23 +39,14 @@ if (postId) {
     .then(files => {
       const container = document.getElementById("postcontainer");
       container.innerHTML = "";
-      files.forEach(item => {
-        const previewText = truncateText(item.content.replace(/<[^>]*>?/gm, ''), 512);
+      files.reverse().forEach(item => {
+        const previewText = item.descript;
         const card = document.createElement("div");
        card.innerHTML = `
   <div>
     <a href="?id=${item.filename}" style="text-decoration: none; color: inherit;width: 100%; max-width: 1200px;">
-      <div  class="card" style="
-          display: flex;
-          border: 1px solid #eee;
-          border-radius: 8px;
-          padding: 15px;
-          margin-bottom: 15px;
-          align-items: center;
-          gap: 15px;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-          transition: background 0.2s;
-          margin: auto;
+      <div class="card" style="
+       
         "
         onmouseover="this.style.background='#f9f9f9'" 
         onmouseout="this.style.background='white'">
@@ -55,8 +55,10 @@ if (postId) {
           <p style="margin: 0; font-size: 16px; color: #666; line-height: 1.4;">
             ${previewText}
           </p>
+        <p>${formatDateTime(item.createdAt)}</p>
         </div>
       </div>
+
     </a>
   </div>
 
