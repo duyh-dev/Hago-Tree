@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #f4f4f9;
+    }
+    .quiz-container {
+      width: 90%;
+      max-width: 600px;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .question {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    .answers button {
+      display: block;
+      width: 100%;
+      margin: 8px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #eee;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: left;
+    }
+    .answers button:hover {
+      background: #d3d3f3;
+    }
+    .result {
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="question" id="question">Đang tải câu hỏi...</div>
+    <div class="answers" id="answers"></div>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+  	let userid="";
+  	let currentPoint = 0; 
+    let made = null;
+    let questions = [];
+    let currentIndex = 0;
+    let answers = [];
+    let gameId = 1;
+    let sld =0;
+    const questionEl = document.getElementById("question");
+    const answersEl = document.getElementById("answers");
+    const resultEl = document.getElementById("result");
+
+    // Lấy đề random từ server
+    async function fetchQuestions() {
+      const res = await fetch("https://dssc.hagotree.site/getvar-gamecauhoi");
+      const data = await res.json();
+      made = data.made;
+      questions = data.questions;
+      currentIndex = 0;
+      answers = [];
+      loadQuestion();
+    }
+	function finishGame() {
+      const earned = 0;
+      window.parent.postMessage({ type: "updatePoint", earned }, "*");
+    }
+    function loadQuestion() {
+      if (currentIndex >= questions.length) {
+        submitAnswers();
+        return;
+      }
+
+      const q = questions[currentIndex];
+      questionEl.textContent = `Câu ${currentIndex + 1}: ${q.question}`;
+      answersEl.innerHTML = "";
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => {
+          answers[currentIndex] = idx;
+          currentIndex++;
+          loadQuestion();
+        };
+        answersEl.appendChild(btn);
+      });
+    }
+
+    async function submitAnswers() {
+      questionEl.textContent = "Đã hoàn thành!";
+      answersEl.innerHTML = "Đang chấm điểm...";
+
+      const res = await fetch("https://dssc.hagotree.site/checkvar-gamecauhoi", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ made, answers })
+      });
+
+      const data = await res.json();
+      answersEl.innerHTML = "";
+      resultEl.textContent = `Kết quả: ${data.score}/${data.total} câu đúng`;
+      sld=data.score;
+      updatepoint();
+
+      
+    }
+    async function getPoint() {  
+	  const email = userid
+	  if (!email) {
+	    return;
+	  }
+
+	  try {
+	    const res = await fetch(`https://dssc.hagotree.site/points/${email}`);
+	    const data = await res.json();
+	    const point = data.points || 0; 
+	    currentPoint= point;
+	  } catch (err) {
+	    console.error("Lỗi lấy điểm:", err);
+	  }
+	}
+    async function updatepoint() {
+		  const email = userid;
+		  const earnedPoint = 10;  
+		  const newPoint = currentPoint + earnedPoint * sld;
+
+		  try {
+		    const res = await fetch("https://dssc.hagotree.site/update-point", {
+		      method: "POST",
+		      headers: { "Content-Type": "application/json" },
+		      body: JSON.stringify({
+		        email: email,
+		        gameId: gameId,
+		        newPoint: newPoint
+		      })
+		    });
+		    const data = await res.json();
+		    console.log("Điểm đã cập nhật:", data);
+		    await getPoint();
+		    await finishGame();
+		  } catch (err) {
+		    console.error("Lỗi:", err);
+		  }
+		}
+
+	document.addEventListener('DOMContentLoaded', () => {
+		const user = JSON.parse(localStorage.getItem("user")) || [];
+
+	  if ((user.length > 0) & (localStorage.getItem("userPassword").length >0 )) {
+		    const lastUser = user[user.length - 1];
+		    console.log(lastUser.email);
+		    userid = lastUser.email;
+	    }
+		getPoint();
+	});
+	getPoint();
+    fetchQuestions();
+  </script>
+</body>
+</html>

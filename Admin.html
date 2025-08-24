@@ -447,6 +447,21 @@ document.querySelectorAll('.section-toggle-btn, .form-container button[type="sub
       <input type="text" id="MaVoucher" name="MaVoucher" required />
       <button type="submit" style="background:#d32f2f;">XÓA</button>
     </form>
+    <form id="themnoidungshop" class="form-container" style="max-width:400px;margin:32px 0 0 0;background:none;box-shadow:none;border-radius:0;">
+      <label for="MaVoucher">THÊM VOUCHER TRÊN SHOP GAME</label>
+      <input type="text" id="MaVoucherGame" name="MaVoucherGame" required />
+      <button type="submit" style="background:#d32f2f;">THÊM</button>
+    </form>
+    <form id="xoanoidungshop" class="form-container" style="max-width:400px;margin:32px 0 0 0;background:none;box-shadow:none;border-radius:0;">
+      <label for="MaVoucher">XÓA VOUCHER TRÊN SHOP GAME</label>
+      <input type="text" id="MaVoucherGame" name="MaVoucherGame" required />
+      <button type="submit" style="background:#d32f2f;">XÓA</button>
+    </form>
+    <form id="uploadgamecauhoi" class="form-container" style="max-width:400px;margin:32px 0 0 0;background:none;box-shadow:none;border-radius:0;">
+      <label for="MaVoucher">THÊM VOUCHER TRÊN SHOP GAME</label>
+      <input type="file" name="file" accept=".xlsx,.xls" required>
+      <button type="submit" style="background:#d32f2f;">TẢI LÊN</button>
+    </form>
   </div>
 </section>
 <section class="section-card admin-section-content" id="userManageSection">
@@ -475,9 +490,20 @@ document.querySelectorAll('.section-toggle-btn, .form-container button[type="sub
 
      <script>
 const contentform = document.getElementById("postForm");
+const formuploadcauhoi = document.getElementById("uploadgamecauhoi");
 const xacnhanform = document.getElementById("xndform");
 const thanhcongform = document.getElementById("dntcform");
 const xoavoucher = document.getElementById("xoavoucher1");
+formuploadcauhoi.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(formuploadcauhoi);
+      const res = await fetch("https://dssc.hagotree.site/upload-questions", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      alert(JSON.stringify(data));
+    });
 document.getElementById("voucher-create-data").addEventListener("submit", async function (e) {
   e.preventDefault();
 
