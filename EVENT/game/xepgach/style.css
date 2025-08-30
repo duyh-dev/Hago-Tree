@@ -1,0 +1,29 @@
+body {
+  background: #111;
+  color: #eee;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0;
+  padding: 20px;
+}
+
+#game-container {
+  display: flex;
+  gap: 20px;
+}
+
+#board {
+  background: #000;
+  border: 2px solid #555;
+}
+
+#sidebar {
+  min-width: 120px;
+}
+
+.hint {
+  font-size: 14px;
+  color: #aaa;
+}

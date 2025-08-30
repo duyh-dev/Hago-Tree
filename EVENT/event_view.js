@@ -8,6 +8,9 @@ if(gameid=="sukienquockhanh"){
 	id_now=id_now+idgame
 
 }
+else if (gameid=="xepgachqk"){
+  id_now=id_now+"xepgach2thg9.html"
+}
 else{
 	id_now=id_now+idgame
 }
@@ -27,11 +30,11 @@ respone.innerHTML =`
 
   <div class="bottom">
     <div class="games-list">
-      <div>Game 1</div>
-
+      <div>Trả lời câu hỏi</div>
+      <div>Xếp gạch</div>
     </div>
     <div class="points">
-      Điểm hiện có: <span id="points">120</span>
+      Điểm hiện có: <span id="points">0</span>
       <a href="shop.html" class="shop-link">Đến Shop</a>
     </div>
   </div>
@@ -81,4 +84,26 @@ window.addEventListener("DOMContentLoaded", () => {
     console.log(lastUser.email);
     document.getElementById("Accountchecker").innerHTML = lastUser.email;
     }
+});
+// Chọn game bằng click
+document.addEventListener("DOMContentLoaded", () => {
+  const gameFrame = document.getElementById("gameFrame");
+
+  document.querySelectorAll(".games-list div").forEach(item => {
+    item.addEventListener("click", () => {
+      let selected = item.textContent.trim();
+      let newSrc = "../EVENT/game/";
+
+      if (selected === "Trả lời câu hỏi") {
+        newSrc += "skqk2thg9.html";   // file game câu hỏi
+      } else if (selected === "Xếp gạch") {
+        newSrc += "xepgach2thg9.html"; // file game xếp gạch
+      } else {
+        newSrc += "skqk2thg9.html";   // fallback
+      }
+
+      // Cập nhật iframe
+      gameFrame.src = newSrc;
+    });
+  });
 });
