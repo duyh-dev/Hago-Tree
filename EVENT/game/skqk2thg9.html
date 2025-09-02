@@ -120,21 +120,26 @@
 
       
     }
-    async function getPoint() {  
-	  const email = userid
-	  if (!email) {
-	    return;
-	  }
+async function getPoint() {  
+  const email = userid;
+  if (!email) return;
 
-	  try {
-	    const res = await fetch(`https://dssc.hagotree.site/points/${email}`);
-	    const data = await res.json();
-	    const point = data.points || 0; 
-	    currentPoint= point;
-	  } catch (err) {
-	    console.error("Lỗi lấy điểm:", err);
-	  }
-	}
+  try {
+    const res = await fetch(`https://dssc.hagotree.site/points/${email}`);
+    const data = await res.json();
+
+    // Nếu points là object rỗng thì = 0
+    if (!data.points || (typeof data.points === "object" && Object.keys(data.points).length === 0)) {
+      currentPoint = 0;
+    } else {
+      currentPoint = Number(data.points) || 0; // ép thành số
+    }
+  } catch (err) {
+    console.error("Lỗi lấy điểm:", err);
+    currentPoint = 0;
+  }
+}
+
     async function updatepoint() {
 		  const email = userid;
 		  const earnedPoint = 1;  

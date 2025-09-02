@@ -12,17 +12,31 @@ respone.innerHTML = `
   </div>
 `;
 let vouchersCache = [];
+let redeemedVouchers = [];
 const email = "contact@palat.io.vn";
 let totalPoints = 0;
 let gameId = 11;
-// Lấy tổng điểm
+function loadRedeemed() {
+  redeemedVouchers =
+    JSON.parse(localStorage.getItem("redeemed_" + userid)) || [];
+}
+function getRedeemedVouchers() {
+  if (!userid) return [];
+  return JSON.parse(localStorage.getItem("redeemed_" + userid)) || [];
+}
+
+function saveRedeemed() {
+  localStorage.setItem("redeemed_" + userid, JSON.stringify(redeemedVouchers));
+}
 async function loadPoints() {
   try {
     const res = await fetch(`https://dssc.hagotree.site/points/${email}`);
     const data = await res.json();
     const pointsObj = data.points
-
-    totalPoints =data.points
+    if (!pointsObj || (typeof pointsObj === "object" && Object.keys(pointsObj).length === 0)) {
+      pointsObj = 0;
+    }
+    totalPoints =pointsObj
     document.getElementById("points").textContent = totalPoints;
   } catch (err) {
     console.error("Lỗi lấy điểm:", err);
@@ -52,7 +66,7 @@ async function loadVouchers() {
   try {
     const res = await fetch("https://dssc.hagotree.site/voucher-gameevent");
     const vouchers = await res.json();
-    vouchersCache = vouchers; // lưu lại
+    vouchersCache = vouchers;
 
     const shopList = document.getElementById("shopList");
     shopList.innerHTML = "";
@@ -64,26 +78,39 @@ async function loadVouchers() {
       return;
     }
 
+    const redeemedList = getRedeemedVouchers();
+
     gameVouchers.forEach(v => {
       const cost = Math.floor(Number(v.minCost || 0) / 1000);
-
       const div = document.createElement("div");
       div.className = "item";
+
+      // Kiểm tra user đã đổi voucher này chưa
+      const already = redeemedList.find(r => r.voucherId === v.id);
+
       div.innerHTML = `
         <h3>${v.Title || "Voucher"}</h3>
         <p><b>Giá:</b> ${cost} điểm</p>
-        <div id="voucher-${v.id}" style="margin-top:10px;"></div>
-        <button onclick="redeem(${v.id}, ${cost})" 
-          ${cost > totalPoints ? "disabled" : ""}>
-          Đổi ngay
-        </button>
+        <div id="voucher-${v.id}" style="margin-top:10px;">
+          ${already ? `<b>Mã voucher của bạn:</b> ${already.voucherCode}` : ""}
+        </div>
+        ${
+          already
+            ? `<button disabled>Đã đổi</button>`
+            : `<button onclick="redeem(${v.id}, ${cost})" ${
+                cost > totalPoints ? "disabled" : ""
+              }>Đổi ngay</button>`
+        }
       `;
+
       shopList.appendChild(div);
     });
   } catch (err) {
     console.error("Lỗi load voucher:", err);
   }
 }
+
+
 
 async function redeem(id, cost) {
   if (totalPoints < cost) {
@@ -101,6 +128,11 @@ async function redeem(id, cost) {
   if (voucher) {
     document.getElementById(`voucher-${id}`).innerHTML =
       `<b>Mã voucher của bạn:</b> ${voucher.voucherCode}`;
+      redeemedVouchers.push({
+      voucherId: voucher.id,
+      voucherCode: voucher.voucherCode
+    });
+    saveRedeemed();
   } else {
     document.getElementById(`voucher-${id}`).innerHTML =
       `<b>Không tìm thấy voucher!</b>`;
@@ -128,6 +160,8 @@ async function updatepoint() {
     }
 
 (async () => {
+  loadRedeemed();
   await loadPoints();
   await loadVouchers();
+  
 })();

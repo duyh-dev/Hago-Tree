@@ -621,16 +621,6 @@
       transition: transform 0.5s ease;
     }
 
-    @keyframes slide {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5%); }
-      50% { transform: translateX(-10%); }
-      75% { transform: translateX(-5%); }
-    }
-
-    .slider-container:hover img {
-      animation: slide 8s infinite;
-    }
 
     @media (max-width: 992px) {
       .top-header {
@@ -671,24 +661,7 @@
 }
 
 /* Simple Slider Animation */
-@keyframes slide {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-5%);
-  }
-  50% {
-    transform: translateX(-10%);
-  }
-  75% {
-    transform: translateX(-5%);
-  }
-}
 
-.slider-container:hover img {
-  animation: slide 8s infinite;
-}
 
 /* Responsive Design */
 @media (max-width: 992px) {

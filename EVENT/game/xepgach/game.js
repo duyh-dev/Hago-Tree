@@ -33,6 +33,9 @@ async function getPoint() {
       const res = await fetch(`https://dssc.hagotree.site/points/${email}`);
       const data = await res.json();
       const point = data.points || 0; 
+      if (!point || (typeof point === "object" && Object.keys(point).length === 0)) {
+      point = 0;
+    }
       currentPoint= point;
     } catch (err) {
       console.error("Lỗi lấy điểm:", err);
@@ -63,19 +66,40 @@ async function updatepoint() {
     }
 function checkPlayPermission() {
   let today = new Date().toISOString().slice(0,10);
-  let lastPlayDate = localStorage.getItem("lastPlayDate");
-  if (lastPlayDate === today) {
+  let playData = JSON.parse(localStorage.getItem("playData")) || { date: today, count: 0 };
+
+  // Nếu khác ngày thì reset lại
+  if (playData.date !== today) {
+    playData = { date: today, count: 0 };
+    localStorage.setItem("playData", JSON.stringify(playData));
+  }
+
+  if (playData.count >= 5) {
     over = true;
     ctx.fillStyle="rgba(0,0,0,0.7)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
     ctx.fillStyle="white";
     ctx.font="20px Arial";
     ctx.textAlign="center";
-    ctx.fillText("Bạn đã chơi hôm nay rồi!", canvas.width/2, canvas.height/2);
+    ctx.fillText("Bạn đã hết lượt chơi hôm nay (5 lần)!", canvas.width/2, canvas.height/2);
     return false;
   }
   return true;
 }
+
+function markPlayedToday() {
+  let today = new Date().toISOString().slice(0,10);
+  let playData = JSON.parse(localStorage.getItem("playData")) || { date: today, count: 0 };
+
+  // Nếu khác ngày thì reset
+  if (playData.date !== today) {
+    playData = { date: today, count: 0 };
+  }
+
+  playData.count += 1;
+  localStorage.setItem("playData", JSON.stringify(playData));
+}
+
 function finishGame() {
       const earned = 0;
       window.parent.postMessage({ type: "updatePoint", earned }, "*");

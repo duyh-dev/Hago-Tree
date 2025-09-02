@@ -20,12 +20,6 @@ respone.innerHTML =`
     <div class="game-screen">
       <iframe id="gameFrame" src="${id_now}" width="100%" height="100%" frameborder="0"></iframe>
     </div>
-    <div class="missions">
-      <h2>Nhiệm vụ</h2>
-      <ul>
-        <li>[ĐANG TẢI]</li>
-      </ul>
-    </div>
   </div>
 
   <div class="bottom">
@@ -52,8 +46,12 @@ async function getPoint() {
   try {
     const res = await fetch(`https://dssc.hagotree.site/points/${email}`);
     const data = await res.json();
-    const point = data.points || 0; 
+    let point = data.points;
+    if (!point || (typeof point === "object" && Object.keys(point).length === 0)) {
+      point = 0;
+    }
     document.getElementById("points").textContent = point;
+    if(point=="[object Object]"){document.getElementById("points").textContent = "0";}
   } catch (err) {
     console.error("Lỗi lấy điểm:", err);
     document.getElementById("points").textContent = "0";

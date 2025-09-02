@@ -1,82 +1,137 @@
-body {
-      font-family: Arial, sans-serif;
+* {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
       background: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
+
+    /* Header */
     header {
-      background: #333;
+      background: #4CAF50;
       color: white;
-      padding: 10px;
+      padding: 15px;
       text-align: center;
+      font-size: 20px;
+      font-weight: bold;
     }
+
+    /* Container game */
+    
+   .container {
+    flex: 1; /* chiếm phần còn lại của màn hình */
+    display: flex;
+    justify-content: center; /* canh giữa ngang */
+    align-items: center;     /* canh giữa dọc */
+    width: 100%;
+    padding: 10px;
+
+  }
+
+  /* Khi màn hình rộng hơn 1024px (PC) thì nới ngang */
+  @media (min-width: 1024px) {
     .container {
-      display: flex;
-      height: 70vh;
+      max-width: 800px; /* bạn có thể tăng lên 1000px nếu muốn */
+      padding: 40px;
     }
-    .game-screen {
-      flex: 2;
-      background: #222;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
+  }
+
+        
+      .game-screen {
+      height: 90vh;
+      width: 100%;
+      max-width: 400px;     /* mobile mặc định */
+      aspect-ratio: 3/5.5;  /* giảm chiều cao (trước là 3/6) */
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    .missions {
-      flex: 1;
-      background: #fff;
-      padding: 20px;
-      border-left: 2px solid #ddd;
+
+    /* Khi màn hình rộng hơn 1024px (PC) thì nới ngang */
+    @media (min-width: 1024px) {
+      .game-screen {
+        width: 70%;
+        max-width: 600px;   /* PC to hơn */
+        aspect-ratio: 3/5.5; /* vẫn giữ tỉ lệ gọn hơn */
+      }
     }
-    .missions h2 {
-      margin-top: 0;
-      color: #444;
-    }
-    .missions ul {
-      padding-left: 20px;
-    }
+
+    
+      .game-screen iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+      }
+
+    /* Thanh dưới */
     .bottom {
+      background: #fff;
+      border-top: 2px solid #ddd;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px;
-      background: #fff;
-      border-top: 2px solid #ddd;
+      padding: 15px 20px;
     }
+
     .games-list {
       display: flex;
-      gap: 10px;
+      gap: 15px;
     }
+
     .games-list div {
       background: #eee;
-      padding: 10px;
-      border-radius: 5px;
-      text-align: center;
+      padding: 10px 15px;
+      border-radius: 8px;
       cursor: pointer;
+      transition: 0.3s;
     }
+
+    .games-list div:hover {
+      background: #ddd;
+    }
+
     .points {
       font-size: 18px;
       font-weight: bold;
       color: #333;
     }
-    a.shop-link {
+
+    .shop-link {
       background: #28a745;
       color: white;
       padding: 8px 12px;
       border-radius: 5px;
       text-decoration: none;
-      margin-left: 20px;
+      margin-left: 15px;
+      transition: 0.3s;
     }
-    @media (max-width: 900px) {
-  .container {
-    flex-direction: column;
-    height: auto; 
-  }
-  .game-screen {
-    height: 50vh; 
-  }
-  .missions {
-    border-left: none;
-    border-top: 2px solid #ddd;
-    height: auto;
-  }
-}
+
+    .shop-link:hover {
+      background: #218838;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .game-screen {
+        height: 90vh;
+      }
+
+      .bottom {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .games-list {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+    }
