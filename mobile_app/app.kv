@@ -1,0 +1,186 @@
+#:kivy 2.1.0
+
+<HomeScreen>:
+    name: "home"
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(16)
+        spacing: dp(12)
+        Label:
+            text: "Hago Tree"
+            font_size: "24sp"
+            bold: True
+            size_hint_y: None
+            height: self.texture_size[1]
+        ScrollView:
+            do_scroll_x: True
+            do_scroll_y: False
+            GridLayout:
+                id: hero_strip
+                cols: 1
+                size_hint_x: None
+                height: dp(200)
+                width: max(self.minimum_width, root.width)
+                row_default_height: dp(200)
+                row_force_default: True
+                padding: dp(4)
+                spacing: dp(8)
+                on_kv_post: self.bind(minimum_width=self.setter('width'))
+                RecycleView:
+                    id: hero_list
+                    size_hint: (None, None)
+                    size: (root.width, dp(200))
+                    viewclass: 'HeroCard'
+                    RecycleBoxLayout:
+                        orientation: 'horizontal'
+                        default_size: None, dp(200)
+                        default_size_hint: None, 1
+                        size_hint_y: None
+                        height: dp(200)
+                        spacing: dp(8)
+        Button:
+            text: "Khám phá ngay"
+            size_hint_y: None
+            height: dp(48)
+            on_release: app.root.current = "list"
+
+<ProductListScreen>:
+    name: "list"
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(12)
+        spacing: dp(8)
+        BoxLayout:
+            size_hint_y: None
+            height: dp(48)
+            spacing: dp(8)
+            TextInput:
+                id: search_box
+                hint_text: "Tìm kiếm"
+                on_text: root.on_search_text(self.text)
+            ToggleButton:
+                text: "Còn hàng"
+                on_state: root.on_toggle_stock(self.state == 'down')
+            ToggleButton:
+                id: sort_spinner
+                text: "Tên"
+                on_release: self.text = "Giá" if self.text == "Tên" else "Tên"; root.on_sort_toggle()
+        RecycleView:
+            viewclass: 'BoxLayout'
+            data: root.products
+            RecycleBoxLayout:
+                default_size: None, dp(120)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+        Button:
+            text: "Giỏ hàng"
+            size_hint_y: None
+            height: dp(48)
+            on_release: app.root.current = "cart"
+
+<ProductDetailScreen>:
+    name: "detail"
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(16)
+        spacing: dp(8)
+        AsyncImage:
+            source: root.product.get('hero_image_url', '')
+            size_hint_y: 0.4
+            allow_stretch: True
+            keep_ratio: True
+        Label:
+            text: root.product.get('name', '')
+            font_size: '20sp'
+            bold: True
+        Label:
+            text: f"{root.product.get('price', 0)} {root.product.get('currency', 'VND')}"
+            color: 0.1, 0.6, 0.2, 1
+            font_size: '18sp'
+        ScrollView:
+            Label:
+                text: root.product.get('description', '') + "\n\nChăm sóc: " + root.product.get('care_notes', '')
+                text_size: self.width, None
+                size_hint_y: None
+                height: self.texture_size[1]
+        BoxLayout:
+            size_hint_y: None
+            height: dp(48)
+            spacing: dp(8)
+            Button:
+                text: "Thêm vào giỏ"
+                on_release: root.add_to_cart(1)
+            Button:
+                text: "Quay lại"
+                on_release: app.root.current = "list"
+        Label:
+            id: feedback
+            text: ""
+            color: 0.3, 0.7, 0.3, 1
+
+<CartScreen>:
+    name: "cart"
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(12)
+        spacing: dp(8)
+        RecycleView:
+            viewclass: 'BoxLayout'
+            data: root.items
+            RecycleBoxLayout:
+                default_size: None, dp(120)
+                default_size_hint: 1, None
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+        Button:
+            text: "Thanh toán"
+            size_hint_y: None
+            height: dp(48)
+        Button:
+            text: "Tiếp tục mua"
+            size_hint_y: None
+            height: dp(48)
+            on_release: app.root.current = "list"
+
+<ProfileScreen>:
+    name: "profile"
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(16)
+        spacing: dp(8)
+        Label:
+            text: root.profile.get('name', 'Khách')
+            font_size: '20sp'
+            bold: True
+        Label:
+            text: root.profile.get('email', '')
+        Button:
+            text: "Đăng xuất"
+            size_hint_y: None
+            height: dp(48)
+            on_release: root.logout(); app.root.current = "home"
+
+<LoginScreen>:
+    name: "login"
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(16)
+        spacing: dp(8)
+        TextInput:
+            id: email
+            hint_text: "Email"
+            multiline: False
+        TextInput:
+            id: password
+            hint_text: "Mật khẩu"
+            password: True
+            multiline: False
+        Button:
+            text: "Đăng nhập"
+            on_release: root.attempt_login()
+        Label:
+            text: root.error
+            color: 1, 0, 0, 1
